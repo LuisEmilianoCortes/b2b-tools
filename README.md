@@ -1,59 +1,105 @@
-# B2bToolsWorkspace
+# 🧩 b2b-tools Workspace
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+This workspace contains the **b2b-tools Angular component library** and
+a **demo application** used to showcase and test the components during
+development.
 
-## Development server
+---
 
-To start a local development server, run:
+## 📦 Project Structure
 
-```bash
-ng serve
-```
+    projects/
+      b2b-tools/   → Angular standalone component library
+      demo/        → Demo application consuming the library
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **b2b-tools**: Reusable UI components built with Angular 21
+  (standalone + CSS).
+- **demo**: Development playground and showcase environment.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Running the Demo Application
 
-```bash
-ng generate component component-name
-```
+The demo application consumes the compiled library from the `dist/`
+folder.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### ⚠️ Important
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Before running the demo, you must build the library:
 
 ```bash
-ng build
+ng build b2b-tools
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Then start the demo:
 
 ```bash
-ng test
+ng serve demo
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 👨‍💻 Recommended Development Mode
+
+For active development, use watch mode for the library:
+
+### Terminal 1
 
 ```bash
-ng e2e
+ng build b2b-tools --watch
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Terminal 2
 
-## Additional Resources
+```bash
+ng serve demo
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This ensures that every change in the library is automatically rebuilt
+and reflected in the demo application.
+
+---
+
+## 📦 Building the Library
+
+To generate a production-ready build:
+
+```bash
+ng build b2b-tools
+```
+
+The output will be generated in:
+
+    dist/b2b-tools
+
+---
+
+## 🏗️ Library Technology Stack
+
+- Angular 21\
+- Standalone Components\
+- CSS styling\
+- Signals-based architecture\
+- Strict TypeScript configuration
+
+---
+
+## 🧪 Purpose of the Demo App
+
+The demo application exists to:
+
+- Validate component behavior\
+- Showcase usage examples\
+- Test API contracts\
+- Simulate real-world integration scenarios
+
+It is not intended for production usage.
+
+---
+
+## 📌 Future Improvements
+
+- Automated Storybook integration\
+- CI/CD pipeline for library builds\
+- npm package publication\
+- Versioning strategy

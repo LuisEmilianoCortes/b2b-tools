@@ -4,9 +4,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "b2b-tools": [
-        "./dist/b2b-tools"
-      ]
+      "b2b-tools": ["./dist/b2b-tools"],
+      "b2b-tools/*": ["./dist/b2b-tools/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
