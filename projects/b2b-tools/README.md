@@ -19,7 +19,7 @@ components.
 ## 📥 Installation (After npm publication)
 
 ```bash
-npm install @dlucho234/b2b-tools
+npm install b2b-tools
 ```
 
 Then import components directly:
@@ -57,17 +57,3 @@ A modular and extensible data table component supporting:
 - Pagination
 - Strong typing
 - Standalone usage
-
----
-
-## 🛠 Building the Library
-
-To generate a production-ready build:
-
-```bash
-ng build b2b-tools
-```
-
-The compiled output will be available in:
-
-    dist/b2b-tools
