@@ -1,6 +1,7 @@
 {
   "name": "b2b-tools-workspace",
   "version": "0.0.2",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
