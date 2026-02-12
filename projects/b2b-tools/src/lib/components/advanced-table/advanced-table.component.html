@@ -1,0 +1,56 @@
+<div class="dt-container">
+  <div class="dt-toolbar">
+    <!-- Search and Clean -->
+    <table-toolbar
+      [enabled]="config().globalSearch ?? true"
+      [query]="globalQuery()"
+      placeholder="Buscar..."
+      [showClear]="true"
+      (queryChange)="setGlobalQuery($event)"
+      (clear)="clearFilters()"
+    />
+
+    <!-- Pagination -->
+    @if (config().pagination?.enabled) {
+      <table-pagination
+        [page]="page()"
+        [pageSize]="pageSize()"
+        [pageCount]="pageCount()"
+        [totalCount]="totalCount()"
+        [pagerItems]="pagerItems()"
+        [pageSizeOptions]="config().pagination!.pageSizeOptions ?? [10, 25, 50]"
+        (pageChange)="goToPage($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+      />
+    }
+  </div>
+
+  <div class="dt-grid">
+    <!-- Data Table -->
+    <table-grid
+      [config]="config()"
+      [columns]="visibleColumns()"
+      [rows]="pagedData()"
+      [gridTemplateColumns]="gridTemplateColumns()"
+      [columnQueries]="columnQueries()"
+      [sortState]="sortState()"
+      [selectedIdsSet]="selectedIdsSet()"
+      (headerSort)="onHeaderClickSort($event)"
+      (columnQueryChange)="setColumnQuery($event.key, $event.value)"
+      (rowClick)="onRowClick($event)"
+      (toggleRow)="toggleRowSelection($event)"
+      (toggleAllOnPage)="toggleSelectAllOnPage()"
+      (openImage)="openImageModal($event.src, $event.alt)"
+      (actionClick)="actionClick.emit($event)"
+      (bodyScroll)="onBodyScroll($event)"
+    />
+  </div>
+
+  <!-- Image Modal -->
+  <table-modal-image
+    [open]="modalOpen()"
+    [src]="modalImageSrc()"
+    [alt]="modalImageAlt()"
+    (close)="closeModal()"
+  />
+</div>

@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  --black: #171717;
+  --black-light: #343434;
+  --black-dark: #000000;
+  --black-navy: #191a21;
+
+  --xs-dark-gray: #5A5A5A;
+  --dark-gray: #9E9E9E;
+  --medium-gray: #D5D5D5;
+  --gray: #F8F8F8;
+  --light-gray: #C6C6C6;
+  --xs-light-gray: #DFDFDF;
+  --gray-white: #F5F4F4;
+  --xxs-light-gray: #F2F2F2;
+  --soft-white: #EEEEEE;
+
+  --green-success: #208B6A;
+
+  --blue: #3360fa;
+  --blue-info: #7390EC;
+
+  --orange: #F77C00;
+  --yellow-warning: #FFBC57;
+
+  --red: #E60018;
+
+  --white: #FFFFFF;
+
+  --disabled: #C6C6C6;
+  --disabled-text: #9E9E9E;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --border: 1px solid var(--xs-light-gray);
+  --focus-ring: 0 0 0 3px rgba(51, 96, 250, 0.18);
+}
+
+.dt-container {
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  overflow: hidden;
+}
+
+.dt-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  /* padding: 12px; */
+  border-bottom: var(--border);
+  background: var(--xxs-light-gray);
+}
+
+.dt-empty {
+  padding: 18px 12px;
+  color: var(--xs-dark-gray);
+}
+ 
+@media (max-width: 900px) {
+  .dt-toolbar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    row-gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .dt-toolbar > b2b-table-toolbar {
+    flex: 1 1 100%;
+  }
+
+  .dt-toolbar > b2b-table-pagination {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+

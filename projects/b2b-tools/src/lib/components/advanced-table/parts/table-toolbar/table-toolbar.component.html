@@ -1,0 +1,17 @@
+@if (enabled()) {
+  <div class="dt-toolbar">
+    <input
+      class="dt-input"
+      type="text"
+      [placeholder]="placeholder()"
+      [value]="query()"
+      (input)="onInput($any($event.target).value)"
+    />
+
+    @if (showClear()) {
+      <button type="button" class="dt-btn" (click)="onClear()">
+        Limpiar
+      </button>
+    }
+  </div>
+}
