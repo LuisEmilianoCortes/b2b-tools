@@ -1,0 +1,14 @@
+<section class="tables-section" style="padding: 10px 30px">
+  <h2>Tables</h2>
+  <article>
+    <h3>Simple Table</h3>
+    <advanced-table
+      [columns]="columns"
+      [data]="rows"
+      [config]="config"
+      (selectionChange)="onSelection($event)"
+      (rowClick)="onRowClick($event)"
+      (actionClick)="onAction($event)"
+    />
+  </article>
+</section>
