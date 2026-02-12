@@ -1,63 +1,73 @@
-# B2bTools
+# 📦 b2b-tools
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
+`b2b-tools` is a reusable Angular 21 standalone component library
+designed to provide modular, scalable, and production-ready UI
+components.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🏗️ Technology Stack
+
+- Angular 21
+- Standalone Components
+- CSS styling
+- Signals-based state management
+- Strict TypeScript configuration
+
+---
+
+## 📥 Installation (After npm publication)
 
 ```bash
-ng generate component component-name
+npm install @dlucho234/b2b-tools
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Then import components directly:
 
-```bash
-ng generate --help
+```ts
+import { AdvancedTableComponent } from 'b2b-tools';
 ```
 
-## Building
+---
 
-To build the library, run:
+## 🚀 Basic Usage Example
+
+```ts
+import { Component } from '@angular/core';
+import { AdvancedTableComponent } from 'b2b-tools';
+
+@Component({
+  standalone: true,
+  imports: [AdvancedTableComponent],
+  template: ` <b2b-advanced-table></b2b-advanced-table> `,
+})
+export class ExampleComponent {}
+```
+
+---
+
+## 🧩 Available Components
+
+### AdvancedTableComponent
+
+A modular and extensible data table component supporting:
+
+- Configurable columns
+- Sorting
+- Pagination
+- Strong typing
+- Standalone usage
+
+---
+
+## 🛠 Building the Library
+
+To generate a production-ready build:
 
 ```bash
 ng build b2b-tools
 ```
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+The compiled output will be available in:
 
-### Publishing the Library
-
-Once the project is built, you can publish your library by following these steps:
-
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/b2b-tools
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+    dist/b2b-tools

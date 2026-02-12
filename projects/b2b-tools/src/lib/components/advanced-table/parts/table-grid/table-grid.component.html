@@ -1,0 +1,168 @@
+<div class="dt-grid">
+  <div class="dt-xscroll">
+    <!-- Header -->
+    <div class="dt-row dt-header" [style.gridTemplateColumns]="gridTemplateColumns()">
+      @if (showSelectionColumn()) {
+        <div class="dt-cell dt-cell--header dt-cell--center dt-select-col">
+          @if ((config().selectionMode ?? 'multiple') === 'multiple') {
+            <input
+              type="checkbox"
+              [checked]="isAllSelectedOnPage()"
+              (change)="onToggleAllOnPage()"
+              aria-label="Seleccionar todo"
+            />
+          }
+        </div>
+      }
+
+      @for (col of columns(); track col.key) {
+        <div
+          class="dt-cell dt-cell--header"
+          [class.dt-cell--sortable]="!!col.sortable"
+          [attr.data-align]="col.align ?? 'left'"
+          (click)="onHeaderClickSort(col)"
+          role="button"
+          tabindex="0"
+        >
+          <span class="dt-header-label">{{ col.label }}</span>
+          @if (col.sortable) {
+            <span class="dt-sort">{{ getSortIcon(col.key) }}</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Filters row (under header) -->
+    @if (config().columnFilters) {
+      <div class="dt-row dt-filters" [style.gridTemplateColumns]="gridTemplateColumns()">
+        @if (showSelectionColumn()) {
+          <div class="dt-cell dt-cell--filter dt-select-col"></div>
+        }
+
+        @for (col of columns(); track col.key) {
+          <div class="dt-cell dt-cell--filter" [attr.data-align]="col.align ?? 'left'">
+            @if (col.filterable) {
+              <input
+                type="text"
+                [value]="columnQueries()[col.key] ?? null"
+                (input)="onColumnQueryInput(col.key, $any($event.target).value)"
+                [placeholder]="'Filtrar ' + col.label"
+              />
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Body -->
+    <div
+      class="dt-body"
+      [style.maxHeight.px]="config().scroll?.heightPx ?? null"
+      (scroll)="onBodyScroll($event)"
+    >
+      @if (rows().length === 0) {
+        <div class="dt-empty">
+          {{ config().emptyText ?? 'Sin resultados' }}
+        </div>
+      } @else {
+        @for (row of rows(); track getRowId(row)) {
+          <div class="dt-row dt-data" [style.gridTemplateColumns]="gridTemplateColumns()">
+            @if (showSelectionColumn()) {
+              <div class="dt-cell dt-cell--center dt-select-col">
+                <input
+                  type="checkbox"
+                  [checked]="isSelected(row)"
+                  (change)="onToggleRow(row)"
+                  aria-label="Seleccionar fila"
+                />
+              </div>
+            }
+
+            @for (col of columns(); track col.key) {
+              <div
+                class="dt-cell"
+                [attr.data-align]="col.align ?? 'left'"
+                (click)="onRowClick(row)"
+              >
+                @switch (col.type) {
+                  @case ('image') {
+                    @if ((col.options?.image?.hidden ?? false) === true) {
+                      <button
+                        type="button"
+                        class="dt-link"
+                        (click)="onOpenImage(getImageSrc(row, col), getImageAlt(row, col), $event)"
+                      >
+                        Ver imagen
+                      </button>
+                    } @else {
+                      <img
+                        class="dt-img"
+                        [class.dt-img--full]="!!col.options?.image?.showFull"
+                        [src]="getImageSrc(row, col)"
+                        [alt]="getImageAlt(row, col)"
+                        (click)="
+                          (col.options?.image?.openInModal ?? true) &&
+                            onOpenImage(getImageSrc(row, col), getImageAlt(row, col), $event)
+                        "
+                      />
+                    }
+                  }
+
+                  @case ('status') {
+                    <span class="dt-badge" [attr.data-variant]="getStatusClass(row, col)">
+                      {{ getDisplayText(row, col) }}
+                    </span>
+                  }
+
+                  @case ('link') {
+                    <a
+                      class="dt-link"
+                      [href]="getLinkHref(row, col)"
+                      [target]="col.options?.link?.target ?? '_blank'"
+                      (click)="$event.stopPropagation()"
+                    >
+                      {{ getLinkLabel(row, col) }}
+                    </a>
+                  }
+
+                  @case ('actions') {
+                    <div class="dt-actions">
+                      @for (action of getColumnActions(col); track action.id) {
+                        @if (isActionVisible(action, row)) {
+                          <button
+                            type="button"
+                            class="dt-action-btn"
+                            [class.dt-action--edit]="action.id === 'edit'"
+                            [class.dt-action--delete]="action.id === 'delete'"
+                            [class.dt-action--open]="action.id === 'open'"
+                            [class.dt-action--copy]="action.id === 'copy'"
+                            [disabled]="isActionDisabled(action, row)"
+                            [title]="action.tooltip ?? action.label"
+                            (click)="emitAction(action, row, $event)"
+                          >
+                            @if ((action.render ?? 'icon') === 'text') {
+                              <span class="dt-action-text">{{ action.label }}</span>
+                            } @else {
+                              <span
+                                class="dt-action-svg"
+                                [innerHTML]="getActionSvg(action)"
+                              ></span>
+                            }
+                          </button>
+                        }
+                      }
+                    </div>
+                  }
+
+                  @default {
+                    <span class="dt-text">{{ getDisplayText(row, col) }}</span>
+                  }
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

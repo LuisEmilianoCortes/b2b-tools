@@ -1,0 +1,49 @@
+.dt-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.dt-modal {
+  width: min(900px, 95vw);
+  max-height: 90vh;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dt-modal-header {
+  padding: 12px;
+  border-bottom: var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--gray-white);
+}
+
+.dt-modal-title {
+  font-weight: 600;
+  color: var(--black);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dt-modal-body {
+  padding: 12px;
+  overflow: auto;
+}
+
+.dt-modal-img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}

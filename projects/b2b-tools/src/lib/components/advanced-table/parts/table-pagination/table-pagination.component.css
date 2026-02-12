@@ -1,0 +1,147 @@
+.dt-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.dt-page-info {
+  white-space: nowrap;
+  color: var(--xs-dark-gray);
+}
+
+.dt-rows {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--xs-dark-gray);
+}
+
+.dt-rows select {
+  padding: 6px 28px 6px 8px; /* consistente con inputs */
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--light-gray);
+  background: var(--white);
+  font-size: 13px;
+  color: var(--black);
+}
+
+/* ===== Pager ===== */
+.dt-pager {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Base: BLINDA color para evitar reglas globales */
+.dt-pager-btn,
+.dt-pager-chip {
+  min-width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--xs-light-gray);
+  background: var(--white);
+  cursor: pointer;
+  font-size: 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* evita desplazamientos raros del texto */
+  line-height: 1;
+  padding: 0;
+}
+
+/* Hover: NO tocamos color; solo borde y fondo */
+.dt-pager-btn:hover:not(:disabled),
+.dt-pager-chip:hover:not(:disabled) {
+  border-color: var(--dark-gray);
+  background: var(--gray-white);
+  color: var(--xs-dark-gray); /* <- blindaje extra */
+}
+
+/* Active */
+.dt-pager-chip--active {
+  background: rgb(51, 97, 250);
+  color: var(--white);
+  border-color: var(--blue);
+  font-weight: 600;
+}
+
+.dt-pager-chip--active:hover:not(:disabled) {
+  background: rgb(51, 97, 250);
+  color: var(--white);
+  border-color: var(--blue);
+}
+
+/* Disabled */
+.dt-pager-btn:disabled,
+.dt-pager-chip:disabled {
+  opacity: 1; /* evita que se vea “lavado” feo */
+  color: var(--disabled-text);
+  background: var(--soft-white);
+  border-color: var(--disabled);
+  cursor: not-allowed;
+}
+
+.dt-pager-ellipsis {
+  padding: 0 6px;
+  color: var(--xs-dark-gray);
+}
+
+
+/* ===== Responsive visibility helpers ===== */
+.dt-hide-xs,
+.dt-hide-sm,
+.dt-hide-md {
+  display: inline-flex;
+}
+
+.dt-show-xs {
+  display: none;
+}
+
+.dt-page-compact {
+  white-space: nowrap;
+  color: var(--xs-dark-gray);
+}
+
+/* < 1200px: quitar "Filas" (rows/page) */
+@media (max-width: 1200px) {
+  .dt-hide-md {
+    display: none !important;
+  }
+}
+
+/* < 900px: quitar info "Mostrando..." y first/last */
+@media (max-width: 900px) {
+  .dt-hide-sm {
+    display: none !important;
+  }
+
+  .dt-pagination {
+    justify-content: center;
+  }
+}
+
+/* < 640px: solo prev / (page/pageCount) / next */
+@media (max-width: 640px) {
+  .dt-hide-xs {
+    display: none !important;
+  }
+
+  .dt-show-xs {
+    display: inline-flex !important;
+  }
+
+  .dt-pagination {
+    gap: 10px;
+  }
+
+  .dt-pager {
+    gap: 8px;
+  }
+}

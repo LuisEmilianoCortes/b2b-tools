@@ -1,0 +1,14 @@
+@if (open()) {
+  <div class="dt-modal-backdrop" (click)="onClose()">
+    <div class="dt-modal" (click)="$event.stopPropagation()">
+      <div class="dt-modal-header">
+        <span class="dt-modal-title">{{ alt() }}</span>
+        <button type="button" class="dt-btn" (click)="onClose()">Cerrar</button>
+      </div>
+
+      <div class="dt-modal-body">
+        <img class="dt-modal-img" [src]="src()" [alt]="alt()" />
+      </div>
+    </div>
+  </div>
+}

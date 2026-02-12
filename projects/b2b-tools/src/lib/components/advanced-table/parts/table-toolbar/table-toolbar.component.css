@@ -1,0 +1,32 @@
+.dt-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+}
+
+.dt-input {
+  width: 100%;
+  max-width: 360px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: var(--border);
+  outline: none;
+}
+
+.dt-input:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.dt-btn {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: var(--border);
+  background: var(--white);
+  cursor: pointer;
+}
+
+.dt-btn:hover {
+  filter: brightness(0.98);
+}
