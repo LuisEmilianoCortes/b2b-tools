@@ -1,0 +1,30 @@
+<section class="tables-section" style="padding: 10px 30px">
+  <h2>Cards</h2>
+  <article>
+    <h3>Advanced Card</h3>
+    <div class="cards-container">
+      <advanced-card [config]="cardConfig" (action)="onCardAction($event)">
+        <!-- Aquí metes lo que quieras (tablas, grids, componentes) -->
+        <div style="display: grid; gap: 12px">
+          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
+            Tabla 1 (placeholder)
+          </div>
+          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
+            Tabla 2 (placeholder)
+          </div>
+        </div>
+      </advanced-card>
+      <advanced-card [config]="cardConfig" (action)="onCardAction($event)">
+        <!-- Aquí metes lo que quieras (tablas, grids, componentes) -->
+        <div style="display: grid; gap: 12px">
+          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
+            Tabla 1 (placeholder)
+          </div>
+          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
+            Tabla 2 (placeholder)
+          </div>
+        </div>
+      </advanced-card>
+    </div>
+  </article>
+</section>
