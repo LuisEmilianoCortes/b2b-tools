@@ -1,0 +1,25 @@
+@let vm = viewModel();
+
+<ac-card-summary [blocks]="vm.summaryBlocks" />
+
+@if (vm.tabs.length) {
+  <div class="tabs">
+    <ac-card-tabs-bar
+      [tabs]="vm.tabs"
+      [activeTabId]="vm.activeTabId"
+      [badgeClass]="badgeClass()"
+      (tabSelected)="onSelect($event)"
+      (tabAction)="onAction($event)"
+    />
+
+    <ac-card-tab-content
+      [activeTab]="vm.activeTab"
+      [cardId]="vm.cardId"
+      [templateRef]="vm.templateRef"
+    />
+  </div>
+} @else {
+  <div class="acx__content">
+    <ng-content></ng-content>
+  </div>
+}
