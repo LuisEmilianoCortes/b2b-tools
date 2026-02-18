@@ -1,0 +1,18 @@
+@if (hasBlocks()) {
+  @let list = blocks();
+
+  <div class="acx__summary">
+    @for (block of list; track block.title) {
+      <div class="block">
+        <div class="block__title">{{ block.title }}</div>
+
+        @for (row of block.rows; track row.label) {
+          <div class="block__row">
+            <span class="block__label">{{ row.label }}</span>
+            <span class="block__value">{{ row.value }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

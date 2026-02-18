@@ -1,0 +1,23 @@
+<section class="ac ac--expanded" [class.ac--full]="fullWidth()">
+  <ac-card-header
+    variant="inline"
+    [title]="config().title"
+    [badge]="config().badge"
+    [actions]="config().actions"
+    [sticky]="stickyHeader()"
+    [badgeClass]="badgeClass()"
+    (actionClick)="onAction($event)"
+    (close)="close.emit()"
+  />
+
+  <div class="acx__body">
+    <ac-advanced-card-content
+      [viewModel]="viewModel()"
+      [badgeClass]="badgeClass()"
+      (tabSelected)="tabSelected.emit($event)"
+      (tabAction)="tabAction.emit($event)"
+    >
+      <ng-content></ng-content>
+    </ac-advanced-card-content>
+  </div>
+</section>

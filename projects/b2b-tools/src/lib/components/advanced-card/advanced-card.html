@@ -1,117 +1,50 @@
-<!-- COMPACT -->
-<section
-  class="ac ac--compact"
-  [class.ac--hidden]="expanded()"
-  tabindex="0"
-  role="button"
-  (click)="expand()"
-  (keydown.enter)="expand()"
->
-  <header class="ac__header">
-    <div class="ac__title-wrap">
-      <h3 class="ac__title">{{ config().title }}</h3>
-      @if (config().subtitle) {
-        <p class="ac__subtitle">{{ config().subtitle }}</p>
-      }
-    </div>
+<!-- ================= COMPACT ================= -->
 
-    @if (config().badge) {
-      <span [class]="badgeClass(config().badge?.tone)">
-        {{ config().badge?.label }}
-      </span>
-    }
-  </header>
+<lib-card-compact
+  [configuration]="config()"
+  [expanded]="expanded()"
+  [badgeClass]="badgeClass.bind(this)"
+  (expand)="expand()"
+/>
 
-  @if (hasHighlights()) {
-    <div class="ac__highlights">
-      @for (highlight of config().highlights; track $index) {
-        <div class="ac__hl">
-          <div class="ac__hl-value">{{ highlight.value }}</div>
-          <div class="ac__hl-label">
-            {{ highlight.label }}
-            @if (highlight.hint) {
-              <span class="ac__hl-hint">· {{ highlight.hint }}</span>
-            }
-          </div>
-        </div>
-      }
-    </div>
-  }
+<!-- ================= EXPANDED ================= -->
 
-  <footer class="ac__footer">
-    <button type="button" class="btn btn--primary" (click)="expand(); $event.stopPropagation()">
-      {{ config().primaryCta?.label ?? 'Ver detalle' }}
-      <span class="btn__chev">›</span>
-    </button>
-  </footer>
-</section>
+@let mode = expandMode();
 
-<!-- EXPANDED (FULL WIDTH ROW) -->
-<section
-  class="ac ac--expanded"
-  [class.ac--full]="fullWidthOnExpand()"
-  [class.ac--hidden]="!expanded()"
-  aria-expanded="true"
->
-  <!-- Sticky header -->
-  <header class="acx__header" [class.acx__header--sticky]="stickyHeader()">
-    <div class="acx__title">
-      <h3 class="acx__title-text">{{ config().title }}</h3>
-      @if (config().badge) {
-        <span [class]="badgeClass(config().badge?.tone)">
-          {{ config().badge?.label }}
-        </span>
-      }
-    </div>
-
-    <div class="acx__actions">
-      @for (action of config().actions; track action) {
-        <button
-          type="button"
-          class="btn"
-          [class.btn--primary]="action.tone === 'primary'"
-          [class.btn--danger]="action.tone === 'danger'"
-          [class.btn--secondary]="!action.tone || action.tone === 'secondary'"
-          [disabled]="action.disabled"
-          (click)="onActionClick(action)"
-        >
-          {{ action.label }}
-        </button>
-      }
-
-      <button type="button" class="icon-btn" (click)="collapse()" aria-label="Cerrar">✕</button>
-    </div>
-  </header>
-
-  <div class="acx__body">
-    <!-- Summary blocks row -->
-    @if (hasSummaryBlocks()) {
-      <div class="acx__summary">
-        @for (summaryBlock of config().summaryBlocks; track summaryBlock) {
-          <div class="block">
-            <div class="block__title">{{ summaryBlock.title }}</div>
-            @for (row of summaryBlock.rows; track $index) {
-              <div class="block__row">
-                <span class="block__label">{{ row.label }}</span>
-                <span class="block__value">{{ row.value }}</span>
-              </div>
-            }
-          </div>
-        }
-      </div>
-    }
-
-    <!-- Placeholder “tabs/content area” (Fase 2 lo convertimos en tabs reales) -->
-    <div class="acx__content">
-      <div class="acx__content-title">Detalle</div>
-
-      <!-- Slot genérico para que metas tablas / cualquier cosa -->
+@if (expanded()) {
+  @if (mode === 'inline') {
+    <ac-advanced-card-inline
+      [config]="config()"
+      [stickyHeader]="stickyHeader()"
+      [fullWidth]="fullWidthOnExpand()"
+      [badgeClass]="badgeClass.bind(this)"
+      [viewModel]="contentVm()"
+      (actionClick)="onActionClick($event)"
+      (close)="collapse()"
+      (tabSelected)="selectTab($event)"
+      (tabAction)="onTabActionClick(activeTab()!, $event)"
+    >
       <ng-content></ng-content>
+    </ac-advanced-card-inline>
+  } @else {
+    <ac-advanced-card-overlay
+      [config]="config()"
+      [mode]="mode === 'modal' ? 'modal' : 'drawer'"
+      [closeOnBackdrop]="closeOnBackdrop()"
+      [badgeClass]="badgeClass.bind(this)"
+      [viewModel]="contentVm()"
+      (actionClick)="onActionClick($event)"
+      (close)="collapse()"
+      (tabSelected)="selectTab($event)"
+      (tabAction)="onTabActionClick(activeTab()!, $event)"
+    >
+      <ng-content></ng-content>
+    </ac-advanced-card-overlay>
+  }
+}
 
-      <!-- Si no mandas contenido, muestra empty state -->
-      @if (false) {
-        <div class="empty">Sin contenido.</div>
-      }
-    </div>
-  </div>
-</section>
+<!-- ================= PERMANENT TEMPLATE PROJECTION ================= -->
+<!-- 🔥 Esto asegura que contentChildren(AdvancedCardTemplateDirective) se llene -->
+<div class="ac__projected-templates" aria-hidden="true">
+  <ng-content select="ng-template[advancedCardTemplate]"></ng-content>
+</div>

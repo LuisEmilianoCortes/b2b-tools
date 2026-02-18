@@ -1,0 +1,51 @@
+@let config = configuration();
+
+<section
+  class="ac ac--compact"
+  [class.ac--hidden]="expanded()"
+  tabindex="0"
+  role="button"
+  (click)="onExpand()"
+  (keydown.enter)="onExpand()"
+>
+  <header class="ac__header">
+    <div class="ac__title-wrap">
+      <h3 class="ac__title">{{ config.title }}</h3>
+
+      @if (config.subtitle) {
+        <p class="ac__subtitle">{{ config.subtitle }}</p>
+      }
+    </div>
+
+    @if (config.badge) {
+      <span [class]="badgeClass()(config.badge.tone)">
+        {{ config.badge.label }}
+      </span>
+    }
+  </header>
+
+  @if (hasHighlights()) {
+    @let highlightList = config.highlights;
+
+    <div class="ac__highlights">
+      @for (highlight of highlightList; track highlight.label) {
+        <div class="ac__hl">
+          <div class="ac__hl-value">{{ highlight.value }}</div>
+          <div class="ac__hl-label">
+            {{ highlight.label }}
+            @if (highlight.hint) {
+              <span class="ac__hl-hint">· {{ highlight.hint }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <footer class="ac__footer">
+    <button type="button" class="btn btn--primary" (click)="onExpand(); $event.stopPropagation()">
+      {{ config.primaryCta?.label ?? 'Ver detalle' }}
+      <span class="btn__chev">›</span>
+    </button>
+  </footer>
+</section>
