@@ -1,0 +1,41 @@
+<header
+  [class.acx__header]="variant() === 'inline'"
+  [class.acx__header--sticky]="variant() === 'inline' && sticky()"
+  [class.panel__header]="variant() === 'panel'"
+>
+  <div [class.acx__title]="variant() === 'inline'" [class.panel__title]="variant() === 'panel'">
+    <h3
+      [class.acx__title-text]="variant() === 'inline'"
+      [class.panel__title-text]="variant() === 'panel'"
+    >
+      {{ title() }}
+    </h3>
+
+    @if (badge()) {
+      <span [class]="badgeClass()(badge()?.tone)">
+        {{ badge()?.label }}
+      </span>
+    }
+  </div>
+
+  <div [class.acx__actions]="variant() === 'inline'" [class.panel__actions]="variant() === 'panel'">
+    @let headerActions = actions();
+    @if (headerActions?.length) {
+      @for (headerAction of headerActions; track headerAction.id) {
+        <button
+          type="button"
+          class="btn"
+          [class.btn--primary]="headerAction.tone === 'primary'"
+          [class.btn--danger]="headerAction.tone === 'danger'"
+          [class.btn--secondary]="!headerAction.tone || headerAction.tone === 'secondary'"
+          [disabled]="headerAction.disabled"
+          (click)="onAction(headerAction)"
+        >
+          {{ headerAction.label }}
+        </button>
+      }
+    }
+
+    <button type="button" class="icon-btn" (click)="onClose()">✕</button>
+  </div>
+</header>
