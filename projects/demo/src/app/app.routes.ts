@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AdvancedTableDemoPage } from './pages/advanced-table-demo.page/advanced-table-demo.page';
+import { AdvancedTableDemoPage } from './pages/advanced-table-demo/advanced-table-demo.page';
 import { DashboardPage } from './pages/dashboard.page/dashboard.page';
 import { AdvancedCardDemoPage } from './pages/advanced-card-demo/advanced-card-demo.page';
 

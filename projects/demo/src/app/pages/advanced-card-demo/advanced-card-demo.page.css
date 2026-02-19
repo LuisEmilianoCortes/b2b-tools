@@ -2,3 +2,8 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+:root {
+  --ac-primary: #f58026;
+  --ac-radius: 16px;
+}

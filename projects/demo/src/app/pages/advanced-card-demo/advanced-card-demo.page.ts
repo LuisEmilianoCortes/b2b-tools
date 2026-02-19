@@ -1,47 +1,118 @@
-import { Component } from '@angular/core';
-import { AdvancedCard, AdvancedCardConfig } from 'b2b-tools';
+import { Component, signal } from '@angular/core';
+import { AdvancedCard, AdvancedCardConfig, AdvancedCardTemplateDirective } from 'b2b-tools';
 
 @Component({
   selector: 'advanced-card-demo',
-  imports: [AdvancedCard],
+  imports: [AdvancedCard, AdvancedCardTemplateDirective],
   templateUrl: './advanced-card-demo.page.html',
   styleUrl: './advanced-card-demo.page.css',
 })
 export class AdvancedCardDemoPage {
-  onCardAction(event: { actionId: string; cardId: string }) {
-    throw new Error('Method not implemented.');
-  }
+  mode: 'inline' | 'drawer' | 'modal' = 'drawer';
+
+  cardConfiguration = signal<AdvancedCardConfig[] | null>(null);
 
   cardConfig: AdvancedCardConfig = {
-    id: 'X-001',
-    title: 'Entidad XYZ',
-    subtitle: 'Resumen rápido',
-    badge: { label: 'Activo', tone: 'success' },
+    id: 'ENT-001',
+    title: 'Generic Entity',
+    subtitle: 'Quick overview (domain-agnostic)',
+    badge: { label: 'Active', tone: 'success' },
+
+    density: 'comfortable',
+    size: 'lg',
+    expandMode: 'drawer',
+    closeOnBackdrop: true,
+
     highlights: [
-      { label: 'Monto', value: '$125,000', hint: 'MXN' },
-      { label: 'Registros', value: '850' },
-      { label: 'Última act.', value: 'Hoy' },
+      { label: 'Amount', value: '$150,000', hint: 'USD' },
+      { label: 'Records', value: '420' },
+      { label: 'Last Update', value: 'Today' },
     ],
+
     summaryBlocks: [
       {
         title: 'General',
         rows: [
-          { label: 'ID', value: 'X-001' },
-          { label: 'Tipo', value: 'A' },
+          { label: 'ID', value: 'ENT-001' },
+          { label: 'Type', value: 'A' },
+          { label: 'Segment', value: 'B2B' },
         ],
       },
       {
-        title: 'Riesgo',
+        title: 'Operations',
         rows: [
-          { label: 'Score', value: 'B' },
-          { label: 'Bandera', value: 'OK' },
+          { label: 'Status', value: 'OK' },
+          { label: 'Risk Level', value: 'Low' },
+          { label: 'Owner', value: 'Team X' },
+        ],
+      },
+      {
+        title: 'KPIs',
+        rows: [
+          { label: 'SLA', value: '98%' },
+          { label: 'Errors', value: '2' },
+          { label: 'Tickets', value: '17' },
+        ],
+      },
+      {
+        title: 'Metadata',
+        rows: [
+          { label: 'Created At', value: '2026-02-10' },
+          { label: 'Updated At', value: '2026-02-17' },
+          { label: 'Version', value: 'v1' },
         ],
       },
     ],
+
     actions: [
-      { id: 'refresh', label: 'Actualizar', tone: 'primary' },
-      { id: 'export', label: 'Exportar', tone: 'secondary' },
+      { id: 'refresh', label: 'Refresh', tone: 'primary' },
+      { id: 'export', label: 'Export', tone: 'secondary' },
+      { id: 'delete', label: 'Delete', tone: 'danger' },
     ],
-    primaryCta: { label: 'Ver detalle' },
+
+    tabs: [
+      {
+        id: 't1',
+        label: 'Payments',
+        kind: 'template',
+        templateId: 'payments',
+        actions: [{ id: 'exportPayments', label: 'Export', tone: 'secondary' }],
+      },
+      {
+        id: 't2',
+        label: 'Products',
+        kind: 'template',
+        templateId: 'products',
+      },
+      {
+        id: 't3',
+        label: 'Activity',
+        kind: 'template',
+        templateId: 'activity',
+        pill: { label: '12', tone: 'neutral' },
+      },
+    ],
+
+    defaultTabId: 't1',
   };
+
+  setMode(mode: 'inline' | 'drawer' | 'modal') {
+    this.mode = mode;
+    this.cardConfig = {
+      ...this.cardConfig,
+      expandMode: mode,
+    };
+  }
+
+  onHeaderAction(ev: { actionId: string; cardId: string }) {
+    console.log('HEADER ACTION', ev);
+  }
+
+  onTabChanged(ev: { tabId: string; cardId: string }) {
+    console.log('TAB CHANGED', ev);
+  }
+
+  onTabAction(ev: { tabId: string; actionId: string; cardId: string }) {
+    console.log('TAB ACTION', ev);
+  }
 }
