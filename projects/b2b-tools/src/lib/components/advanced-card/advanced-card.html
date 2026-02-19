@@ -1,50 +1,46 @@
-<!-- ================= COMPACT ================= -->
+<div class="ac__card">
+  <lib-card-compact
+    [configuration]="config()"
+    [expanded]="expanded()"
+    [badgeClass]="badgeClass.bind(this)"
+    (expand)="expand()"
+  />
 
-<lib-card-compact
-  [configuration]="config()"
-  [expanded]="expanded()"
-  [badgeClass]="badgeClass.bind(this)"
-  (expand)="expand()"
-/>
+  @let mode = expandMode();
 
-<!-- ================= EXPANDED ================= -->
-
-@let mode = expandMode();
-
-@if (expanded()) {
-  @if (mode === 'inline') {
-    <ac-advanced-card-inline
-      [config]="config()"
-      [stickyHeader]="stickyHeader()"
-      [fullWidth]="fullWidthOnExpand()"
-      [badgeClass]="badgeClass.bind(this)"
-      [viewModel]="contentVm()"
-      (actionClick)="onActionClick($event)"
-      (close)="collapse()"
-      (tabSelected)="selectTab($event)"
-      (tabAction)="onTabActionClick(activeTab()!, $event)"
-    >
-      <ng-content></ng-content>
-    </ac-advanced-card-inline>
-  } @else {
-    <ac-advanced-card-overlay
-      [config]="config()"
-      [mode]="mode === 'modal' ? 'modal' : 'drawer'"
-      [closeOnBackdrop]="closeOnBackdrop()"
-      [badgeClass]="badgeClass.bind(this)"
-      [viewModel]="contentVm()"
-      (actionClick)="onActionClick($event)"
-      (close)="collapse()"
-      (tabSelected)="selectTab($event)"
-      (tabAction)="onTabActionClick(activeTab()!, $event)"
-    >
-      <ng-content></ng-content>
-    </ac-advanced-card-overlay>
+  @if (expanded()) {
+    @if (mode === 'inline') {
+      <ac-advanced-card-inline
+        [config]="config()"
+        [stickyHeader]="stickyHeader()"
+        [fullWidth]="fullWidthOnExpand()"
+        [badgeClass]="badgeClass.bind(this)"
+        [viewModel]="contentVm()"
+        (actionClick)="onActionClick($event)"
+        (close)="collapse()"
+        (tabSelected)="selectTab($event)"
+        (tabAction)="onTabActionClick(activeTab()!, $event)"
+      >
+        <ng-content></ng-content>
+      </ac-advanced-card-inline>
+    } @else {
+      <ac-advanced-card-overlay
+        [config]="config()"
+        [mode]="mode === 'modal' ? 'modal' : 'drawer'"
+        [closeOnBackdrop]="closeOnBackdrop()"
+        [badgeClass]="badgeClass.bind(this)"
+        [viewModel]="contentVm()"
+        (actionClick)="onActionClick($event)"
+        (close)="collapse()"
+        (tabSelected)="selectTab($event)"
+        (tabAction)="onTabActionClick(activeTab()!, $event)"
+      >
+        <ng-content></ng-content>
+      </ac-advanced-card-overlay>
+    }
   }
-}
+</div>
 
-<!-- ================= PERMANENT TEMPLATE PROJECTION ================= -->
-<!-- 🔥 Esto asegura que contentChildren(AdvancedCardTemplateDirective) se llene -->
 <div class="ac__projected-templates" aria-hidden="true">
   <ng-content select="ng-template[advancedCardTemplate]"></ng-content>
 </div>

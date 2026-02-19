@@ -2,28 +2,100 @@
   <h2>Cards</h2>
   <article>
     <h3>Advanced Card</h3>
+    <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap">
+      <button class="btn btn--secondary" type="button" (click)="setMode('inline')">Inline</button>
+      <button class="btn btn--secondary" type="button" (click)="setMode('drawer')">Drawer</button>
+      <button class="btn btn--secondary" type="button" (click)="setMode('modal')">Modal</button>
+    </div>
     <div class="cards-container">
-      <advanced-card [config]="cardConfig" (action)="onCardAction($event)">
-        <!-- Aquí metes lo que quieras (tablas, grids, componentes) -->
-        <div style="display: grid; gap: 12px">
-          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
-            Tabla 1 (placeholder)
+      <advanced-card
+        [config]="cardConfig"
+        (action)="onHeaderAction($event)"
+        (tabChanged)="onTabChanged($event)"
+        (tabAction)="onTabAction($event)"
+        style="--ac-primary: #f58026; --ac-radius: 18px; --ac-overlay: rgba(0, 0, 0, 0.55)"
+      >
+        <ng-template advancedCardTemplate="payments" let-cardId="cardId" let-tabId="tabId">
+          <div style="display: grid; gap: 12px">
+            <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
+              <div style="font-weight: 800; margin-bottom: 8px">Payments Table</div>
+              <table style="width: 100%; border-collapse: collapse">
+                <thead>
+                  <tr>
+                    <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
+                      Reference
+                    </th>
+                    <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
+                      Amount
+                    </th>
+                    <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
+                      Date
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">P-001</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">$12,000</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">2026-02-15</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">P-002</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">$8,500</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">2026-02-16</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="font-size: 12px; color: #6b7280; margin-top: 8px">
+                cardId={{ cardId }} · tabId={{ tabId }}
+              </div>
+            </div>
+            <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
+              <div style="font-weight: 800; margin-bottom: 8px">Secondary Table (Example)</div>
+              <div style="color: #6b7280">Placeholder content</div>
+            </div>
           </div>
-          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
-            Tabla 2 (placeholder)
+        </ng-template>
+        <ng-template advancedCardTemplate="products">
+          <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
+            <div style="font-weight: 800; margin-bottom: 8px">Products Table</div>
+            <table style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr>
+                  <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">SKU</th>
+                  <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
+                    Name
+                  </th>
+                  <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">SKU-01</td>
+                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">Product A</td>
+                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">ACTIVE</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">SKU-02</td>
+                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">Product B</td>
+                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">INACTIVE</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-      </advanced-card>
-      <advanced-card [config]="cardConfig" (action)="onCardAction($event)">
-        <!-- Aquí metes lo que quieras (tablas, grids, componentes) -->
-        <div style="display: grid; gap: 12px">
-          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
-            Tabla 1 (placeholder)
+        </ng-template>
+        <ng-template advancedCardTemplate="activity">
+          <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
+            <div style="font-weight: 800; margin-bottom: 8px">Activity Log</div>
+            <ul style="margin: 0; padding-left: 18px; color: #374151">
+              <li>2026-02-17 · Configuration updated</li>
+              <li>2026-02-16 · Report exported</li>
+              <li>2026-02-15 · Record created</li>
+            </ul>
           </div>
-          <div style="border: 1px solid #eee; border-radius: 10px; padding: 10px">
-            Tabla 2 (placeholder)
-          </div>
-        </div>
+        </ng-template>
       </advanced-card>
     </div>
   </article>
