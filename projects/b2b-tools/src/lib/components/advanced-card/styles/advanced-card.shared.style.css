@@ -309,10 +309,7 @@
 }
 
 .icon-btn:hover {
-  /* transform: translateY(-1px);
-  filter: brightness(1.1); */
-  background-color: var(--ac-badge-danger-fg);
-  color: white;
+  transform: translateY(-1px);
 }
 
 /**! ****************************************************************************************** !**/
