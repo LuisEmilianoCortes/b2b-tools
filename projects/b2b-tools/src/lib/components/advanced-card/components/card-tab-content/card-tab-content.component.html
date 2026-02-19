@@ -1,0 +1,34 @@
+@let tab = activeTab();
+@let template = templateRef();
+
+<div class="tabs__content">
+  @if (tab) {
+    @switch (tab.kind) {
+      @case ('text') {
+        <div class="tab-text">
+          {{ tab.text ?? '' }}
+        </div>
+      }
+
+      @case ('empty') {
+        <div class="empty">Sin contenido.</div>
+      }
+
+      @case ('template') {
+        @if (template) {
+          <ng-container
+            [ngTemplateOutlet]="template"
+            [ngTemplateOutletContext]="{
+              cardId: cardId(),
+              tabId: tab.id,
+            }"
+          />
+        } @else {
+          <div class="empty">Template no encontrado para "{{ tab.templateId }}"</div>
+        }
+      }
+    }
+  } @else {
+    <div class="empty">Sin tabs configurados.</div>
+  }
+</div>

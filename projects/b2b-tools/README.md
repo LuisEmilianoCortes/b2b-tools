@@ -4,8 +4,7 @@
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#)
 
 `b2b-tools` is a reusable Angular 21 standalone component library
-designed to provide modular, scalable, and production-ready UI
-components.
+designed for scalable, enterprise-ready UI components.
 
 ---
 

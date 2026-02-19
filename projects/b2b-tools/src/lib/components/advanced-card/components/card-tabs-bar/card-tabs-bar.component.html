@@ -1,0 +1,41 @@
+@let tabList = tabs();
+@let currentId = activeTabId();
+@let current = activeTab();
+
+<div class="tabs__bar">
+  @for (tab of tabList; track tab.id) {
+    <button
+      type="button"
+      class="tab"
+      [class.tab--active]="currentId === tab.id"
+      (click)="selectTab(tab.id)"
+    >
+      <span>{{ tab.label }}</span>
+      @if (tab.pill) {
+        <span class="pill" [class]="badgeClass()(tab.pill.tone)">
+          {{ tab.pill.label }}
+        </span>
+      }
+    </button>
+  }
+
+  <div class="tabs__spacer"></div>
+
+  @if (current?.actions?.length) {
+    <div class="tabs__actions">
+      @for (actions of current?.actions ?? []; track actions.id) {
+        <button
+          type="button"
+          class="btn btn--sm"
+          [class.btn--primary]="actions.tone === 'primary'"
+          [class.btn--danger]="actions.tone === 'danger'"
+          [class.btn--secondary]="!actions.tone || actions.tone === 'secondary'"
+          [disabled]="actions.disabled"
+          (click)="clickAction(actions)"
+        >
+          {{ actions.label }}
+        </button>
+      }
+    </div>
+  }
+</div>

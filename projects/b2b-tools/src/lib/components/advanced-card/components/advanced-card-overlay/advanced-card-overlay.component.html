@@ -1,0 +1,31 @@
+@let isModal = mode() === 'modal';
+
+<div class="overlay" [class.modal-center]="isModal" (click)="onBackdrop()">
+  <section
+    class="panel"
+    [class.panel--drawer]="!isModal"
+    [class.panel--modal]="isModal"
+    (click)="$event.stopPropagation()"
+  >
+    <ac-card-header
+      variant="panel"
+      [title]="config().title"
+      [badge]="config().badge"
+      [actions]="config().actions"
+      [badgeClass]="badgeClass()"
+      (actionClick)="onAction($event)"
+      (close)="close.emit()"
+    />
+
+    <div class="panel__body min-croll">
+      <ac-advanced-card-content
+        [viewModel]="viewModel()"
+        [badgeClass]="badgeClass()"
+        (tabSelected)="tabSelected.emit($event)"
+        (tabAction)="tabAction.emit($event)"
+      >
+        <ng-content></ng-content>
+      </ac-advanced-card-content>
+    </div>
+  </section>
+</div>

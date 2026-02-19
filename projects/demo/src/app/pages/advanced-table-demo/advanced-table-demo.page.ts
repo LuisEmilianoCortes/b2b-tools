@@ -13,7 +13,7 @@ type UserRow = {
 };
 
 @Component({
-  selector: 'app-advanced-table-demo.page',
+  selector: 'app-advanced-table-demo',
   imports: [AdvancedTable],
   templateUrl: './advanced-table-demo.page.html',
   styleUrl: './advanced-table-demo.page.css',
