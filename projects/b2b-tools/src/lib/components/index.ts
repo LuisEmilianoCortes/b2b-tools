@@ -1,2 +1,1 @@
-export * from './advanced-table';
-export * from './advanced-card';
+export * from './tables';
