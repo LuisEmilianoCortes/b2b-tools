@@ -1,0 +1,73 @@
+<div class="table-item">
+  <table class="simple-table">
+    <thead>
+      <tr>
+        @for (header of headers(); track header.key) {
+          <th
+            scope="col"
+            class="sortable"
+            [class.active]="sortState().key === header.key && sortState().direction !== 'none'"
+            (click)="sortBy(header.key)"
+          >
+            <span class="th-content">
+              <span class="th-label">{{ header.label }}</span>
+
+              <!-- icono -->
+              <span class="sort-icon" aria-hidden="true">
+                @if (sortState().key !== header.key || sortState().direction === 'none') {
+                  <!-- doble flecha (neutral) -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect width="24" height="24" fill="none" />
+                    <path
+                      fill="currentColor"
+                      d="M12.53 3.47a.75.75 0 0 0-1.06 0l-4 4a.75.75 0 0 0 0 1.06h9.06a.75.75 0 0 0 0-1.06zm4 13.06a.75.75 0 0 0 0-1.06H7.47a.75.75 0 0 0 0 1.06l4 4a.75.75 0 0 0 1.06 0z"
+                    />
+                  </svg>
+                } @else if (sortState().direction === 'asc') {
+                  <!-- flecha arriba -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <rect width="24" height="24" fill="none" />
+                    <path
+                      fill="currentColor"
+                      d="M8.2 14q-.225 0-.362-.15T7.7 13.5q0-.05.15-.35l3.625-3.625q.125-.125.25-.175T12 9.3t.275.05t.25.175l3.625 3.625q.075.075.113.163t.037.187q0 .2-.137.35T15.8 14z"
+                    />
+                  </svg>
+                } @else {
+                  <!-- flecha abajo -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <rect width="24" height="24" fill="none" />
+                    <path
+                      fill="currentColor"
+                      d="M11.475 14.475L7.85 10.85q-.075-.075-.112-.162T7.7 10.5q0-.2.138-.35T8.2 10h7.6q.225 0 .363.15t.137.35q0 .05-.15.35l-3.625 3.625q-.125.125-.25.175T12 14.7t-.275-.05t-.25-.175"
+                    />
+                  </svg>
+                }
+              </span>
+            </span>
+          </th>
+        }
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (row of sortedData(); track row) {
+        <tr>
+          @for (header of headers(); track header.key) {
+            <td [attr.data-label]="header.label">
+              {{ row[header.key] }}
+            </td>
+          }
+        </tr>
+      } @empty {
+        <tr>
+          <td class="empty" [attr.colspan]="headers().length">Datos no localizados.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

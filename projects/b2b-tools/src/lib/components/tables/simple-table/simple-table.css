@@ -1,0 +1,151 @@
+.table-item {
+  background: #fff;
+  overflow: hidden;
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+}
+
+.simple-table thead th {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-weight: 600;
+  color: #111827;
+  position: sticky;
+  top: 0;
+  vertical-align: middle;
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.th-label {
+  line-height: 1.2;
+}
+
+.sort-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1em;
+  opacity: 0.85;
+}
+
+.sort-icon svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.simple-table tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.simple-table tbody tr:hover td {
+  background: #fcfcfd;
+}
+
+.simple-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.simple-table th.sortable .sort-icon {
+  color: #9ca3af; /* gris suave */
+}
+
+.simple-table th.sortable.active .sort-icon {
+  color: #111827; /* activo */
+}
+
+.empty {
+  text-align: center;
+  padding: 18px 10px;
+  color: #6b7280;
+}
+
+.simple-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.simple-table th.sortable:hover {
+  background: #f3f4f6;
+}
+
+.simple-table th.active {
+  color: #111827;
+}
+
+@media (max-width: 640px) {
+  .table-item {
+    padding: 10px;
+  }
+
+  .simple-table thead {
+    display: none;
+  }
+
+  .simple-table,
+  .simple-table tbody,
+  .simple-table tr,
+  .simple-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .simple-table tbody tr {
+    border: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+
+  .simple-table tbody td {
+    border: 0;
+    border-bottom: 1px dashed #eef2f7;
+    padding: 10px 0;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+
+  .simple-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .simple-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #111827;
+    opacity: 0.9;
+  }
+
+  .simple-table tbody tr:has(.empty) {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .simple-table tbody td.empty {
+    display: block;
+    border: 1px dashed #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+    background: #fafafa;
+  }
+}
