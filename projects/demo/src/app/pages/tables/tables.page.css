@@ -1,0 +1,14 @@
+aside {
+  display: flex;
+}
+
+a {
+  display: block;
+  padding: 8px;
+  border-radius: 8px;
+  /* text-decoration: none; */
+}
+
+.active {
+  font-weight: 600;
+}

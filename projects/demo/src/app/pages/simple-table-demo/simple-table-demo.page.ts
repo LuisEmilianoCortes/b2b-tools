@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TableColumn, AdvancedTable, TableConfig } from 'b2b-tools';
+import { SimpleHaders, SimpleTable } from 'b2b-tools';
 
 type UserRow = {
   id: number;
@@ -8,76 +8,42 @@ type UserRow = {
   salary: number;
   createdAt: string;
   avatarUrl: string;
-  status: 'ACTIVO' | 'INACTIVO';
+  status: 'ACTIVE' | 'INACTIVE';
   profileUrl: string;
 };
 
 @Component({
-  selector: 'app-advanced-table-demo',
-  imports: [AdvancedTable],
-  templateUrl: './advanced-table-demo.page.html',
-  styleUrl: './advanced-table-demo.page.css',
+  selector: 'simple-table-demo',
+  imports: [SimpleTable],
+  templateUrl: './simple-table-demo.page.html',
+  styleUrl: './simple-table-demo.page.css',
 })
-export class AdvancedTableDemoPage {
-  columns: TableColumn<UserRow>[] = [
+export class SimpleTableDemoPage {
+  headers: SimpleHaders<UserRow>[] = [
     {
       key: 'avatarUrl',
       label: 'Avatar',
-      type: 'image',
-      size: 'SM',
-      options: { image: { hidden: true, openInModal: true } },
     },
     {
       key: 'name',
       label: 'Name',
-      type: 'string',
-      size: 'AUTO',
-      sortable: true,
-      filterable: true,
     },
     {
       key: 'age',
       label: 'Age',
-      type: 'integer',
-      size: 'SM',
-      sortable: true,
-      align: 'right',
-      filterable: true,
     },
     {
       key: 'salary',
-      label: 'Salary',
-      type: 'currency',
-      size: 'MD',
-      sortable: true,
-      align: 'right',
+      label: 'salary',
     },
-    { key: 'createdAt', label: 'Alta', type: 'date', size: 'MD', sortable: true, filterable: true },
+    { key: 'createdAt', label: 'Created At' },
     {
       key: 'status',
       label: 'Status',
-      type: 'status',
-      size: 'SM',
-      filterable: true,
-      options: { status: { classMap: { ACTIVO: 'success', INACTIVO: 'error' } } },
     },
     {
       key: 'profileUrl',
-      label: 'Profile',
-      type: 'link',
-      size: 'AUTO',
-      options: { link: { target: '_blank' } },
-    },
-    {
-      key: 'actions',
-      label: 'Actions',
-      type: 'actions',
-      size: 'SM',
-      align: 'center',
-      actions: [
-        { id: 'edit', label: 'Editar', icon: 'edit', tooltip: 'Editar', variant: 'default' },
-        { id: 'delete', label: 'Eliminar', icon: 'delete', tooltip: 'Eliminar', variant: 'danger' },
-      ],
+      label: 'Profile Url',
     },
   ];
 
@@ -89,7 +55,7 @@ export class AdvancedTableDemoPage {
       salary: 55000,
       createdAt: '2025-10-01',
       avatarUrl: 'https://picsum.photos/200',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/1',
     },
     {
@@ -99,7 +65,7 @@ export class AdvancedTableDemoPage {
       salary: 42000,
       createdAt: '2025-11-10',
       avatarUrl: 'https://picsum.photos/201',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/2',
     },
     {
@@ -109,7 +75,7 @@ export class AdvancedTableDemoPage {
       salary: 62000,
       createdAt: '2025-09-18',
       avatarUrl: 'https://picsum.photos/202',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/3',
     },
     {
@@ -119,7 +85,7 @@ export class AdvancedTableDemoPage {
       salary: 32000,
       createdAt: '2025-12-02',
       avatarUrl: 'https://picsum.photos/203',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/4',
     },
     {
@@ -129,7 +95,7 @@ export class AdvancedTableDemoPage {
       salary: 78000,
       createdAt: '2024-07-21',
       avatarUrl: 'https://picsum.photos/204',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/5',
     },
     {
@@ -139,7 +105,7 @@ export class AdvancedTableDemoPage {
       salary: 39000,
       createdAt: '2025-08-14',
       avatarUrl: 'https://picsum.photos/205',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/6',
     },
     {
@@ -149,7 +115,7 @@ export class AdvancedTableDemoPage {
       salary: 48000,
       createdAt: '2025-06-05',
       avatarUrl: 'https://picsum.photos/206',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/7',
     },
     {
@@ -159,7 +125,7 @@ export class AdvancedTableDemoPage {
       salary: 25000,
       createdAt: '2025-11-28',
       avatarUrl: 'https://picsum.photos/207',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/8',
     },
     {
@@ -169,7 +135,7 @@ export class AdvancedTableDemoPage {
       salary: 67000,
       createdAt: '2024-12-15',
       avatarUrl: 'https://picsum.photos/208',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/9',
     },
     {
@@ -179,7 +145,7 @@ export class AdvancedTableDemoPage {
       salary: 36000,
       createdAt: '2025-10-22',
       avatarUrl: 'https://picsum.photos/209',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/10',
     },
 
@@ -190,7 +156,7 @@ export class AdvancedTableDemoPage {
       salary: 82000,
       createdAt: '2023-05-30',
       avatarUrl: 'https://picsum.photos/210',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/11',
     },
     {
@@ -200,7 +166,7 @@ export class AdvancedTableDemoPage {
       salary: 41000,
       createdAt: '2025-09-09',
       avatarUrl: 'https://picsum.photos/211',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/12',
     },
     {
@@ -210,7 +176,7 @@ export class AdvancedTableDemoPage {
       salary: 53000,
       createdAt: '2025-03-17',
       avatarUrl: 'https://picsum.photos/212',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/13',
     },
     {
@@ -220,7 +186,7 @@ export class AdvancedTableDemoPage {
       salary: 22000,
       createdAt: '2025-12-20',
       avatarUrl: 'https://picsum.photos/213',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/14',
     },
     {
@@ -230,7 +196,7 @@ export class AdvancedTableDemoPage {
       salary: 71000,
       createdAt: '2024-10-08',
       avatarUrl: 'https://picsum.photos/214',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/15',
     },
     {
@@ -240,7 +206,7 @@ export class AdvancedTableDemoPage {
       salary: 45000,
       createdAt: '2025-07-11',
       avatarUrl: 'https://picsum.photos/215',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/16',
     },
     {
@@ -250,7 +216,7 @@ export class AdvancedTableDemoPage {
       salary: 60000,
       createdAt: '2024-11-03',
       avatarUrl: 'https://picsum.photos/216',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/17',
     },
     {
@@ -260,7 +226,7 @@ export class AdvancedTableDemoPage {
       salary: 28000,
       createdAt: '2025-11-01',
       avatarUrl: 'https://picsum.photos/217',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/18',
     },
     {
@@ -270,7 +236,7 @@ export class AdvancedTableDemoPage {
       salary: 76000,
       createdAt: '2023-09-19',
       avatarUrl: 'https://picsum.photos/218',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/19',
     },
     {
@@ -280,7 +246,7 @@ export class AdvancedTableDemoPage {
       salary: 34000,
       createdAt: '2025-10-30',
       avatarUrl: 'https://picsum.photos/219',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/20',
     },
 
@@ -291,7 +257,7 @@ export class AdvancedTableDemoPage {
       salary: 88000,
       createdAt: '2022-04-12',
       avatarUrl: 'https://picsum.photos/220',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/21',
     },
     {
@@ -301,7 +267,7 @@ export class AdvancedTableDemoPage {
       salary: 52000,
       createdAt: '2025-05-07',
       avatarUrl: 'https://picsum.photos/221',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/22',
     },
     {
@@ -311,7 +277,7 @@ export class AdvancedTableDemoPage {
       salary: 38000,
       createdAt: '2025-08-26',
       avatarUrl: 'https://picsum.photos/222',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/23',
     },
     {
@@ -321,7 +287,7 @@ export class AdvancedTableDemoPage {
       salary: 56000,
       createdAt: '2024-06-18',
       avatarUrl: 'https://picsum.photos/223',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/24',
     },
     {
@@ -331,7 +297,7 @@ export class AdvancedTableDemoPage {
       salary: 41000,
       createdAt: '2025-09-02',
       avatarUrl: 'https://picsum.photos/224',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/25',
     },
     {
@@ -341,7 +307,7 @@ export class AdvancedTableDemoPage {
       salary: 24000,
       createdAt: '2025-12-11',
       avatarUrl: 'https://picsum.photos/225',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/26',
     },
     {
@@ -351,7 +317,7 @@ export class AdvancedTableDemoPage {
       salary: 65000,
       createdAt: '2024-02-09',
       avatarUrl: 'https://picsum.photos/226',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/27',
     },
     {
@@ -361,7 +327,7 @@ export class AdvancedTableDemoPage {
       salary: 47000,
       createdAt: '2025-04-15',
       avatarUrl: 'https://picsum.photos/227',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/28',
     },
     {
@@ -371,7 +337,7 @@ export class AdvancedTableDemoPage {
       salary: 79000,
       createdAt: '2023-08-01',
       avatarUrl: 'https://picsum.photos/228',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/29',
     },
     {
@@ -381,7 +347,7 @@ export class AdvancedTableDemoPage {
       salary: 35000,
       createdAt: '2025-10-05',
       avatarUrl: 'https://picsum.photos/229',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/30',
     },
 
@@ -392,7 +358,7 @@ export class AdvancedTableDemoPage {
       salary: 72000,
       createdAt: '2024-09-27',
       avatarUrl: 'https://picsum.photos/230',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/31',
     },
     {
@@ -402,7 +368,7 @@ export class AdvancedTableDemoPage {
       salary: 43000,
       createdAt: '2025-06-30',
       avatarUrl: 'https://picsum.photos/231',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/32',
     },
     {
@@ -412,7 +378,7 @@ export class AdvancedTableDemoPage {
       salary: 61000,
       createdAt: '2024-01-14',
       avatarUrl: 'https://picsum.photos/232',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/33',
     },
     {
@@ -422,7 +388,7 @@ export class AdvancedTableDemoPage {
       salary: 27000,
       createdAt: '2025-11-19',
       avatarUrl: 'https://picsum.photos/233',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/34',
     },
     {
@@ -432,7 +398,7 @@ export class AdvancedTableDemoPage {
       salary: 85000,
       createdAt: '2022-12-03',
       avatarUrl: 'https://picsum.photos/234',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/35',
     },
     {
@@ -442,7 +408,7 @@ export class AdvancedTableDemoPage {
       salary: 46000,
       createdAt: '2025-03-22',
       avatarUrl: 'https://picsum.photos/235',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/36',
     },
     {
@@ -452,7 +418,7 @@ export class AdvancedTableDemoPage {
       salary: 54000,
       createdAt: '2024-05-16',
       avatarUrl: 'https://picsum.photos/236',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/37',
     },
     {
@@ -462,7 +428,7 @@ export class AdvancedTableDemoPage {
       salary: 39000,
       createdAt: '2025-08-08',
       avatarUrl: 'https://picsum.photos/237',
-      status: 'INACTIVO',
+      status: 'INACTIVE',
       profileUrl: 'https://example.com/u/38',
     },
     {
@@ -472,7 +438,7 @@ export class AdvancedTableDemoPage {
       salary: 74000,
       createdAt: '2023-10-25',
       avatarUrl: 'https://picsum.photos/238',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/39',
     },
     {
@@ -482,31 +448,8 @@ export class AdvancedTableDemoPage {
       salary: 30000,
       createdAt: '2025-12-01',
       avatarUrl: 'https://picsum.photos/239',
-      status: 'ACTIVO',
+      status: 'ACTIVE',
       profileUrl: 'https://example.com/u/40',
     },
   ];
-
-  config: TableConfig = {
-    globalSearch: true,
-    columnFilters: true,
-    selectable: true,
-    selectionMode: 'multiple',
-    pagination: { enabled: true, pageSize: 10, pageSizeOptions: [10, 25, 50] },
-    scroll: { mode: 'none', heightPx: 420 },
-    emptyText: 'No hay datos',
-    rowIdKey: 'id',
-  };
-
-  onSelection(ids: Array<string | number>) {
-    console.log('selected ids', ids);
-  }
-
-  onRowClick(row: UserRow) {
-    console.log('row click', row);
-  }
-
-  onAction(ev: { actionId: string; row: any }) {
-    console.log(ev);
-  }
 }
