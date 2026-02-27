@@ -11,4 +11,5 @@ export interface TableI18n {
   next?: string;
   filter: string;
   empty: string;
+  seeImage: string;
 }

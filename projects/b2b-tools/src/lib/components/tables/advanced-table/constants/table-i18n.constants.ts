@@ -11,6 +11,7 @@ export const TABLE_I18N_EN: TableI18n = {
   showing: (from, to, total) => `Showing ${from}–${to} of ${total}`,
   filter: 'Filter by',
   empty: 'No results found.',
+  seeImage: 'See image',
 };
 
 export const TABLE_I18N_ES: TableI18n = {
@@ -24,6 +25,7 @@ export const TABLE_I18N_ES: TableI18n = {
   showing: (from: number, to: number, total: number) => `Mostrando ${from}–${to} de ${total}`,
   filter: 'Filtrar por',
   empty: 'No se encontraron resultados.',
+  seeImage: 'Ver imagen',
 };
 
 export const TABLE_I18N_BY_LANG: Record<TableLang, TableI18n> = {
