@@ -75,8 +75,8 @@ export class AdvancedTableDemoPage {
       size: 'SM',
       align: 'center',
       actions: [
-        { id: 'edit', label: 'Editar', icon: 'edit', tooltip: 'Editar', variant: 'default' },
-        { id: 'delete', label: 'Eliminar', icon: 'delete', tooltip: 'Eliminar', variant: 'danger' },
+        { id: 'edit', label: 'Edit', icon: 'edit', tooltip: 'Edit', variant: 'default' },
+        { id: 'delete', label: 'Delete', icon: 'delete', tooltip: 'Delete', variant: 'danger' },
       ],
     },
   ];
@@ -494,7 +494,7 @@ export class AdvancedTableDemoPage {
     selectionMode: 'multiple',
     pagination: { enabled: true, pageSize: 10, pageSizeOptions: [10, 25, 50] },
     scroll: { mode: 'none', heightPx: 420 },
-    emptyText: 'No hay datos',
+    emptyText: 'No results found',
     rowIdKey: 'id',
   };
 

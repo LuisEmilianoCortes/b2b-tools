@@ -6,7 +6,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build b2b-tools",
     "watch": "ng build --watch --configuration development",
+    "watch:lib": "ng build b2b-tools --watch",
     "test": "ng test"
   },
   "prettier": {
