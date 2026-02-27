@@ -1,12 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagerItem } from '../../types/table.types';
+import { TABLE_I18N_DEFAULT } from '../../constants/table-i18n.constants';
+import { TableI18n } from '../../types/table-i18n.type';
 
 @Component({
   selector: 'table-pagination',
@@ -26,6 +22,7 @@ export class TablePaginationComponent {
   readonly totalCount = input<number>(0);
   readonly pageSizeOptions = input<number[]>([10, 25, 50]);
   readonly pagerItems = input<PagerItem[]>([]);
+  readonly i18n = input<TableI18n>(TABLE_I18N_DEFAULT);
 
   // Outputs
   readonly pageChange = output<number>();

@@ -9,7 +9,7 @@
               type="checkbox"
               [checked]="isAllSelectedOnPage()"
               (change)="onToggleAllOnPage()"
-              aria-label="Seleccionar todo"
+              aria-label="Select all"
             />
           }
         </div>
@@ -46,7 +46,7 @@
                 type="text"
                 [value]="columnQueries()[col.key] ?? null"
                 (input)="onColumnQueryInput(col.key, $any($event.target).value)"
-                [placeholder]="'Filtrar ' + col.label"
+                [placeholder]="i18n().filter + ' ' + col.label"
               />
             }
           </div>
@@ -62,7 +62,7 @@
     >
       @if (rows().length === 0) {
         <div class="dt-empty">
-          {{ config().emptyText ?? 'Sin resultados' }}
+          {{ config().emptyText ?? i18n().empty }}
         </div>
       } @else {
         @for (row of rows(); track getRowId(row)) {
@@ -143,10 +143,7 @@
                             @if ((action.render ?? 'icon') === 'text') {
                               <span class="dt-action-text">{{ action.label }}</span>
                             } @else {
-                              <span
-                                class="dt-action-svg"
-                                [innerHTML]="getActionSvg(action)"
-                              ></span>
+                              <span class="dt-action-svg" [innerHTML]="getActionSvg(action)"></span>
                             }
                           </button>
                         }

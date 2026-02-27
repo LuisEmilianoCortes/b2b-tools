@@ -1,17 +1,15 @@
 <div class="dt-pagination dt-pagination--classic">
   <!-- Info -->
   <span class="dt-page-info dt-hide-sm">
-    Mostrando {{ startItem() }} – {{ endItem() }} de {{ totalCount() }}
+    {{ i18n().showing(startItem(), endItem(), totalCount()) }}
   </span>
 
   <!-- Compact info (mobile) -->
-  <span class="dt-page-compact dt-show-xs">
-    {{ page() }} / {{ pageCount() }}
-  </span>
+  <span class="dt-page-compact dt-show-xs"> {{ page() }} / {{ pageCount() }} </span>
 
   <!-- Rows per page -->
   <div class="dt-rows dt-hide-md">
-    <span>Filas:</span>
+    <span>{{ i18n().rowsPerPage }}</span>
     <select [value]="pageSize()" (change)="onPageSizeSelect(+$any($event.target).value)">
       @for (size of pageSizeOptions(); track size) {
         <option [value]="size">{{ size }}</option>
@@ -26,7 +24,7 @@
       class="dt-pager-btn dt-hide-sm"
       (click)="goToPage(1)"
       [disabled]="page() === 1"
-      aria-label="Primera página"
+      aria-label="First page"
     >
       <!-- svg -->
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -42,7 +40,7 @@
       class="dt-pager-btn"
       (click)="prevPage()"
       [disabled]="page() === 1"
-      aria-label="Página anterior"
+      aria-label="Prev page"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path fill="currentColor" d="m14 18l-6-6l6-6l1.4 1.4l-4.6 4.6l4.6 4.6z" />
@@ -70,7 +68,7 @@
       class="dt-pager-btn"
       (click)="nextPage()"
       [disabled]="page() === pageCount()"
-      aria-label="Página siguiente"
+      aria-label="Next page"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path fill="currentColor" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z" />
@@ -82,7 +80,7 @@
       class="dt-pager-btn dt-hide-sm"
       (click)="goToPage(pageCount())"
       [disabled]="page() === pageCount()"
-      aria-label="Última página"
+      aria-label="Last page"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path

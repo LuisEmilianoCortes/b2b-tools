@@ -4,7 +4,7 @@
     <table-toolbar
       [enabled]="config().globalSearch ?? true"
       [query]="globalQuery()"
-      placeholder="Buscar..."
+      [i18n]="i18nCom()"
       [showClear]="true"
       (queryChange)="setGlobalQuery($event)"
       (clear)="clearFilters()"
@@ -19,6 +19,7 @@
         [totalCount]="totalCount()"
         [pagerItems]="pagerItems()"
         [pageSizeOptions]="config().pagination!.pageSizeOptions ?? [10, 25, 50]"
+        [i18n]="i18nCom()"
         (pageChange)="goToPage($event)"
         (pageSizeChange)="onPageSizeChange($event)"
       />

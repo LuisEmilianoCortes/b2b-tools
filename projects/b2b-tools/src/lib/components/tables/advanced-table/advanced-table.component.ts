@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { Component, computed, effect, Input, input, output, signal } from '@angular/core';
 import {
   CellDataType,
   PagerItem,
@@ -12,6 +12,8 @@ import { TableModalImageComponent } from './parts/table-modal-image/table-modal-
 import { TableGridComponent } from './parts/table-grid/table-grid.component';
 import { TablePaginationComponent } from './parts/table-pagination/table-pagination.component';
 import { TableToolbarComponent } from './parts/table-toolbar/table-toolbar.component';
+import { TABLE_I18N_BY_LANG, TABLE_LANG_DEFAULT } from './constants/table-i18n.constants';
+import { TableI18n, TableLang } from './types/table-i18n.type';
 
 @Component({
   selector: 'advanced-table',
@@ -39,6 +41,15 @@ export class AdvancedTable<T extends Record<string, any>> {
     rowIdKey: 'id',
     globalSearchVisibleOnly: true,
   });
+  @Input()
+  set lang(value: TableLang | undefined) {
+    this._lang.set(value ?? TABLE_LANG_DEFAULT);
+  }
+
+  @Input()
+  set i18n(value: Partial<TableI18n> | undefined) {
+    this._override.set(value ?? {});
+  }
 
   // Outputs
   readonly rowClick = output<T>();
@@ -56,6 +67,8 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly modalImageAlt = signal<string>('');
   readonly selectedIdsSet = signal<Set<RowId>>(new Set<RowId>());
   readonly pageSize = signal<number>(this.config().pagination?.pageSize ?? 10);
+  private _lang = signal<TableLang>(TABLE_LANG_DEFAULT);
+  private _override = signal<Partial<TableI18n>>({});
 
   // Computed Data
   readonly selectedIds = computed<RowId[]>(() => Array.from(this.selectedIdsSet()));
@@ -202,6 +215,11 @@ export class AdvancedTable<T extends Record<string, any>> {
 
     const set = this.selectedIdsSet();
     return ids.every((id) => set.has(id));
+  });
+  protected i18nCom = computed<TableI18n>(() => {
+    const base = TABLE_I18N_BY_LANG[this._lang()];
+    const override = this._override();
+    return { ...base, ...override };
   });
 
   // Effects

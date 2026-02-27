@@ -7,10 +7,12 @@ import {
   RowId,
   TableAction,
   TableActionEvent,
-  SVG_ICONS
+  SVG_ICONS,
 } from '../../types/table.types';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TimeZoneInfo, TIME_ZONES } from '../../types/time-zone.types';
+import { TABLE_I18N_DEFAULT } from '../../constants/table-i18n.constants';
+import { TableI18n } from '../../types/table-i18n.type';
 
 @Component({
   selector: 'table-grid',
@@ -32,6 +34,7 @@ export class TableGridComponent<T extends Record<string, any>> {
   readonly sortState = input<TableSortState | null>(null);
   readonly selectedIdsSet = input<Set<RowId>>(new Set<RowId>());
   readonly timeZone = input<TimeZoneInfo>(TIME_ZONES.MEXICO_CITY);
+  readonly i18n = input<TableI18n>(TABLE_I18N_DEFAULT);
 
   // Outputs
   readonly headerSort = output<TableColumn<T>>();

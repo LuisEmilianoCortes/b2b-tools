@@ -3,15 +3,13 @@
     <input
       class="dt-input"
       type="text"
-      [placeholder]="placeholder()"
+      [placeholder]="i18n().search"
       [value]="query()"
       (input)="onInput($any($event.target).value)"
     />
 
     @if (showClear()) {
-      <button type="button" class="dt-btn" (click)="onClear()">
-        Limpiar
-      </button>
+      <button type="button" class="dt-btn" (click)="onClear()">{{ i18n().clear }}</button>
     }
   </div>
 }
