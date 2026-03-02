@@ -35,6 +35,7 @@
 
 .dt-cell--filter {
   padding: 8px 12px;
+  font-size: 10px;
 }
 
 input {
@@ -49,6 +50,7 @@ input {
 
 input::placeholder {
   color: var(--xs-dark-gray);
+  font-size: 11px;
 }
 
 input:focus {

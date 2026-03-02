@@ -1,14 +1,16 @@
 <section class="tables-section" style="padding: 10px 30px">
   <article>
     <h3>Advanced Table</h3>
-    <advanced-table
-      [columns]="columns"
-      [data]="rows"
-      [config]="config"
-      [lang]="'EN'"
-      (selectionChange)="onSelection($event)"
-      (rowClick)="onRowClick($event)"
-      (actionClick)="onAction($event)"
-    />
+    <div class="scroll-x">
+      <advanced-table
+        [columns]="columns"
+        [data]="rows"
+        [config]="config"
+        [lang]="'EN'"
+        (selectionChange)="onSelection($event)"
+        (rowClick)="onRowClick($event)"
+        (actionClick)="onAction($event)"
+      />
+    </div>
   </article>
 </section>

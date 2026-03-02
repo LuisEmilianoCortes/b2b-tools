@@ -402,9 +402,11 @@ export class AdvancedTable<T extends Record<string, any>> {
         return '260px';
       case 'XL':
         return '360px';
+      case 'AUTO-XL':
+        return 'minmax(360px, 1fr)';
       case 'AUTO':
       default:
-        return '1fr';
+        return 'minmax(240px, 1fr)';
     }
   }
 
