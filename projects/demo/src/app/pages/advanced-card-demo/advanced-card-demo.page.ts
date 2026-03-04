@@ -36,6 +36,18 @@ export class AdvancedCardDemoPage {
           { label: 'ID', value: 'ENT-001' },
           { label: 'Type', value: 'A' },
           { label: 'Segment', value: 'B2B' },
+          { label: 'ID', value: 'ENT-001' },
+          { label: 'Type', value: 'A' },
+          { label: 'Segment', value: 'B2B' },
+          { label: 'ID', value: 'ENT-001' },
+          { label: 'Type', value: 'A' },
+          { label: 'Segment', value: 'B2B' },
+          { label: 'ID', value: 'ENT-001' },
+          { label: 'Type', value: 'A' },
+          { label: 'Segment', value: 'B2B' },
+          { label: 'ID', value: 'ENT-001' },
+          { label: 'Type', value: 'A' },
+          { label: 'Segment', value: 'B2B' },
         ],
       },
       {
@@ -94,6 +106,7 @@ export class AdvancedCardDemoPage {
     ],
 
     defaultTabId: 't1',
+    contentLayout: 'inline',
   };
 
   setMode(mode: 'inline' | 'drawer' | 'modal') {

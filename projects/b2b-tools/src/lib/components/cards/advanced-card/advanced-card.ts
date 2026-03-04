@@ -100,6 +100,7 @@ export class AdvancedCard {
     activeTabId: this.activeTabId(),
     activeTab: this.activeTab(),
     templateRef: this.activeTemplateRef(),
+    layout: this.config().contentLayout ?? 'stacked',
   }));
 
   // Effects

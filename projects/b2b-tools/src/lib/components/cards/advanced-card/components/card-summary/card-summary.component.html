@@ -1,7 +1,11 @@
-@if (hasBlocks()) {
+@if (numBlocks() > 0) {
   @let list = blocks();
 
-  <div class="acx__summary">
+  <div
+    class="acx__summary"
+    [class.scrollbar-y]="this.layout() === 'inline'"
+    [style.grid-template-columns]="templateStyle()"
+  >
     @for (block of list; track block.title) {
       <div class="block">
         <div class="block__title">{{ block.title }}</div>
