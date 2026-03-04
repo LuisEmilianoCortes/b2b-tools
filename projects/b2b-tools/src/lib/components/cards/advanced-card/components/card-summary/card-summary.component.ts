@@ -9,6 +9,16 @@ import { AdvancedSummaryBlock } from '../../types';
 })
 export class CardSummaryComponent {
   blocks = input<AdvancedSummaryBlock[] | undefined>(undefined);
+  layout = input<'stacked' | 'inline'>('stacked');
 
-  hasBlocks = computed(() => (this.blocks()?.length ?? 0) > 0);
+  readonly columnMax: number = 4;
+
+  numBlocks = computed(() => this.blocks()?.length ?? 0);
+
+  templateStyle = computed(() => {
+    if (this.layout() === 'inline') {
+      return 'repeat(1, 1fr)';
+    }
+    return `repeat(${Math.min(this.numBlocks(), this.columnMax)}, 1fr)`;
+  });
 }

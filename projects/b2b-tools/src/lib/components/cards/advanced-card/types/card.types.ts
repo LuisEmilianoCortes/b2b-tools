@@ -60,6 +60,7 @@ export interface AdvancedCardConfig {
   closeOnBackdrop?: boolean; // default: true (drawer/modal)
   density?: AdvancedDensity; // default: 'comfortable'
   size?: AdvancedSize; // default: 'md'
+  contentLayout?: 'stacked' | 'inline';
   data?: any;
 }
 
@@ -78,10 +79,7 @@ export interface AdvancedTabAction {
 export type AdvancedExpandMode = 'inline' | 'drawer' | 'modal';
 
 export type AdvancedCardTemplateCtx = {
-  /** The current card identifier (config.id) */
   cardId: string;
-
-  /** The current active tab identifier (tab.id) */
   tabId: string;
 };
 
@@ -92,4 +90,5 @@ export type AdvancedCardContentVm = {
   activeTabId: string | null;
   activeTab: AdvancedCardTab | null;
   templateRef: TemplateRef<AdvancedCardTemplateCtx> | null;
+  layout: 'stacked' | 'inline';
 };
