@@ -229,35 +229,40 @@
 .tabs__bar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  /* gap: 6px; */
   padding: 8px;
-  background: var(--ac-surface-2);
+  /* background: var(--ac-surface-2); */
   border-bottom: 1px solid var(--ac-border-soft);
 }
 
 .tab {
   padding: 10px 14px;
-  border-radius: 5px;
-  border: 1px solid transparent;
+  /* border-radius: 5px; */
+  /* border: 2px solid transparent; */
   background: transparent;
   font-weight: 800;
   cursor: pointer;
-  color: var(--ac-badge-neutral-fg);
+  color: var(--ac-tab);
   display: inline-flex;
   align-items: center;
   gap: 8px;
   height: 100%;
+  border: none;
+  border-bottom: 2 solid transparent;
 }
 
-.tab:hover {
+/* .tab:hover {
   background: #f3f4f6;
-}
+} */
 
 .tab--active {
-  background: var(--ac-surface);
+  /* background: var(--ac-surface);
   border-color: var(--ac-border);
-  color: var(--ac-text);
-  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+  color: var(--ac-text); */
+  /* box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08); */
+  color: var(--ac-tab-active);
+  border: none;
+  border-bottom: 2px solid var(--ac-tab-active);
 }
 
 .tabs__spacer {
