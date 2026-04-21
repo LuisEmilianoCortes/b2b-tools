@@ -53,24 +53,24 @@ export class AdvancedCardDemoPage {
       {
         title: 'Operations',
         rows: [
-          { label: 'Status', value: 'OK' },
-          { label: 'Risk Level', value: 'Low' },
-          { label: 'Owner', value: 'Team X' },
+          { label: 'Status', value: 'OK', kind: 'badge', tone: 'success', icon: '⚡' },
+          { label: 'Risk Level', value: 'Low', kind: 'badge', tone: 'neutral', icon: '🛡' },
+          { label: 'Owner', value: 'Team X', icon: '👤' },
         ],
       },
       {
         title: 'KPIs',
         rows: [
-          { label: 'SLA', value: '98%' },
-          { label: 'Errors', value: '2' },
-          { label: 'Tickets', value: '17' },
+          { label: 'SLA', value: '98%', kind: 'number' },
+          { label: 'Errors', value: '2', kind: 'number' },
+          { label: 'Tickets', value: '17', kind: 'number' },
         ],
       },
       {
         title: 'Metadata',
         rows: [
-          { label: 'Created At', value: '2026-02-10' },
-          { label: 'Updated At', value: '2026-02-17' },
+          { label: 'Created At', value: '2026-02-10', kind: 'date' },
+          { label: 'Updated At', value: '2026-02-17', kind: 'date' },
           { label: 'Version', value: 'v1' },
         ],
       },
@@ -106,7 +106,7 @@ export class AdvancedCardDemoPage {
     ],
 
     defaultTabId: 't1',
-    contentLayout: 'inline',
+    contentLayout: 'stacked',
   };
 
   setMode(mode: 'inline' | 'drawer' | 'modal') {

@@ -61,12 +61,23 @@ export interface AdvancedCardConfig {
   density?: AdvancedDensity; // default: 'comfortable'
   size?: AdvancedSize; // default: 'md'
   contentLayout?: 'stacked' | 'inline';
+  summaryToggle?: boolean;
   data?: any;
+}
+
+export type AdvancedRowKind = 'text' | 'badge' | 'number' | 'date';
+
+export interface AdvancedSummaryRow {
+  label: string;
+  value: string;
+  kind?: AdvancedRowKind;
+  tone?: AdvancedTone;
+  icon?: string;
 }
 
 export interface AdvancedSummaryBlock {
   title: string;
-  rows: { label: string; value: string }[];
+  rows: AdvancedSummaryRow[];
 }
 
 export interface AdvancedTabAction {
@@ -91,4 +102,5 @@ export type AdvancedCardContentVm = {
   activeTab: AdvancedCardTab | null;
   templateRef: TemplateRef<AdvancedCardTemplateCtx> | null;
   layout: 'stacked' | 'inline';
+  summaryToggle: boolean;
 };

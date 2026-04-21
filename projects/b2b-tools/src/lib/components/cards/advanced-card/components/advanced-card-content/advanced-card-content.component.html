@@ -1,8 +1,12 @@
 @let vm = viewModel();
 
 <div class="ac-content" [class.ac-content--inline]="vm.layout === 'inline'">
-  <div class="summary">
-    <ac-card-summary [blocks]="vm.summaryBlocks" [layout]="vm.layout" />
+  <div class="summary ac-content__summary">
+    <ac-card-summary
+      [blocks]="vm.summaryBlocks"
+      [layout]="vm.layout"
+      [collapsibleVertical]="vm.summaryToggle"
+    />
   </div>
 
   @if (vm.tabs.length) {
