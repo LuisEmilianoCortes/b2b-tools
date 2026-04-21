@@ -1,22 +1,118 @@
 @if (numBlocks() > 0) {
   @let list = blocks();
 
-  <div
-    class="acx__summary"
-    [class.scrollbar-y]="this.layout() === 'inline'"
-    [style.grid-template-columns]="templateStyle()"
-  >
-    @for (block of list; track block.title) {
-      <div class="block">
-        <div class="block__title">{{ block.title }}</div>
+  @if (isHorizontalAccordion()) {
 
-        @for (row of block.rows; track row.label) {
-          <div class="block__row">
-            <span class="block__label">{{ row.label }}</span>
-            <span class="block__value">{{ row.value }}</span>
+    <!-- ─── HORIZONTAL ACCORDION (stacked, 2+ blocks) ─────────────────── -->
+    <div class="acx__hacc">
+      @for (block of list; track block.title) {
+        <div class="hacc__item" [class.hacc__item--active]="isActiveBlock(block.title)">
+
+          <button
+            class="hacc__trigger"
+            (click)="selectBlock(block.title)"
+            type="button"
+            [attr.aria-expanded]="isActiveBlock(block.title)"
+            [attr.aria-label]="block.title"
+          >
+            <span class="hacc__trigger-text">{{ block.title }}</span>
+          </button>
+
+          <div class="hacc__content">
+            <div class="hacc__rows">
+              @for (row of block.rows; track row.label) {
+                <div class="block__row">
+                  <span class="block__label">
+                    @if (row.icon) { <span class="block__row-icon">{{ row.icon }}</span> }
+                    {{ row.label }}
+                  </span>
+                  @switch (row.kind) {
+                    @case ('badge') {
+                      <span [class]="rowBadgeClass(row.tone)">{{ row.value }}</span>
+                    }
+                    @case ('number') {
+                      <span class="block__value block__value--number">{{ row.value }}</span>
+                    }
+                    @case ('date') {
+                      <span class="block__value block__value--date">{{ row.value }}</span>
+                    }
+                    @default {
+                      <span class="block__value">{{ row.value }}</span>
+                    }
+                  }
+                </div>
+              }
+            </div>
           </div>
-        }
-      </div>
+
+        </div>
+      }
+    </div>
+
+  } @else {
+
+    <!-- ─── GRID MODE (single block or inline sidebar) ────────────────── -->
+    @if (showToggle()) {
+      <button
+        class="summary__toggle"
+        [class.summary__toggle--collapsed]="isStackedCollapsed()"
+        (click)="toggleStacked()"
+        type="button"
+      >
+        <span class="summary__toggle-icon">&#8250;</span>
+        Summary
+      </button>
     }
-  </div>
+
+    <div
+      class="acx__summary"
+      [class.acx__summary--single]="isSingle()"
+      [class.acx__summary--collapsed]="isStackedCollapsed()"
+      [class.scrollbar-y]="isAccordion()"
+      [style.grid-template-columns]="templateStyle()"
+    >
+      @for (block of list; track block.title) {
+        <div class="block" [class.block--single]="isSingle()">
+          <button
+            class="block__title"
+            [class.block__title--accordion]="isAccordion()"
+            [class.block__title--open]="isAccordion() && isOpen(block.title)"
+            (click)="isAccordion() && toggleBlock(block.title)"
+            type="button"
+          >
+            {{ block.title }}
+            @if (isAccordion()) {
+              <span class="block__chevron">&#8250;</span>
+            }
+          </button>
+
+          <div class="block__rows" [class.block__rows--hidden]="isAccordion() && !isOpen(block.title)">
+            @for (row of block.rows; track row.label) {
+              <div class="block__row">
+                <span class="block__label">
+                  @if (row.icon) { <span class="block__row-icon">{{ row.icon }}</span> }
+                  {{ row.label }}
+                </span>
+                @switch (row.kind) {
+                  @case ('badge') {
+                    <span [class]="rowBadgeClass(row.tone)">{{ row.value }}</span>
+                  }
+                  @case ('number') {
+                    <span class="block__value block__value--number">{{ row.value }}</span>
+                  }
+                  @case ('date') {
+                    <span class="block__value block__value--date">{{ row.value }}</span>
+                  }
+                  @default {
+                    <span class="block__value">{{ row.value }}</span>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+  }
 }
