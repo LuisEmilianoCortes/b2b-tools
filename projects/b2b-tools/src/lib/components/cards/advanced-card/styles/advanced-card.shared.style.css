@@ -279,7 +279,10 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
 }
 
 .tab:hover {
@@ -574,7 +577,7 @@
 }
 
 .block--single .block__row:last-child,
-.block--single .block__row:nth-last-child(-n+2):nth-child(odd) {
+.block--single .block__row:nth-last-child(-n + 2):nth-child(odd) {
   border-right: none;
 }
 
@@ -664,7 +667,9 @@
   border: none;
   border-right: 3px solid transparent;
   font-family: inherit;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
   box-sizing: border-box;
 }
 

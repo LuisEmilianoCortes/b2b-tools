@@ -56,6 +56,11 @@
   --ac-badge-neutral-bg: #f1f5f9;
   --ac-badge-neutral-fg: #475569;
 
+  /* Tabs */
+
+  --ac-tab: #a0a0a8;
+  --ac-tab-active: #0a0a0a;
+
   /* Overlay */
   --ac-overlay: rgba(15, 23, 42, 0.5);
   --ac-overlay-blur: 4px;

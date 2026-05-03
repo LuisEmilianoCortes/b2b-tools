@@ -4,19 +4,14 @@
 
 <div class="tabs__bar">
   @for (tab of tabList; track tab.id) {
-    <button
-      type="button"
-      class="tab"
-      [class.tab--active]="currentId === tab.id"
-      (click)="selectTab(tab.id)"
-    >
+    <div class="tab" [class.tab--active]="currentId === tab.id" (click)="selectTab(tab.id)">
       <span>{{ tab.label }}</span>
       @if (tab.pill) {
         <span class="pill" [class]="badgeClass()(tab.pill.tone)">
           {{ tab.pill.label }}
         </span>
       }
-    </button>
+    </div>
   }
 
   <div class="tabs__spacer"></div>
