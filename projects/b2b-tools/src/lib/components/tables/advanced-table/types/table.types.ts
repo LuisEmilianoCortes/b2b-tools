@@ -30,6 +30,8 @@ export interface TableColumn<T = unknown> {
   filterable?: boolean;
   hidden?: boolean;
 
+  wrap?: boolean;
+
   valueGetter?: (row: T) => unknown;
   formatter?: (value: unknown, row: T) => string;
   actions?: TableAction<T>[];

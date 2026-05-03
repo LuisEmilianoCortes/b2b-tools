@@ -76,13 +76,24 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly showSelectionColumn = computed(() => !!this.config().selectable);
   readonly gridTemplateColumns = computed(() => {
     const cols: string[] = [];
+    const hasFlexCol = this.visibleColumns().some(
+      (c) => !c.size || c.size === 'AUTO' || c.size === 'AUTO-XL',
+    );
 
     if (this.showSelectionColumn()) cols.push('48px'); // selección
 
     for (const c of this.visibleColumns()) {
-      cols.push(this.sizeToCss(c.size));
+      cols.push(this.sizeToCss(c.size, !hasFlexCol));
     }
     return cols.join(' ');
+  });
+
+  readonly minTableWidth = computed(() => {
+    let total = this.showSelectionColumn() ? 48 : 0;
+    for (const c of this.visibleColumns()) {
+      total += this.sizeToMinPx(c.size);
+    }
+    return total;
   });
   readonly filteredData = computed(() => {
     const rows = this.data() ?? [];
@@ -390,23 +401,43 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.visibleCount.set(batch);
   }
 
-  private sizeToCss(size?: string): string {
+  private sizeToCss(size?: string, expand = false): string {
+    const fixed = (px: number) => (expand ? `minmax(${px}px, 1fr)` : `${px}px`);
     switch (size) {
       case 'XS':
-        return '80px';
+        return fixed(80);
       case 'SM':
-        return '120px';
+        return fixed(120);
       case 'MD':
-        return '180px';
+        return fixed(180);
       case 'LG':
-        return '260px';
+        return fixed(260);
       case 'XL':
-        return '360px';
+        return fixed(360);
       case 'AUTO-XL':
         return 'minmax(360px, 1fr)';
       case 'AUTO':
       default:
         return 'minmax(240px, 1fr)';
+    }
+  }
+
+  private sizeToMinPx(size?: string): number {
+    switch (size) {
+      case 'XS':
+        return 80;
+      case 'SM':
+        return 120;
+      case 'MD':
+        return 180;
+      case 'LG':
+        return 260;
+      case 'XL':
+        return 360;
+      case 'AUTO-XL':
+        return 360;
+      default:
+        return 240; // AUTO
     }
   }
 

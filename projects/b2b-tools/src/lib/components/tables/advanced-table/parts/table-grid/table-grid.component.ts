@@ -30,6 +30,7 @@ export class TableGridComponent<T extends Record<string, any>> {
   readonly columns = input<TableColumn<T>[]>([]);
   readonly rows = input<T[]>([]);
   readonly gridTemplateColumns = input<string>('');
+  readonly minTableWidth = input<number>(0);
   readonly columnQueries = input<Record<string, string>>({});
   readonly sortState = input<TableSortState | null>(null);
   readonly selectedIdsSet = input<Set<RowId>>(new Set<RowId>());

@@ -5,7 +5,7 @@
 .dt-row {
   display: grid;
   align-items: stretch;
-  min-width: max-content;
+  width: 100%;
 }
 
 .dt-xscroll {
@@ -61,7 +61,6 @@ input:focus {
 .dt-body {
   overflow-y: auto;
   overflow-x: hidden;
-  min-width: max-content;
 }
 
 @media (max-heicg: 900px) {
@@ -126,6 +125,17 @@ input:focus {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.dt-text--wrap {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-word;
+}
+
+.dt-cell:has(.dt-text--wrap) {
+  align-items: flex-start;
 }
 
 .dt-img {

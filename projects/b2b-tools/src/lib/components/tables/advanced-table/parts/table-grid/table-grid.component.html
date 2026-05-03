@@ -1,5 +1,5 @@
 <div class="dt-grid">
-  <div class="dt-xscroll">
+  <div class="dt-xscroll" [style.minWidth.px]="minTableWidth()">
     <!-- Header -->
     <div class="dt-row dt-header" [style.gridTemplateColumns]="gridTemplateColumns()">
       @if (showSelectionColumn()) {
@@ -152,7 +152,7 @@
                   }
 
                   @default {
-                    <span class="dt-text">{{ getDisplayText(row, col) }}</span>
+                    <span class="dt-text" [class.dt-text--wrap]="col.wrap">{{ getDisplayText(row, col) }}</span>
                   }
                 }
               </div>
