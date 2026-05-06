@@ -17,25 +17,25 @@
   --xxs-light-gray: #F2F2F2;
   --soft-white: #EEEEEE;
 
-  --green-success: #208B6A;
+  --green-success: var(--b2b-success, #208B6A);
 
-  --blue: #3360fa;
+  --blue: var(--b2b-primary, #3360fa);
   --blue-info: #7390EC;
 
-  --orange: #F77C00;
+  --orange: var(--b2b-warning, #F77C00);
   --yellow-warning: #FFBC57;
 
-  --red: #E60018;
+  --red: var(--b2b-danger, #E60018);
 
-  --white: #FFFFFF;
+  --white: var(--b2b-surface, #FFFFFF);
 
   --disabled: #C6C6C6;
   --disabled-text: #9E9E9E;
 
-  --radius-sm: 4px;
-  --radius-md: 6px;
+  --radius-sm: var(--b2b-radius-sm, 4px);
+  --radius-md: var(--b2b-radius, 6px);
   --border: 1px solid var(--xs-light-gray);
-  --focus-ring: 0 0 0 3px rgba(51, 96, 250, 0.18);
+  --focus-ring: var(--b2b-focus-ring, 0 0 0 3px rgba(51, 96, 250, 0.18));
 }
 
 .dt-container {
