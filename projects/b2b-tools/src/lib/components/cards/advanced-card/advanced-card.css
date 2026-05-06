@@ -1,8 +1,8 @@
 :host.ac-host {
   /* Surfaces */
-  --ac-surface: #ffffff;
-  --ac-surface-2: #f8fafc;
-  --ac-border: #e2e8f0;
+  --ac-surface: var(--b2b-surface, #ffffff);
+  --ac-surface-2: var(--b2b-surface-2, #f8fafc);
+  --ac-border: var(--b2b-border, #e2e8f0);
   --ac-border-soft: #f1f5f9;
   --ac-border-block: #f8fafc;
   --ac-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.06);
@@ -10,13 +10,13 @@
   --ac-shadow-panel: 0 8px 24px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12);
 
   /* Text */
-  --ac-text: #0f172a;
-  --ac-text-secondary: #334155;
-  --ac-muted: #64748b;
+  --ac-text: var(--b2b-text, #0f172a);
+  --ac-text-secondary: var(--b2b-text-secondary, #334155);
+  --ac-muted: var(--b2b-muted, #64748b);
 
   /* Radius / spacing */
-  --ac-radius: 16px;
-  --ac-radius-sm: 12px;
+  --ac-radius: var(--b2b-radius, 16px);
+  --ac-radius-sm: var(--b2b-radius-sm, 12px);
   --ac-gap: 16px;
 
   /* Typography base */
@@ -29,40 +29,39 @@
   --ac-pad-body: 20px;
 
   /* Buttons */
-  --ac-btn-radius: 8px;
+  --ac-btn-radius: var(--b2b-radius-sm, 8px);
   --ac-btn-pad: 8px 14px;
   --ac-btn-font: 600;
 
   /* Primary colors */
-  --ac-primary: #2563eb;
-  --ac-primary-soft: #eff6ff;
+  --ac-primary: var(--b2b-primary, #2563eb);
+  --ac-primary-soft: var(--b2b-primary-soft, #eff6ff);
   --ac-primary-glow: rgba(37, 99, 235, 0.12);
   --ac-accent-bar: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-  --ac-danger: #dc2626;
+  --ac-danger: var(--b2b-danger, #dc2626);
 
   /* Badge tones */
   --ac-badge-success-bg: #ecfdf5;
-  --ac-badge-success-fg: #059669;
+  --ac-badge-success-fg: var(--b2b-success, #059669);
 
   --ac-badge-warning-bg: #fffbeb;
-  --ac-badge-warning-fg: #d97706;
+  --ac-badge-warning-fg: var(--b2b-warning, #d97706);
 
   --ac-badge-danger-bg: #fef2f2;
-  --ac-badge-danger-fg: #dc2626;
+  --ac-badge-danger-fg: var(--b2b-danger, #dc2626);
 
-  --ac-badge-primary-bg: #eff6ff;
-  --ac-badge-primary-fg: #2563eb;
+  --ac-badge-primary-bg: var(--b2b-primary-soft, #eff6ff);
+  --ac-badge-primary-fg: var(--b2b-primary, #2563eb);
 
   --ac-badge-neutral-bg: #f1f5f9;
   --ac-badge-neutral-fg: #475569;
 
   /* Tabs */
-
   --ac-tab: #a0a0a8;
-  --ac-tab-active: #0a0a0a;
+  --ac-tab-active: var(--b2b-text, #0a0a0a);
 
   /* Overlay */
-  --ac-overlay: rgba(15, 23, 42, 0.5);
+  --ac-overlay: var(--b2b-overlay, rgba(15, 23, 42, 0.5));
   --ac-overlay-blur: 4px;
 
   /* Panel sizes */

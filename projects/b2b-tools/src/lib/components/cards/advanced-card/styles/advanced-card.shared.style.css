@@ -114,7 +114,7 @@
   padding: var(--ac-pad-header);
   border-bottom: none;
   box-shadow: 0 1px 0 var(--ac-border);
-  background: linear-gradient(to bottom, #ffffff 0%, var(--ac-surface-2) 100%);
+  background: linear-gradient(to bottom, var(--ac-surface) 0%, var(--ac-surface-2) 100%);
 }
 
 .acx__header--sticky {
@@ -349,9 +349,9 @@
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: var(--ac-primary);
   color: #fff;
-  border-color: #2563eb;
+  border-color: var(--ac-primary);
   box-shadow: 0 1px 4px var(--ac-primary-glow);
 }
 
@@ -362,13 +362,13 @@
 
 .btn--secondary {
   background: var(--ac-surface);
-  border-color: #cbd5e1;
+  border-color: var(--ac-border);
   color: var(--ac-text-secondary);
 }
 
 .btn--secondary:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: var(--ac-surface-2);
+  border-color: var(--ac-muted);
 }
 
 .btn--danger {
@@ -483,7 +483,7 @@
   padding: var(--ac-pad-header);
   border-bottom: none;
   box-shadow: 0 1px 0 var(--ac-border);
-  background: linear-gradient(to bottom, #ffffff 0%, var(--ac-surface-2) 100%);
+  background: linear-gradient(to bottom, var(--ac-surface) 0%, var(--ac-surface-2) 100%);
   position: sticky;
   top: 0;
   z-index: 10;
