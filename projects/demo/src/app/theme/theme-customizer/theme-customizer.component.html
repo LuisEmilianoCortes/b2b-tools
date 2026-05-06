@@ -1,0 +1,263 @@
+<!-- FAB -->
+<button
+  class="tc-fab"
+  type="button"
+  (click)="toggle()"
+  [attr.aria-label]="isOpen() ? 'Cerrar personalizador' : 'Abrir personalizador de tema'"
+  [class.tc-fab--open]="isOpen()"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+  </svg>
+</button>
+
+<!-- Backdrop -->
+@if (isOpen()) {
+  <div class="tc-backdrop" (click)="close()" aria-hidden="true"></div>
+}
+
+<!-- Panel -->
+<aside class="tc-panel" [class.tc-panel--open]="isOpen()" aria-label="Personalizador de tema">
+  <div class="tc-panel__header">
+    <span class="tc-panel__title">Personalizar tema</span>
+    <button class="tc-close" type="button" (click)="close()" aria-label="Cerrar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="tc-panel__body">
+
+    <!-- Presets -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Temas predefinidos</h3>
+      <div class="tc-presets">
+        @for (preset of presets; track preset.id) {
+          <button
+            class="tc-preset"
+            type="button"
+            [class.tc-preset--active]="themeService.activePresetId() === preset.id"
+            (click)="themeService.applyPreset(preset.id)"
+          >
+            <span class="tc-preset__dot" [style.background]="preset.tokens.primary"></span>
+            {{ preset.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <div class="tc-divider"></div>
+
+    <!-- Brand -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Marca</h3>
+
+      <div class="tc-row">
+        <label class="tc-label">Color primario</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().primary"
+            (input)="onColorChange('primary', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().primary }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Color suave</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().primarySoft"
+            (input)="onColorChange('primarySoft', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().primarySoft }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fondos -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Fondos y bordes</h3>
+
+      <div class="tc-row">
+        <label class="tc-label">Fondo base</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().surface"
+            (input)="onColorChange('surface', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().surface }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Fondo secundario</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().surface2"
+            (input)="onColorChange('surface2', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().surface2 }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Color de borde</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().border"
+            (input)="onColorChange('border', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().border }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Texto -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Texto</h3>
+
+      <div class="tc-row">
+        <label class="tc-label">Principal</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().text"
+            (input)="onColorChange('text', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().text }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Secundario</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().textSecondary"
+            (input)="onColorChange('textSecondary', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().textSecondary }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Muted</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().muted"
+            (input)="onColorChange('muted', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().muted }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Estados -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Estados</h3>
+
+      <div class="tc-row">
+        <label class="tc-label">Peligro / Error</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().danger"
+            (input)="onColorChange('danger', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().danger }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Éxito</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().success"
+            (input)="onColorChange('success', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().success }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row">
+        <label class="tc-label">Advertencia</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="themeService.tokens().warning"
+            (input)="onColorChange('warning', $event)"
+          />
+          <span class="tc-hex">{{ themeService.tokens().warning }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forma -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Bordes redondeados</h3>
+
+      <div class="tc-row tc-row--slider">
+        <label class="tc-label">Radio grande</label>
+        <div class="tc-control tc-control--slider">
+          <input
+            type="range"
+            class="tc-slider"
+            min="0"
+            max="24"
+            step="1"
+            [value]="radiusPx(themeService.tokens().radius)"
+            (input)="onRadiusChange('radius', $event)"
+          />
+          <span class="tc-badge">{{ themeService.tokens().radius }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row tc-row--slider">
+        <label class="tc-label">Radio pequeño</label>
+        <div class="tc-control tc-control--slider">
+          <input
+            type="range"
+            class="tc-slider"
+            min="0"
+            max="16"
+            step="1"
+            [value]="radiusPx(themeService.tokens().radiusSm)"
+            (input)="onRadiusChange('radiusSm', $event)"
+          />
+          <span class="tc-badge">{{ themeService.tokens().radiusSm }}</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="tc-panel__footer">
+    <button class="tc-reset" type="button" (click)="themeService.reset()">
+      Restablecer valores
+    </button>
+  </div>
+</aside>
