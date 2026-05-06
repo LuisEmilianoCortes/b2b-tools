@@ -216,6 +216,40 @@
       </div>
     </section>
 
+    <!-- Modales -->
+    <section class="tc-section">
+      <h3 class="tc-section__title">Modales</h3>
+
+      <div class="tc-row">
+        <label class="tc-label">Fondo de modal</label>
+        <div class="tc-control">
+          <input
+            type="color"
+            class="tc-color"
+            [value]="overlayHex(themeService.tokens().overlay)"
+            (input)="onOverlayColorChange($event)"
+          />
+          <span class="tc-hex">{{ overlayHex(themeService.tokens().overlay) }}</span>
+        </div>
+      </div>
+
+      <div class="tc-row tc-row--slider">
+        <label class="tc-label">Opacidad</label>
+        <div class="tc-control tc-control--slider">
+          <input
+            type="range"
+            class="tc-slider"
+            min="0"
+            max="1"
+            step="0.05"
+            [value]="overlayAlpha(themeService.tokens().overlay)"
+            (input)="onOverlayOpacityChange($event)"
+          />
+          <span class="tc-badge">{{ overlayAlpha(themeService.tokens().overlay) }}</span>
+        </div>
+      </div>
+    </section>
+
     <!-- Forma -->
     <section class="tc-section">
       <h3 class="tc-section__title">Bordes redondeados</h3>

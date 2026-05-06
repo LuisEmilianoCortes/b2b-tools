@@ -84,6 +84,73 @@ The output will be generated in:
 
 ---
 
+## 🎨 Theme Token System
+
+The library exposes CSS custom properties (prefixed `--b2b-*`) that control the visual appearance of all components. These tokens can be set on any ancestor element (typically `:root`) to theme the library.
+
+| Token | Description | Default |
+|---|---|---|
+| `--b2b-primary` | Brand / accent color | `#2563eb` |
+| `--b2b-primary-soft` | Light tint of primary | `#eff6ff` |
+| `--b2b-surface` | Base background color | `#ffffff` |
+| `--b2b-surface-2` | Secondary background | `#f8fafc` |
+| `--b2b-border` | Border color | `#e2e8f0` |
+| `--b2b-text` | Primary text color | `#0f172a` |
+| `--b2b-text-secondary` | Secondary text color | `#334155` |
+| `--b2b-muted` | Muted / disabled text | `#64748b` |
+| `--b2b-danger` | Error / danger state | `#dc2626` |
+| `--b2b-success` | Success state | `#059669` |
+| `--b2b-warning` | Warning state | `#d97706` |
+| `--b2b-radius` | Large border radius | `16px` |
+| `--b2b-radius-sm` | Small border radius | `12px` |
+| `--b2b-overlay` | **Modal backdrop color** | `rgba(15,23,42,0.5)` |
+| `--b2b-focus-ring` | Focus ring box-shadow | `0 0 0 3px rgba(37,99,235,0.15)` |
+
+### Modal backdrop (`--b2b-overlay`)
+
+All modal and drawer backdrops in the library use `--b2b-overlay`. It accepts any valid CSS color value — typically `rgba(r, g, b, opacity)` to control both color and transparency:
+
+```css
+:root {
+  --b2b-overlay: rgba(15, 23, 42, 0.5);   /* dark slate, 50% opacity */
+}
+```
+
+### Applying tokens
+
+Set them directly in CSS:
+
+```css
+:root {
+  --b2b-primary: #7c3aed;
+  --b2b-overlay: rgba(30, 10, 60, 0.6);
+}
+```
+
+Or dynamically via JavaScript / Angular service:
+
+```ts
+document.documentElement.style.setProperty('--b2b-overlay', 'rgba(30,10,60,0.6)');
+```
+
+---
+
+## 🖌️ Theme Customizer (Demo)
+
+The demo application includes a live **Theme Customizer** panel (floating button at the bottom-right corner) that lets you adjust all tokens interactively without writing code:
+
+- **Preset themes** — Indigo, Naranja, Océano, Bosque
+- **Brand colors** — primary and soft variant
+- **Backgrounds & borders** — surface, surface2, border
+- **Text colors** — primary, secondary, muted
+- **State colors** — danger, success, warning
+- **Modales** — backdrop color and opacity for all modals and drawers
+- **Border radius** — large and small radius via sliders
+
+Changes apply instantly via CSS custom properties on the document root.
+
+---
+
 ## 🧪 Purpose of the Demo App
 
 The demo application exists to:
