@@ -6,6 +6,7 @@ import {
   TableActionEvent,
   TableColumn,
   TableConfig,
+  TablePaginationChange,
   TableSortState,
 } from './types/table.types';
 import { TableModalImageComponent } from './parts/table-modal-image/table-modal-image.component';
@@ -41,6 +42,8 @@ export class AdvancedTable<T extends Record<string, any>> {
     rowIdKey: 'id',
     globalSearchVisibleOnly: true,
   });
+  readonly serverTotalCount = input<number>(0);
+
   @Input()
   set lang(value: TableLang | undefined) {
     this._lang.set(value ?? TABLE_LANG_DEFAULT);
@@ -55,6 +58,7 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly rowClick = output<T>();
   readonly selectionChange = output<RowId[]>();
   readonly actionClick = output<TableActionEvent<T>>();
+  readonly pageChange = output<TablePaginationChange>();
 
   // Signals
   readonly globalQuery = signal<string>('');
@@ -170,6 +174,7 @@ export class AdvancedTable<T extends Record<string, any>> {
 
     // pagination
     if (config.pagination?.enabled) {
+      if (config.pagination.mode === 'server') return cappedRows;
       const size = this.pageSize();
       const page = this.page();
       const start = (page - 1) * size;
@@ -213,7 +218,11 @@ export class AdvancedTable<T extends Record<string, any>> {
 
     return items;
   });
-  readonly totalCount = computed(() => this.sortedData().length);
+  readonly totalCount = computed(() => {
+    const config = this.config();
+    if (config.pagination?.mode === 'server') return this.serverTotalCount();
+    return this.sortedData().length;
+  });
   readonly pageCount = computed(() => {
     const config = this.config();
     if (!config.pagination?.enabled) return 1;
@@ -253,6 +262,11 @@ export class AdvancedTable<T extends Record<string, any>> {
     if (this.page() > totalPages) {
       this.page.set(totalPages);
     }
+  });
+  serverPageEffect = effect(() => {
+    const config = this.config();
+    if (config.pagination?.mode !== 'server') return;
+    this.pageChange.emit({ page: this.page(), pageSize: this.pageSize() });
   });
 
   // UI Actions

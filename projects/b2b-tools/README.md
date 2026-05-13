@@ -226,6 +226,7 @@ import { AdvancedTable } from 'b2b-tools';
 | `config` | `TableConfig` | see below | Table behavior configuration |
 | `i18n` | `Partial<TableI18n>` | EN strings | Override any translation string |
 | `lang` | `'EN' \| 'ES'` | `'EN'` | Built-in language preset |
+| `serverTotalCount` | `number` | `0` | Total record count from API. Required when `pagination.mode = 'server'` |
 
 #### Outputs
 
@@ -234,6 +235,7 @@ import { AdvancedTable } from 'b2b-tools';
 | `rowClick` | `T` | Row clicked |
 | `selectionChange` | `RowId[]` | Selected row IDs changed |
 | `actionClick` | `TableActionEvent<T>` | Action button clicked |
+| `pageChange` | `TablePaginationChange` | Fires on page or page-size change when `pagination.mode = 'server'` |
 
 #### TableConfig
 
@@ -247,6 +249,7 @@ interface TableConfig {
     enabled: boolean;
     pageSize: number;
     pageSizeOptions?: number[];    // e.g. [10, 25, 50]
+    mode?: 'client' | 'server';   // default 'client'
   };
   scroll?: {
     mode: 'none' | 'infinite';
@@ -411,6 +414,52 @@ export class OrdersTableComponent {
 
   onRowClick(row: Order) { /* ... */ }
   onAction(event: TableActionEvent<Order>) { /* ... */ }
+}
+```
+
+#### Server-side Pagination
+
+Set `pagination.mode` to `'server'` when your API returns one page at a time. The table skips client-side slicing, drives the pager from `serverTotalCount`, and emits `pageChange` whenever the user navigates or changes page size.
+
+```ts
+import { AdvancedTable, TableColumn, TableConfig, TablePaginationChange } from 'b2b-tools';
+
+interface Order { id: number; customer: string; total: number; }
+
+@Component({
+  imports: [AdvancedTable],
+  template: `
+    <advanced-table
+      [columns]="columns"
+      [data]="rows"
+      [config]="config"
+      [serverTotalCount]="totalCount"
+      (pageChange)="load($event)"
+    />
+  `
+})
+export class OrdersPageComponent {
+  rows: Order[] = [];
+  totalCount = 0;
+
+  columns: TableColumn<Order>[] = [
+    { key: 'id',       label: '#',        type: 'integer',  size: 'XS' },
+    { key: 'customer', label: 'Customer', type: 'string',   size: 'AUTO' },
+    { key: 'total',    label: 'Total',    type: 'currency', size: 'MD',
+      options: { currency: 'MXN' } },
+  ];
+
+  config: TableConfig = {
+    pagination: { enabled: true, pageSize: 25, pageSizeOptions: [10, 25, 50], mode: 'server' },
+    rowIdKey: 'id',
+  };
+
+  load({ page, pageSize }: TablePaginationChange) {
+    this.api.getOrders({ page, pageSize }).subscribe(res => {
+      this.rows = res.data;
+      this.totalCount = res.total;
+    });
+  }
 }
 ```
 
@@ -734,6 +783,7 @@ import {
   CellSize,
   TextAlign,
   RowId,
+  TablePaginationChange,
 
   // Simple Table
   SimpleHaders,

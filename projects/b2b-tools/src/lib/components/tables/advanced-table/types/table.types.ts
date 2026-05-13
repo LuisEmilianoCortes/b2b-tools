@@ -61,7 +61,7 @@ export interface TableConfig {
   columnFilters?: boolean;
   selectable?: boolean;
   selectionMode?: 'single' | 'multiple';
-  pagination?: { enabled: boolean; pageSize: number; pageSizeOptions?: number[] };
+  pagination?: { enabled: boolean; pageSize: number; pageSizeOptions?: number[]; mode?: 'client' | 'server' };
   scroll?: { mode: 'none' | 'infinite'; heightPx?: number; batchSize?: number };
   fixedRowCount?: number;
   emptyText?: string;
@@ -73,6 +73,11 @@ export interface TableConfig {
 export interface TableSortState {
   key: string;
   dir: 'asc' | 'desc';
+}
+
+export interface TablePaginationChange {
+  page: number;
+  pageSize: number;
 }
 
 export type ActionVariant = 'default' | 'danger';
