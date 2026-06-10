@@ -15,4 +15,7 @@ export interface TableI18n {
   refresh: string;
   autoRefresh: string;
   refreshOff: string;
+  columns: string;
+  resetColumns: string;
+  allColumnsVisible: string;
 }

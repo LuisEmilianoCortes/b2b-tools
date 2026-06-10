@@ -14,6 +14,7 @@
       }
     </div>
   }
+
   @if (refreshConfig()?.enabled) {
     <div class="dt-refresh-group">
       <button
@@ -38,6 +39,61 @@
           }
         </select>
       </div>
+    </div>
+  }
+
+  @if (columnVisibility()) {
+    <div class="dt-columns-wrap">
+      <button
+        type="button"
+        class="dt-btn dt-columns-btn"
+        [class.is-active]="hasHiddenColumns()"
+        [attr.aria-label]="i18n().columns"
+        [attr.aria-expanded]="panelOpen()"
+        (click)="togglePanel()"
+      >
+        <span class="dt-columns-icon" [innerHTML]="columnsSvg"></span>
+        <span class="dt-columns-label">{{ i18n().columns }}</span>
+        @if (hasHiddenColumns()) {
+          <span class="dt-columns-badge">{{ hiddenCount() }}</span>
+        }
+      </button>
+
+      @if (panelOpen()) {
+        <div class="dt-columns-panel" role="dialog" [attr.aria-label]="i18n().columns">
+          <ul class="dt-columns-list" role="list">
+            @for (col of columnsForToggle(); track col.key) {
+              <li class="dt-columns-item">
+                <label
+                  class="dt-columns-item-label"
+                  [class.is-disabled]="col.visible && onlyOneVisible()"
+                >
+                  <input
+                    type="checkbox"
+                    class="dt-columns-checkbox"
+                    [checked]="col.visible"
+                    [disabled]="col.visible && onlyOneVisible()"
+                    (change)="onColumnToggle(col.key, col.visible)"
+                  />
+                  <span>{{ col.label }}</span>
+                </label>
+              </li>
+            }
+          </ul>
+
+          @if (hasHiddenColumns()) {
+            <div class="dt-columns-footer">
+              <button type="button" class="dt-columns-reset" (click)="onColumnReset()">
+                {{ i18n().resetColumns }}
+              </button>
+            </div>
+          }
+
+          @if (!hasHiddenColumns()) {
+            <p class="dt-columns-all-visible">{{ i18n().allColumnsVisible }}</p>
+          }
+        </div>
+      }
     </div>
   }
 </div>

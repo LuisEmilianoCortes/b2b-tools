@@ -7,9 +7,13 @@
       [i18n]="i18nCom()"
       [showClear]="true"
       [refreshConfig]="config().refresh"
+      [columnVisibility]="config().columnVisibility ?? false"
+      [columnsForToggle]="columnsForToggle()"
       (queryChange)="setGlobalQuery($event)"
       (clear)="clearFilters()"
       (refresh)="refresh.emit()"
+      (columnToggle)="toggleColumnVisibility($event)"
+      (columnReset)="resetColumnVisibility()"
     />
 
     <!-- Pagination -->

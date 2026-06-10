@@ -72,12 +72,28 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly modalImageAlt = signal<string>('');
   readonly selectedIdsSet = signal<Set<RowId>>(new Set<RowId>());
   readonly pageSize = signal<number>(this.config().pagination?.pageSize ?? 10);
+  readonly columnVisibilityOverrides = signal<Record<string, boolean>>({});
   private _lang = signal<TableLang>(TABLE_LANG_DEFAULT);
   private _override = signal<Partial<TableI18n>>({});
 
   // Computed Data
   readonly selectedIds = computed<RowId[]>(() => Array.from(this.selectedIdsSet()));
-  readonly visibleColumns = computed(() => (this.columns() ?? []).filter((c) => !c.hidden));
+  readonly visibleColumns = computed(() => {
+    const overrides = this.columnVisibilityOverrides();
+    return (this.columns() ?? []).filter((c) =>
+      c.key in overrides ? !overrides[c.key] : !c.hidden,
+    );
+  });
+  readonly columnsForToggle = computed(() => {
+    const overrides = this.columnVisibilityOverrides();
+    return (this.columns() ?? [])
+      .filter((c) => c.type !== 'actions')
+      .map((c) => ({
+        key: c.key,
+        label: c.label,
+        visible: c.key in overrides ? !overrides[c.key] : !c.hidden,
+      }));
+  });
   readonly showSelectionColumn = computed(() => !!this.config().selectable);
   readonly gridTemplateColumns = computed(() => {
     const cols: string[] = [];
@@ -406,6 +422,17 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.modalOpen.set(false);
     this.modalImageSrc.set('');
     this.modalImageAlt.set('');
+  }
+
+  toggleColumnVisibility(key: string) {
+    const col = this.columnsForToggle().find((c) => c.key === key);
+    if (!col) return;
+    if (col.visible && this.columnsForToggle().filter((c) => c.visible).length <= 1) return;
+    this.columnVisibilityOverrides.update((prev) => ({ ...prev, [key]: col.visible }));
+  }
+
+  resetColumnVisibility() {
+    this.columnVisibilityOverrides.set({});
   }
 
   // Private functions

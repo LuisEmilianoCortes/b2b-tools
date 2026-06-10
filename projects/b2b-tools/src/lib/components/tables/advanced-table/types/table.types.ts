@@ -75,6 +75,7 @@ export interface TableConfig {
   rowIdGetter?: (row: any) => string | number;
   globalSearchVisibleOnly?: boolean;
   refresh?: TableRefreshConfig;
+  columnVisibility?: boolean;
 }
 
 export interface TableSortState {
