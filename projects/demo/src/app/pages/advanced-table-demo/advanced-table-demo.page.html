@@ -1,16 +1,161 @@
-<section class="tables-section" style="padding: 10px 30px">
-  <article>
-    <h3>Advanced Table</h3>
-    <div class="scroll-x">
+<div class="demo-page">
+
+  <header class="demo-header">
+    <h2 class="demo-title">Advanced Table</h2>
+    <p class="demo-desc">Explorador interactivo de comportamientos y eventos del componente.</p>
+  </header>
+
+  <div class="demo-body">
+
+    <!-- Behavior menu -->
+    <aside class="behavior-menu">
+
+      <section class="menu-section">
+        <h4 class="menu-section-title">Eventos</h4>
+
+        <div class="signal-item" [class.signal--active]="activeRefresh()">
+          <span class="signal-dot" [class.dot--on]="activeRefresh()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Refresh</p>
+              <p class="signal-value">{{ evRefresh() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-item" [class.signal--active]="activeRowClick()">
+          <span class="signal-dot" [class.dot--on]="activeRowClick()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Row Click</p>
+              <p class="signal-value">{{ evRowClick() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-item" [class.signal--active]="activeAction()">
+          <span class="signal-dot" [class.dot--on]="activeAction()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Action Click</p>
+              <p class="signal-value">{{ evAction() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-item" [class.signal--active]="activeSelection()">
+          <span class="signal-dot" [class.dot--on]="activeSelection()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Selection</p>
+              <p class="signal-value">{{ evSelection() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-item" [class.signal--active]="activePage()">
+          <span class="signal-dot" [class.dot--on]="activePage()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Page Change</p>
+              <p class="signal-value">{{ evPage() }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="menu-divider"></div>
+
+      <section class="menu-section">
+        <h4 class="menu-section-title">Configuración</h4>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftSearch()"
+            (click)="ftSearch.update(v => !v)"
+            [attr.aria-pressed]="ftSearch()"
+            aria-label="Global Search"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label">Global Search</span>
+        </div>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftFilters()"
+            (click)="ftFilters.update(v => !v)"
+            [attr.aria-pressed]="ftFilters()"
+            aria-label="Column Filters"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label">Column Filters</span>
+        </div>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftSelectable()"
+            (click)="ftSelectable.update(v => !v)"
+            [attr.aria-pressed]="ftSelectable()"
+            aria-label="Selectable"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label">Selectable</span>
+        </div>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftRefresh()"
+            (click)="ftRefresh.update(v => !v)"
+            [attr.aria-pressed]="ftRefresh()"
+            aria-label="Refresh"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label">Refresh</span>
+        </div>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftPagination()"
+            (click)="ftPagination.update(v => !v)"
+            [attr.aria-pressed]="ftPagination()"
+            aria-label="Pagination"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label">Pagination</span>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- Table -->
+    <div class="demo-table-wrap">
       <advanced-table
         [columns]="columns"
         [data]="rows"
-        [config]="config"
-        [lang]="'EN'"
-        (selectionChange)="onSelection($event)"
+        [config]="config()"
+        [lang]="'ES'"
+        (refresh)="onRefresh()"
         (rowClick)="onRowClick($event)"
         (actionClick)="onAction($event)"
+        (selectionChange)="onSelection($event)"
+        (pageChange)="onPageChange($event)"
       />
     </div>
-  </article>
-</section>
+
+  </div>
+</div>
