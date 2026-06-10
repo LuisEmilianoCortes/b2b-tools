@@ -27,6 +27,7 @@ export class AdvancedTableDemoPage {
   readonly ftSelectable = signal(false);
   readonly ftRefresh = signal(true);
   readonly ftPagination = signal(true);
+  readonly ftColumnVisibility = signal(true);
 
   // Event signal values
   readonly evRefresh = signal('—');
@@ -52,6 +53,7 @@ export class AdvancedTableDemoPage {
     emptyText: 'Sin resultados',
     rowIdKey: 'id',
     refresh: { enabled: this.ftRefresh(), intervals: [5, 10, 30, 60] },
+    columnVisibility: this.ftColumnVisibility(),
   }));
 
   columns: TableColumn<UserRow>[] = [

@@ -138,6 +138,20 @@
           </button>
           <span class="toggle-label">Pagination</span>
         </div>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftColumnVisibility()"
+            (click)="ftColumnVisibility.update(v => !v)"
+            [attr.aria-pressed]="ftColumnVisibility()"
+            aria-label="Column Visibility"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label">Column Visibility</span>
+        </div>
       </section>
 
     </aside>
