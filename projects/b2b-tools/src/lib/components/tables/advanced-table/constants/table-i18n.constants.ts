@@ -12,6 +12,9 @@ export const TABLE_I18N_EN: TableI18n = {
   filter: 'Filter by',
   empty: 'No results found.',
   seeImage: 'See image',
+  refresh: 'Refresh',
+  autoRefresh: 'Auto',
+  refreshOff: 'Off',
 };
 
 export const TABLE_I18N_ES: TableI18n = {
@@ -26,6 +29,9 @@ export const TABLE_I18N_ES: TableI18n = {
   filter: 'Filtrar por',
   empty: 'No se encontraron resultados.',
   seeImage: 'Ver imagen',
+  refresh: 'Actualizar',
+  autoRefresh: 'Auto',
+  refreshOff: 'Desactivado',
 };
 
 export const TABLE_I18N_BY_LANG: Record<TableLang, TableI18n> = {

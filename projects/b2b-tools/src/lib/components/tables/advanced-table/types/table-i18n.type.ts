@@ -12,4 +12,7 @@ export interface TableI18n {
   filter: string;
   empty: string;
   seeImage: string;
+  refresh: string;
+  autoRefresh: string;
+  refreshOff: string;
 }

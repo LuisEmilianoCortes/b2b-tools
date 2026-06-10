@@ -6,8 +6,10 @@
       [query]="globalQuery()"
       [i18n]="i18nCom()"
       [showClear]="true"
+      [refreshConfig]="config().refresh"
       (queryChange)="setGlobalQuery($event)"
       (clear)="clearFilters()"
+      (refresh)="refresh.emit()"
     />
 
     <!-- Pagination -->

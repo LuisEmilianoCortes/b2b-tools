@@ -115,13 +115,26 @@ export class TableGridComponent<T extends Record<string, any>> {
 
       case 'date':
       case 'datetime': {
-        const dateTime = value instanceof Date ? value : new Date(String(value));
+        const dateTime = value instanceof Date ? value : this.parseDate(String(value));
         if (Number.isNaN(dateTime.getTime())) return value == null ? '' : String(value);
 
         const locale = this.timeZone().locale;
-        return column.type === 'datetime'
-          ? dateTime.toLocaleString(locale)
-          : dateTime.toLocaleDateString(locale);
+
+        if (column.type === 'datetime') {
+          const fmt = column.options?.dateTimeFormat;
+          if (!fmt) return dateTime.toLocaleString(locale);
+          const opts: Intl.DateTimeFormatOptions =
+            typeof fmt === 'string'
+              ? { dateStyle: fmt as Intl.DateTimeFormatOptions['dateStyle'], timeStyle: fmt as Intl.DateTimeFormatOptions['timeStyle'] }
+              : fmt;
+          return dateTime.toLocaleString(locale, opts);
+        }
+
+        const fmt = column.options?.dateFormat;
+        if (!fmt) return dateTime.toLocaleDateString(locale);
+        const opts: Intl.DateTimeFormatOptions =
+          typeof fmt === 'string' ? { dateStyle: fmt as Intl.DateTimeFormatOptions['dateStyle'] } : fmt;
+        return dateTime.toLocaleDateString(locale, opts);
       }
 
       case 'boolean':
@@ -208,6 +221,16 @@ export class TableGridComponent<T extends Record<string, any>> {
 
   onBodyScroll(event: Event) {
     this.bodyScroll.emit(event);
+  }
+
+  private parseDate(str: string): Date {
+    // ISO date-only strings (YYYY-MM-DD) are parsed as UTC by default, which shifts the
+    // displayed date by the user's UTC offset. Force local-time interpretation instead.
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+      const [y, m, d] = str.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+    return new Date(str);
   }
 
   private getCellValue(row: T, col: TableColumn<T>): unknown {

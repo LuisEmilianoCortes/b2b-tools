@@ -4,6 +4,15 @@
   justify-content: space-between;
   gap: 12px;
   padding: 10px 12px;
+  flex-wrap: wrap;
+}
+
+.dt-search-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .dt-input {
@@ -13,6 +22,8 @@
   border-radius: var(--radius-sm);
   border: var(--border);
   outline: none;
+  font-size: inherit;
+  font-family: inherit;
 }
 
 .dt-input:focus {
@@ -25,8 +36,84 @@
   border: var(--border);
   background: var(--white);
   cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  white-space: nowrap;
 }
 
 .dt-btn:hover {
   filter: brightness(0.98);
+}
+
+/* Refresh group */
+
+.dt-refresh-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dt-refresh-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+}
+
+.dt-refresh-btn.is-active {
+  border-color: var(--blue, #3360fa);
+  color: var(--blue, #3360fa);
+}
+
+.dt-refresh-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease-out;
+}
+
+.dt-refresh-btn:active .dt-refresh-icon {
+  transform: rotate(180deg);
+}
+
+.dt-refresh-btn.is-active .dt-refresh-icon {
+  animation: dt-spin 2s linear infinite;
+}
+
+@keyframes dt-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.dt-refresh-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dt-refresh-label {
+  font-size: 12px;
+  color: var(--xs-dark-gray, #5a5a5a);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.dt-select {
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  border: var(--border);
+  background: var(--white);
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  outline: none;
+}
+
+.dt-select:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }

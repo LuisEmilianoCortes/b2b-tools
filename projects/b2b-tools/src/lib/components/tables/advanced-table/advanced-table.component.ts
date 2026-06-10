@@ -59,6 +59,7 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly selectionChange = output<RowId[]>();
   readonly actionClick = output<TableActionEvent<T>>();
   readonly pageChange = output<TablePaginationChange>();
+  readonly refresh = output<void>();
 
   // Signals
   readonly globalQuery = signal<string>('');
@@ -525,7 +526,7 @@ export class AdvancedTable<T extends Record<string, any>> {
     return response;
   }
 
-  private valueToSearchableText(value: unknown, type: CellDataType, row: T): string {
+  private valueToSearchableText(value: unknown, type: CellDataType, _row: T): string {
     if (value == null) return '';
     if (type === 'image') return '';
     if (type === 'boolean') return value === true ? 'si true yes 1' : 'no false 0';

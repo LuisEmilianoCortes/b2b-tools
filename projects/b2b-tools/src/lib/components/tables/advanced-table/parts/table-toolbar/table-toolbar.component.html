@@ -1,15 +1,43 @@
-@if (enabled()) {
-  <div class="dt-toolbar">
-    <input
-      class="dt-input"
-      type="text"
-      [placeholder]="i18n().search"
-      [value]="query()"
-      (input)="onInput($any($event.target).value)"
-    />
+<div class="dt-toolbar">
+  @if (enabled()) {
+    <div class="dt-search-group">
+      <input
+        class="dt-input"
+        type="text"
+        [placeholder]="i18n().search"
+        [value]="query()"
+        (input)="onInput($any($event.target).value)"
+      />
 
-    @if (showClear()) {
-      <button type="button" class="dt-btn" (click)="onClear()">{{ i18n().clear }}</button>
-    }
-  </div>
-}
+      @if (showClear()) {
+        <button type="button" class="dt-btn" (click)="onClear()">{{ i18n().clear }}</button>
+      }
+    </div>
+  }
+  @if (refreshConfig()?.enabled) {
+    <div class="dt-refresh-group">
+      <button
+        type="button"
+        class="dt-btn dt-refresh-btn"
+        [class.is-active]="selectedInterval() !== null"
+        [title]="i18n().refresh"
+        [attr.aria-label]="i18n().refresh"
+        (click)="onRefresh()"
+      >
+        <span class="dt-refresh-icon" [innerHTML]="refreshSvg"></span>
+      </button>
+
+      <div class="dt-refresh-select-wrap">
+        <label class="dt-refresh-label">{{ i18n().autoRefresh }}</label>
+        <select class="dt-select" (change)="onIntervalChange($any($event.target).value)">
+          <option value="" [selected]="selectedInterval() === null">{{ i18n().refreshOff }}</option>
+          @for (interval of refreshIntervals(); track interval) {
+            <option [value]="interval" [selected]="selectedInterval() === interval">
+              {{ formatInterval(interval) }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+  }
+</div>

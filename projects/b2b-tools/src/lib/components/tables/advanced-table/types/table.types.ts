@@ -37,8 +37,8 @@ export interface TableColumn<T = unknown> {
   actions?: TableAction<T>[];
   options?: {
     currency?: 'MXN';
-    dateFormat?: 'short' | 'medium' | 'long';
-    dateTimeFormat?: 'short' | 'medium' | 'long';
+    dateFormat?: 'short' | 'medium' | 'long' | Intl.DateTimeFormatOptions;
+    dateTimeFormat?: 'short' | 'medium' | 'long' | Intl.DateTimeFormatOptions;
     image?: {
       hidden?: boolean;
       openInModal?: boolean;
@@ -56,6 +56,12 @@ export interface TableColumn<T = unknown> {
   };
 }
 
+export interface TableRefreshConfig {
+  enabled: boolean;
+  intervals?: number[];
+  defaultInterval?: number | null;
+}
+
 export interface TableConfig {
   globalSearch?: boolean;
   columnFilters?: boolean;
@@ -68,6 +74,7 @@ export interface TableConfig {
   rowIdKey?: string;
   rowIdGetter?: (row: any) => string | number;
   globalSearchVisibleOnly?: boolean;
+  refresh?: TableRefreshConfig;
 }
 
 export interface TableSortState {
