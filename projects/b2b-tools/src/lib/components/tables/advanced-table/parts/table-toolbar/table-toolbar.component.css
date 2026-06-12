@@ -118,6 +118,50 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
+.dt-refresh-custom {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.dt-refresh-custom-input {
+  width: 60px;
+  padding: 7px 6px;
+  border-radius: var(--radius-sm);
+  border: var(--border);
+  background: var(--white);
+  font-size: inherit;
+  font-family: inherit;
+  outline: none;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+
+.dt-refresh-custom-input::-webkit-outer-spin-button,
+.dt-refresh-custom-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.dt-refresh-custom-input:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.dt-refresh-unit-select {
+  padding: 7px 4px;
+  border-radius: var(--radius-sm);
+  border: var(--border);
+  background: var(--white);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+.dt-refresh-unit-select:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
 /* Column visibility */
 
 .dt-columns-wrap {

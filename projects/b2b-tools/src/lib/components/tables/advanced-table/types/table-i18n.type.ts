@@ -18,4 +18,7 @@ export interface TableI18n {
   columns: string;
   resetColumns: string;
   allColumnsVisible: string;
+  refreshCustom?: string;
+  refreshSeconds?: string;
+  refreshMinutes?: string;
 }

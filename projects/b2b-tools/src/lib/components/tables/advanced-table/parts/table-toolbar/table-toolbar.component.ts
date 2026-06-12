@@ -56,6 +56,9 @@ export class TableToolbarComponent implements OnInit {
   readonly columnReset = output<void>();
 
   readonly selectedInterval = signal<number | null>(null);
+  readonly customMode = signal<boolean>(false);
+  readonly customValue = signal<number>(1);
+  readonly customUnit = signal<'s' | 'min'>('min');
   readonly panelOpen = signal<boolean>(false);
   readonly refreshSvg: SafeHtml;
   readonly columnsSvg: SafeHtml;
@@ -90,7 +93,21 @@ export class TableToolbarComponent implements OnInit {
   ngOnInit() {
     const config = this.refreshConfig();
     if (config?.defaultInterval !== undefined) {
-      this.selectedInterval.set(config.defaultInterval ?? null);
+      const def = config.defaultInterval ?? null;
+      this.selectedInterval.set(def);
+      if (def !== null && config.allowCustomInterval) {
+        const presets = config.intervals ?? [30, 60, 120, 300];
+        if (!presets.includes(def)) {
+          this.customMode.set(true);
+          if (def % 60 === 0) {
+            this.customUnit.set('min');
+            this.customValue.set(def / 60);
+          } else {
+            this.customUnit.set('s');
+            this.customValue.set(def);
+          }
+        }
+      }
     }
   }
 
@@ -115,7 +132,32 @@ export class TableToolbarComponent implements OnInit {
   }
 
   onIntervalChange(value: string) {
-    this.selectedInterval.set(value === '' ? null : Number(value));
+    if (value === 'custom') {
+      this.customMode.set(true);
+      const v = this.customValue();
+      this.selectedInterval.set(v > 0 ? this.toSeconds(v, this.customUnit()) : null);
+    } else {
+      this.customMode.set(false);
+      this.selectedInterval.set(value === '' ? null : Number(value));
+    }
+  }
+
+  onCustomValueChange(val: string) {
+    const n = parseInt(val, 10);
+    const valid = Number.isFinite(n) && n > 0;
+    this.customValue.set(valid ? n : 0);
+    this.selectedInterval.set(valid ? this.toSeconds(n, this.customUnit()) : null);
+  }
+
+  onCustomUnitChange(val: string) {
+    const unit = val === 'min' ? 'min' : 's';
+    this.customUnit.set(unit);
+    const v = this.customValue();
+    this.selectedInterval.set(v > 0 ? this.toSeconds(v, unit) : null);
+  }
+
+  private toSeconds(value: number, unit: 's' | 'min'): number {
+    return unit === 'min' ? value * 60 : value;
   }
 
   togglePanel() {

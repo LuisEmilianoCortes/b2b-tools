@@ -18,6 +18,9 @@ export const TABLE_I18N_EN: TableI18n = {
   columns: 'Columns',
   resetColumns: 'Reset',
   allColumnsVisible: 'All columns visible',
+  refreshCustom: 'Custom...',
+  refreshSeconds: 's',
+  refreshMinutes: 'min',
 };
 
 export const TABLE_I18N_ES: TableI18n = {
@@ -38,6 +41,9 @@ export const TABLE_I18N_ES: TableI18n = {
   columns: 'Columnas',
   resetColumns: 'Restablecer',
   allColumnsVisible: 'Todas las columnas visibles',
+  refreshCustom: 'Personalizado...',
+  refreshSeconds: 's',
+  refreshMinutes: 'min',
 };
 
 export const TABLE_I18N_BY_LANG: Record<TableLang, TableI18n> = {
