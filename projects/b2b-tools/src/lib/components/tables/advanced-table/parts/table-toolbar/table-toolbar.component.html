@@ -28,17 +28,52 @@
         <span class="dt-refresh-icon" [innerHTML]="refreshSvg"></span>
       </button>
 
-      <div class="dt-refresh-select-wrap">
-        <label class="dt-refresh-label">{{ i18n().autoRefresh }}</label>
-        <select class="dt-select" (change)="onIntervalChange($any($event.target).value)">
-          <option value="" [selected]="selectedInterval() === null">{{ i18n().refreshOff }}</option>
-          @for (interval of refreshIntervals(); track interval) {
-            <option [value]="interval" [selected]="selectedInterval() === interval">
-              {{ formatInterval(interval) }}
+      @if (refreshConfig()?.autoRefresh !== false) {
+        <div class="dt-refresh-select-wrap">
+          <label class="dt-refresh-label">{{ i18n().autoRefresh }}</label>
+          <select class="dt-select" (change)="onIntervalChange($any($event.target).value)">
+            <option value="" [selected]="!customMode() && selectedInterval() === null">
+              {{ i18n().refreshOff }}
             </option>
+            @for (interval of refreshIntervals(); track interval) {
+              <option
+                [value]="interval"
+                [selected]="!customMode() && selectedInterval() === interval"
+              >
+                {{ formatInterval(interval) }}
+              </option>
+            }
+            @if (refreshConfig()?.allowCustomInterval) {
+              <option value="custom" [selected]="customMode()">
+                {{ i18n().refreshCustom ?? 'Custom...' }}
+              </option>
+            }
+          </select>
+          @if (customMode()) {
+            <div class="dt-refresh-custom">
+              <input
+                type="number"
+                class="dt-refresh-custom-input"
+                min="1"
+                [value]="customValue()"
+                (input)="onCustomValueChange($any($event.target).value)"
+                [attr.aria-label]="i18n().refreshCustom ?? 'Custom interval'"
+              />
+              <select
+                class="dt-refresh-unit-select"
+                (change)="onCustomUnitChange($any($event.target).value)"
+              >
+                <option value="s" [selected]="customUnit() === 's'">
+                  {{ i18n().refreshSeconds ?? 's' }}
+                </option>
+                <option value="min" [selected]="customUnit() === 'min'">
+                  {{ i18n().refreshMinutes ?? 'min' }}
+                </option>
+              </select>
+            </div>
           }
-        </select>
-      </div>
+        </div>
+      }
     </div>
   }
 

@@ -58,8 +58,10 @@ export interface TableColumn<T = unknown> {
 
 export interface TableRefreshConfig {
   enabled: boolean;
+  autoRefresh?: boolean;
   intervals?: number[];
   defaultInterval?: number | null;
+  allowCustomInterval?: boolean;
 }
 
 export interface TableConfig {
