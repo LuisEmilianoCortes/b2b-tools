@@ -2,7 +2,7 @@
 
   <header class="demo-header">
     <h2 class="demo-title">Advanced Table</h2>
-    <p class="demo-desc">Explorador interactivo de comportamientos y eventos del componente.</p>
+    <p class="demo-desc">Interactive explorer of component behaviors and events.</p>
   </header>
 
   <div class="demo-body">
@@ -123,6 +123,36 @@
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
           </button>
           <span class="toggle-label">Refresh</span>
+        </div>
+
+        <div class="toggle-row" [class.toggle-row--disabled]="!ftRefresh()">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftAutoRefresh()"
+            [disabled]="!ftRefresh()"
+            (click)="ftAutoRefresh.update(v => !v)"
+            [attr.aria-pressed]="ftAutoRefresh()"
+            aria-label="Auto Refresh"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label toggle-label--sub">Auto Refresh</span>
+        </div>
+
+        <div class="toggle-row" [class.toggle-row--disabled]="!ftRefresh() || !ftAutoRefresh()">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftCustomInterval()"
+            [disabled]="!ftRefresh() || !ftAutoRefresh()"
+            (click)="ftCustomInterval.update(v => !v)"
+            [attr.aria-pressed]="ftCustomInterval()"
+            aria-label="Custom Interval"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label toggle-label--sub">Custom Interval</span>
         </div>
 
         <div class="toggle-row">
