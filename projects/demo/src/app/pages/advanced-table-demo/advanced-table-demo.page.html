@@ -196,6 +196,7 @@
           </button>
           <span class="toggle-label">Cache State</span>
         </div>
+
       </section>
 
     </aside>
@@ -203,7 +204,7 @@
     <!-- Table -->
     <div class="demo-table-wrap">
       <advanced-table
-        [columns]="columns"
+        [columns]="columns()"
         [data]="rows"
         [config]="config()"
         [lang]="'EN'"

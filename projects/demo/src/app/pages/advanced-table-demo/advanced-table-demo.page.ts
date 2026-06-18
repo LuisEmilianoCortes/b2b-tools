@@ -74,7 +74,7 @@ export class AdvancedTableDemoPage {
       : { enabled: false as const },
   }));
 
-  columns: TableColumn<UserRow>[] = [
+  readonly columns = computed<TableColumn<UserRow>[]>(() => [
     {
       key: 'avatarUrl',
       label: 'Avatar',
@@ -195,11 +195,12 @@ export class AdvancedTableDemoPage {
       size: 'SM',
       align: 'center',
       actions: [
-        { id: 'edit', label: 'Edit', icon: 'edit', tooltip: 'Edit', variant: 'default' },
-        { id: 'delete', label: 'Delete', icon: 'delete', tooltip: 'Delete', variant: 'danger' },
+        { id: 'edit',     label: 'Edit',     icon: 'edit',     tooltip: 'Edit',     variant: 'default' },
+        { id: 'activate', label: 'Activate', icon: 'activate', tooltip: 'Activate', variant: 'success' },
+        { id: 'delete',   label: 'Delete',   icon: 'delete',   tooltip: 'Delete',   variant: 'danger'  },
       ],
     },
-  ];
+  ]);
 
   rows: UserRow[] = [
     {
