@@ -1,14 +1,19 @@
-import { Component, computed, effect, Input, input, output, signal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, effect, Input, input, output, signal } from '@angular/core';
 import {
   CellDataType,
   PagerItem,
   RowId,
   TableActionEvent,
+  TableCacheConfig,
   TableColumn,
   TableConfig,
   TablePaginationChange,
   TableSortState,
 } from './types/table.types';
+
+interface TableCacheSchema {
+  columnVisibility: Record<string, boolean>;
+}
 import { TableModalImageComponent } from './parts/table-modal-image/table-modal-image.component';
 import { TableGridComponent } from './parts/table-grid/table-grid.component';
 import { TablePaginationComponent } from './parts/table-pagination/table-pagination.component';
@@ -26,6 +31,7 @@ import { TableI18n, TableLang } from './types/table-i18n.type';
   ],
   templateUrl: './advanced-table.component.html',
   styleUrl: './advanced-table.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedTable<T extends Record<string, any>> {
   // Inputs
@@ -75,6 +81,17 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly columnVisibilityOverrides = signal<Record<string, boolean>>({});
   private _lang = signal<TableLang>(TABLE_LANG_DEFAULT);
   private _override = signal<Partial<TableI18n>>({});
+  private readonly _cacheReady = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      const cache = this.config().cache;
+      if (cache?.enabled === true) {
+        this.loadCacheState(cache);
+      }
+      this._cacheReady.set(true);
+    });
+  }
 
   // Computed Data
   readonly selectedIds = computed<RowId[]>(() => Array.from(this.selectedIdsSet()));
@@ -285,6 +302,12 @@ export class AdvancedTable<T extends Record<string, any>> {
     if (config.pagination?.mode !== 'server') return;
     this.pageChange.emit({ page: this.page(), pageSize: this.pageSize() });
   });
+  columnVisibilityCacheEffect = effect(() => {
+    if (!this._cacheReady()) return;
+    const cache = this.config().cache;
+    if (cache?.enabled !== true) return;
+    this.saveCacheState(cache);
+  });
 
   // UI Actions
   onHeaderClickSort(col: TableColumn<T>) {
@@ -436,6 +459,37 @@ export class AdvancedTable<T extends Record<string, any>> {
   }
 
   // Private functions
+  private loadCacheState(cfg: TableCacheConfig & { enabled: true }): void {
+    try {
+      const raw = localStorage.getItem(cfg.key);
+      if (raw === null) return;
+      const parsed: unknown = JSON.parse(raw);
+      if (
+        typeof parsed === 'object' &&
+        parsed !== null &&
+        'columnVisibility' in parsed &&
+        typeof (parsed as TableCacheSchema).columnVisibility === 'object'
+      ) {
+        this.columnVisibilityOverrides.set(
+          (parsed as TableCacheSchema).columnVisibility,
+        );
+      }
+    } catch {
+      // Malformed JSON or blocked storage — use defaults
+    }
+  }
+
+  private saveCacheState(cfg: TableCacheConfig & { enabled: true }): void {
+    try {
+      const payload: TableCacheSchema = {
+        columnVisibility: this.columnVisibilityOverrides(),
+      };
+      localStorage.setItem(cfg.key, JSON.stringify(payload));
+    } catch {
+      // Storage quota exceeded or blocked — silently ignore
+    }
+  }
+
   private resetInfiniteIfNeeded() {
     const config = this.config();
     if ((config.scroll?.mode ?? 'none') !== 'infinite') return;

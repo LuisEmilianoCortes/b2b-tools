@@ -64,6 +64,10 @@ export interface TableRefreshConfig {
   allowCustomInterval?: boolean;
 }
 
+export type TableCacheConfig =
+  | { enabled: false; key?: string }
+  | { enabled: true; key: string };
+
 export interface TableConfig {
   globalSearch?: boolean;
   columnFilters?: boolean;
@@ -78,6 +82,7 @@ export interface TableConfig {
   globalSearchVisibleOnly?: boolean;
   refresh?: TableRefreshConfig;
   columnVisibility?: boolean;
+  cache?: TableCacheConfig;
 }
 
 export interface TableSortState {
