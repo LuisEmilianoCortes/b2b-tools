@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, DestroyRef, effect, ElementRef, inject, input, output, signal } from '@angular/core';
 import {
   TableColumn,
   TableConfig,
@@ -23,7 +23,9 @@ import { TableI18n } from '../../types/table-i18n.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableGridComponent<T extends Record<string, any>> {
-  private sanitizer = inject(DomSanitizer);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly destroyRef = inject(DestroyRef);
 
   // Inputs
   readonly config = input<TableConfig>({});
@@ -49,6 +51,33 @@ export class TableGridComponent<T extends Record<string, any>> {
 
   // Derived
   readonly showSelectionColumn = computed(() => !!this.config().selectable);
+  readonly isXOverflowing = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      const container = this.el.nativeElement.querySelector<HTMLElement>('.dt-xscroll');
+      if (!container) return;
+      const ro = new ResizeObserver(() => this.checkOverflow());
+      ro.observe(container);
+      this.destroyRef.onDestroy(() => ro.disconnect());
+      this.checkOverflow();
+    });
+  }
+
+  overflowCheckEffect = effect(() => {
+    this.minTableWidth();
+    requestAnimationFrame(() => this.checkOverflow());
+  });
+
+  private checkOverflow(): void {
+    const container = this.el.nativeElement.querySelector<HTMLElement>('.dt-xscroll');
+    if (!container) return;
+    this.isXOverflowing.set(container.scrollWidth > container.clientWidth);
+  }
+
+  getActionBtnClass(action: TableAction<T>): string {
+    return 'dt-action-btn dt-action--' + (action.variant ?? 'default');
+  }
 
   // Helpers
   private getRowIdKey(): string {

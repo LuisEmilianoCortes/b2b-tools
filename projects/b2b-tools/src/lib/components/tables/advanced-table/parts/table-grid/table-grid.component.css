@@ -9,9 +9,13 @@
 }
 
 .dt-xscroll {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto;
 }
+
+.dt-row       { --dt-row-bg: var(--white); }
+.dt-header    { --dt-row-bg: var(--gray-white); }
+.dt-filters   { --dt-row-bg: var(--xxs-light-gray); }
+.dt-data:hover { --dt-row-bg: var(--gray); }
 
 .dt-header {
   background: var(--gray-white);
@@ -58,17 +62,10 @@ input:focus {
   box-shadow: var(--focus-ring);
 }
 
-.dt-body {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-@media (max-heicg: 900px) {
-  .dt-body {
-    max-height: none !important;
-    overflow-y: visible !important;
-    overflow-x: auto !important;
-  }
+.dt-sticky-head {
+  position: sticky;
+  top: 0;
+  z-index: 4;
 }
 
 .dt-cell {
@@ -238,40 +235,17 @@ input:focus {
   border-color: var(--dark-gray);
 }
 
-/* Edit */
-.dt-action-btn.dt-action--edit {
-  color: var(--blue);
-}
-.dt-action-btn.dt-action--edit:hover:not(:disabled) {
-  color: var(--white);
-  background-color: var(--blue);
-}
+/* Variant: danger */
+.dt-action-btn.dt-action--danger { color: var(--red); }
+.dt-action-btn.dt-action--danger:hover:not(:disabled) { color: var(--white); background-color: var(--red); border-color: var(--red); }
 
-/* Open */
-.dt-action-btn.dt-action--open {
-  color: var(--blue-medium);
-}
-.dt-action-btn.dt-action--open:hover:not(:disabled) {
-  color: var(--blue-dark);
-}
+/* Variant: success */
+.dt-action-btn.dt-action--success { color: var(--green-success); }
+.dt-action-btn.dt-action--success:hover:not(:disabled) { color: var(--white); background-color: var(--green-success); border-color: var(--green-success); }
 
-/* Copy */
-.dt-action-btn.dt-action--copy {
-  color: var(--xs-dark-gray);
-}
-.dt-action-btn.dt-action--copy:hover:not(:disabled) {
-  color: var(--white);
-  background-color: var(--xs-dark-gray);
-}
-
-/* Delete */
-.dt-action-btn.dt-action--delete {
-  color: var(--red);
-}
-.dt-action-btn.dt-action--delete:hover:not(:disabled) {
-  color: var(--white);
-  background-color: var(--red);
-}
+/* Variant: warning */
+.dt-action-btn.dt-action--warning { color: var(--orange); }
+.dt-action-btn.dt-action--warning:hover:not(:disabled) { color: var(--white); background-color: var(--orange); border-color: var(--orange); }
 
 /* Disabled */
 .dt-action-btn:disabled {
@@ -283,4 +257,17 @@ input:focus {
 .dt-action-text {
   font-size: 24px;
   padding: 0 8px;
+}
+
+/* Sticky actions column (auto on X-overflow) */
+.dt-cell--sticky-right {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: var(--dt-row-bg, var(--white));
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.06);
+}
+
+.dt-cell--header.dt-cell--sticky-right {
+  z-index: 3;
 }
