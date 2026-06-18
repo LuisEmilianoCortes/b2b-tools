@@ -30,6 +30,7 @@ export class AdvancedTableDemoPage {
   readonly ftCustomInterval = signal(true);
   readonly ftPagination = signal(true);
   readonly ftColumnVisibility = signal(true);
+  readonly ftCache = signal(false);
 
   // Event signal values
   readonly evRefresh = signal('—');
@@ -62,6 +63,9 @@ export class AdvancedTableDemoPage {
       defaultInterval: this.ftCustomInterval() ? 120 : undefined,
     },
     columnVisibility: this.ftColumnVisibility(),
+    cache: this.ftCache()
+      ? { enabled: true as const, key: 'b2b-adv-table-demo' }
+      : { enabled: false as const },
   }));
 
   columns: TableColumn<UserRow>[] = [
