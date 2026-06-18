@@ -55,7 +55,7 @@ export class TableGridComponent<T extends Record<string, any>> {
 
   constructor() {
     afterNextRender(() => {
-      const container = this.el.nativeElement.querySelector<HTMLElement>('.dt-xscroll');
+      const container = this.el.nativeElement.querySelector('.dt-xscroll') as HTMLElement | null;
       if (!container) return;
       const ro = new ResizeObserver(() => this.checkOverflow());
       ro.observe(container);
@@ -70,7 +70,7 @@ export class TableGridComponent<T extends Record<string, any>> {
   });
 
   private checkOverflow(): void {
-    const container = this.el.nativeElement.querySelector<HTMLElement>('.dt-xscroll');
+    const container = this.el.nativeElement.querySelector('.dt-xscroll') as HTMLElement | null;
     if (!container) return;
     this.isXOverflowing.set(container.scrollWidth > container.clientWidth);
   }
