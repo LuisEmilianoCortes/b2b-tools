@@ -3,6 +3,7 @@ import {
   AdvancedTable,
   TableActionEvent,
   TableColumn,
+  TableColumnSearchEvent,
   TableConfig,
   TablePaginationChange,
 } from 'b2b-tools';
@@ -30,6 +31,7 @@ export class AdvancedTableDemoPage {
   // Feature toggles
   readonly ftSearch = signal(true);
   readonly ftFilters = signal(true);
+  readonly ftServerSearch = signal(false);
   readonly ftSelectable = signal(false);
   readonly ftRefresh = signal(true);
   readonly ftAutoRefresh = signal(true);
@@ -44,6 +46,8 @@ export class AdvancedTableDemoPage {
   readonly evAction = signal('—');
   readonly evSelection = signal('—');
   readonly evPage = signal('—');
+  readonly evGlobalSearch = signal('—');
+  readonly evColumnSearch = signal('—');
 
   // Pulse activations
   readonly activeRefresh = signal(false);
@@ -51,10 +55,13 @@ export class AdvancedTableDemoPage {
   readonly activeAction = signal(false);
   readonly activeSelection = signal(false);
   readonly activePage = signal(false);
+  readonly activeGlobalSearch = signal(false);
+  readonly activeColumnSearch = signal(false);
 
   readonly config = computed<TableConfig>(() => ({
     globalSearch: this.ftSearch(),
     columnFilters: this.ftFilters(),
+    serverSearch: this.ftServerSearch(),
     selectable: this.ftSelectable(),
     selectionMode: 'multiple',
     pagination: { enabled: this.ftPagination(), pageSize: 10, pageSizeOptions: [10, 25, 50] },
@@ -688,6 +695,23 @@ export class AdvancedTableDemoPage {
   onPageChange(ev: TablePaginationChange) {
     this.evPage.set(`Page ${ev.page} · ${ev.pageSize}/pg`);
     this.flash(this.activePage);
+  }
+
+  onGlobalSearch(query: string) {
+    this.evGlobalSearch.set(query || '(cleared)');
+    this.flash(this.activeGlobalSearch);
+  }
+
+  onColumnSearch(ev: TableColumnSearchEvent) {
+    this.evColumnSearch.set(ev.value ? `${ev.attribute}: "${ev.value}"` : `${ev.attribute}: (cleared)`);
+    this.flash(this.activeColumnSearch);
+  }
+
+  onSearchClear() {
+    this.evGlobalSearch.set('(cleared)');
+    this.evColumnSearch.set('(cleared)');
+    this.flash(this.activeGlobalSearch);
+    this.flash(this.activeColumnSearch);
   }
 
   private flash(sig: { set: (v: boolean) => void }) {

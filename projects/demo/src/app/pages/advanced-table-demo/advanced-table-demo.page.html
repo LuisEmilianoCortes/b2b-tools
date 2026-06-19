@@ -62,6 +62,26 @@
             </div>
           </div>
         </div>
+
+        <div class="signal-item" [class.signal--active]="activeGlobalSearch()">
+          <span class="signal-dot" [class.dot--on]="activeGlobalSearch()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Global Search</p>
+              <p class="signal-value">{{ evGlobalSearch() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-item" [class.signal--active]="activeColumnSearch()">
+          <span class="signal-dot" [class.dot--on]="activeColumnSearch()"></span>
+          <div class="signal-content">
+            <div>
+              <p class="signal-name">Column Search</p>
+              <p class="signal-value">{{ evColumnSearch() }}</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <div class="menu-divider"></div>
@@ -81,6 +101,20 @@
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
           </button>
           <span class="toggle-label">Global Search</span>
+        </div>
+
+        <div class="toggle-row">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftServerSearch()"
+            (click)="ftServerSearch.update(v => !v)"
+            [attr.aria-pressed]="ftServerSearch()"
+            aria-label="Server Search"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label toggle-label--sub">Server Search</span>
         </div>
 
         <div class="toggle-row">
@@ -213,6 +247,9 @@
         (actionClick)="onAction($event)"
         (selectionChange)="onSelection($event)"
         (pageChange)="onPageChange($event)"
+        (globalSearchChange)="onGlobalSearch($event)"
+        (columnSearchChange)="onColumnSearch($event)"
+        (searchClear)="onSearchClear()"
       />
     </div>
 
