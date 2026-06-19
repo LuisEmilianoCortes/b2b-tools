@@ -195,14 +195,20 @@ export class AdvancedTableDemoPage {
       size: 'SM',
       align: 'center',
       actions: [
-        { id: 'edit',     label: 'Edit',     icon: 'edit',     tooltip: 'Edit',     variant: 'default' },
-        { id: 'activate', label: 'Activate', icon: 'activate', tooltip: 'Activate', variant: 'success' },
-        { id: 'delete',   label: 'Delete',   icon: 'delete',   tooltip: 'Delete',   variant: 'danger'  },
+        { id: 'edit',   label: 'Edit',   icon: 'edit',   tooltip: 'Edit',   variant: 'default' },
+        {
+          id: 'toggle-status',
+          label: 'Toggle Status',
+          render: 'toggle',
+          tooltip: (row: UserRow) => row.status === 'ACTIVE' ? 'Deactivate' : 'Activate',
+          stateGetter: (row: UserRow) => row.status === 'ACTIVE',
+        },
+        { id: 'delete', label: 'Delete', icon: 'delete', tooltip: 'Delete', variant: 'danger'  },
       ],
     },
   ]);
 
-  rows: UserRow[] = [
+  readonly rows = signal<UserRow[]>([
     {
       id: 1,
       name: 'Luis Emiliano Cortés Camacho',
@@ -643,7 +649,7 @@ export class AdvancedTableDemoPage {
       status: 'ACTIVE',
       profileUrl: 'https://example.com/u/40',
     },
-  ];
+  ]);
 
   onRefresh() {
     const t = new Date();
@@ -659,6 +665,15 @@ export class AdvancedTableDemoPage {
   }
 
   onAction(ev: TableActionEvent<UserRow>) {
+    if (ev.actionId === 'toggle-status') {
+      this.rows.update(list =>
+        list.map(r =>
+          r.id === ev.row.id
+            ? { ...r, status: r.status === 'ACTIVE' ? ('INACTIVE' as const) : ('ACTIVE' as const) }
+            : r,
+        ),
+      );
+    }
     this.evAction.set(`${ev.actionId} · ${ev.row.name.split(' ')[0]}`);
     this.flash(this.activeAction);
   }
