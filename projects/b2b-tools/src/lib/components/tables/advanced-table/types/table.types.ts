@@ -96,18 +96,19 @@ export interface TablePaginationChange {
 }
 
 export type ActionVariant = 'default' | 'danger' | 'success' | 'warning';
-export type ActionRender = 'icon' | 'text';
+export type ActionRender = 'icon' | 'text' | 'toggle';
 
 export interface TableAction<T> {
   id: string;
   label: string;
   icon?: Icon | string;
-  tooltip?: string;
+  tooltip?: string | ((row: T) => string);
   variant?: ActionVariant;
   render?: ActionRender;
   visible?: (row: T) => boolean;
   disabled?: (row: T) => boolean;
   confirm?: { title?: string; message: string };
+  stateGetter?: (row: T) => boolean;
 }
 
 export interface TableActionEvent<T> {

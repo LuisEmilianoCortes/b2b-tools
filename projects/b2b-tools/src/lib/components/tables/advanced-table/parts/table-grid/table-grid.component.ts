@@ -79,6 +79,15 @@ export class TableGridComponent<T extends Record<string, any>> {
     return 'dt-action-btn dt-action--' + (action.variant ?? 'default');
   }
 
+  getActionTooltip(action: TableAction<T>, row: T): string {
+    const tip = action.tooltip ?? action.label;
+    return typeof tip === 'function' ? tip(row) : tip;
+  }
+
+  getActionToggleState(action: TableAction<T>, row: T): boolean {
+    return action.stateGetter ? action.stateGetter(row) : false;
+  }
+
   // Helpers
   private getRowIdKey(): string {
     return this.config().rowIdKey ?? 'id';
