@@ -68,9 +68,16 @@ export type TableCacheConfig =
   | { enabled: false; key?: string }
   | { enabled: true; key: string };
 
+export interface TableColumnSearchEvent {
+  attribute: string;
+  value: string;
+}
+
 export interface TableConfig {
   globalSearch?: boolean;
   columnFilters?: boolean;
+  serverSearch?: boolean;
+  searchDebounceMs?: number;
   selectable?: boolean;
   selectionMode?: 'single' | 'multiple';
   pagination?: { enabled: boolean; pageSize: number; pageSizeOptions?: number[]; mode?: 'client' | 'server' };

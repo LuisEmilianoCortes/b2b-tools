@@ -1,4 +1,7 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, computed, effect, Input, input, output, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import {
   CellDataType,
   PagerItem,
@@ -6,6 +9,7 @@ import {
   TableActionEvent,
   TableCacheConfig,
   TableColumn,
+  TableColumnSearchEvent,
   TableConfig,
   TablePaginationChange,
   TableSortState,
@@ -66,6 +70,13 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly actionClick = output<TableActionEvent<T>>();
   readonly pageChange = output<TablePaginationChange>();
   readonly refresh = output<void>();
+  readonly globalSearchChange = output<string>();
+  readonly columnSearchChange = output<TableColumnSearchEvent>();
+  readonly searchClear = output<void>();
+
+  // Server-side search subjects
+  private readonly _globalSearchSubject = new Subject<string>();
+  private readonly _columnSearchSubject = new Subject<TableColumnSearchEvent>();
 
   // Signals
   readonly globalQuery = signal<string>('');
@@ -91,6 +102,14 @@ export class AdvancedTable<T extends Record<string, any>> {
       }
       this._cacheReady.set(true);
     });
+
+    this._globalSearchSubject
+      .pipe(debounceTime(300), takeUntilDestroyed())
+      .subscribe((q) => this.globalSearchChange.emit(q));
+
+    this._columnSearchSubject
+      .pipe(debounceTime(300), takeUntilDestroyed())
+      .subscribe((e) => this.columnSearchChange.emit(e));
   }
 
   // Computed Data
@@ -138,6 +157,8 @@ export class AdvancedTable<T extends Record<string, any>> {
     const colsAll = this.columns() ?? [];
     const colsVisible = this.visibleColumns();
     const config = this.config();
+
+    if (config.serverSearch) return rows;
 
     const globalQuery = this.globalQuery().trim().toLowerCase();
     const columnQueries = this.columnQueries();
@@ -365,6 +386,9 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.globalQuery.set(query ?? '');
     this.page.set(1);
     this.resetInfiniteIfNeeded();
+    if (this.config().serverSearch) {
+      this._globalSearchSubject.next(query ?? '');
+    }
   }
 
   setColumnQuery(key: string, query: string) {
@@ -373,6 +397,9 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.columnQueries.set(next);
     this.page.set(1);
     this.resetInfiniteIfNeeded();
+    if (this.config().serverSearch) {
+      this._columnSearchSubject.next({ attribute: key, value: query ?? '' });
+    }
   }
 
   clearFilters() {
@@ -380,6 +407,9 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.columnQueries.set({});
     this.page.set(1);
     this.resetInfiniteIfNeeded();
+    if (this.config().serverSearch) {
+      this.searchClear.emit();
+    }
   }
 
   onRowClick(row: T) {
