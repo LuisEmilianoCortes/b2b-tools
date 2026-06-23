@@ -32,6 +32,7 @@ export class AdvancedTableDemoPage {
   readonly ftSearch = signal(true);
   readonly ftFilters = signal(true);
   readonly ftServerSearch = signal(false);
+  readonly ftServerSearchAge = signal(false);
   readonly ftSelectable = signal(false);
   readonly ftRefresh = signal(true);
   readonly ftAutoRefresh = signal(true);
@@ -64,7 +65,7 @@ export class AdvancedTableDemoPage {
     serverSearch: this.ftServerSearch(),
     selectable: this.ftSelectable(),
     selectionMode: 'multiple',
-    pagination: { enabled: this.ftPagination(), pageSize: 10, pageSizeOptions: [10, 25, 50] },
+    pagination: { enabled: this.ftPagination(), pageSize: 10, pageSizeOptions: [5, 10, 25, 0] },
     scroll: { mode: 'none' },
     emptyText: 'No results',
     rowIdKey: 'id',
@@ -98,6 +99,7 @@ export class AdvancedTableDemoPage {
       sortable: true,
       align: 'right',
       filterable: true,
+      searchMode: this.ftServerSearchAge() ? 'server' : 'local',
     },
     {
       key: 'salary',

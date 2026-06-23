@@ -110,11 +110,11 @@
             [class.toggle-btn--on]="ftServerSearch()"
             (click)="ftServerSearch.update(v => !v)"
             [attr.aria-pressed]="ftServerSearch()"
-            aria-label="Server Search"
+            aria-label="Server Search (global)"
           >
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
           </button>
-          <span class="toggle-label toggle-label--sub">Server Search</span>
+          <span class="toggle-label toggle-label--sub">Server Search (global)</span>
         </div>
 
         <div class="toggle-row">
@@ -129,6 +129,21 @@
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
           </button>
           <span class="toggle-label">Column Filters</span>
+        </div>
+
+        <div class="toggle-row" [class.toggle-row--disabled]="!ftFilters()">
+          <button
+            type="button"
+            class="toggle-btn"
+            [class.toggle-btn--on]="ftServerSearchAge()"
+            [disabled]="!ftFilters()"
+            (click)="ftServerSearchAge.update(v => !v)"
+            [attr.aria-pressed]="ftServerSearchAge()"
+            aria-label="Age: server search"
+          >
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </button>
+          <span class="toggle-label toggle-label--sub">Age: server search</span>
         </div>
 
         <div class="toggle-row">

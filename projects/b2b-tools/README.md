@@ -13,6 +13,9 @@
 - [Components](#components)
   - [AdvancedCard](#advancedcard)
   - [AdvancedTable](#advancedtable)
+    - [Server-side Pagination](#server-side-pagination)
+    - [Per-column Search Mode](#per-column-search-mode)
+    - [Show All Rows](#show-all-rows)
   - [SimpleTable](#simpletable)
 - [Theming](#theming)
   - [CSS Variables Reference](#css-variables-reference)
@@ -236,6 +239,9 @@ import { AdvancedTable } from 'b2b-tools';
 | `selectionChange` | `RowId[]` | Selected row IDs changed |
 | `actionClick` | `TableActionEvent<T>` | Action button clicked |
 | `pageChange` | `TablePaginationChange` | Fires on page or page-size change when `pagination.mode = 'server'` |
+| `globalSearchChange` | `string` | Debounced global search query. Only emitted when `config.serverSearch` is `true` |
+| `columnSearchChange` | `TableColumnSearchEvent` | Debounced column filter query. Emitted when a column's effective `searchMode` is `'server'` |
+| `searchClear` | `void` | Fires when all filters are cleared and at least one search is server-side |
 
 #### TableConfig
 
@@ -243,12 +249,14 @@ import { AdvancedTable } from 'b2b-tools';
 interface TableConfig {
   globalSearch?: boolean;          // Show global search bar (default: false)
   columnFilters?: boolean;         // Show per-column filter inputs (default: false)
+  serverSearch?: boolean;          // Route global search to backend via globalSearchChange (default: false)
+  searchDebounceMs?: number;       // Debounce delay for server-side search events in ms (default: 300)
   selectable?: boolean;            // Enable row selection (default: false)
   selectionMode?: 'single' | 'multiple';  // Default: 'multiple'
   pagination?: {
     enabled: boolean;
     pageSize: number;
-    pageSizeOptions?: number[];    // e.g. [10, 25, 50]
+    pageSizeOptions?: number[];    // e.g. [10, 25, 50]. Use 0 to add a "Show All" option
     mode?: 'client' | 'server';   // default 'client'
   };
   scroll?: {
@@ -260,7 +268,10 @@ interface TableConfig {
   emptyText?: string;              // Override empty state message
   rowIdKey?: string;               // Property name used as row ID (default: 'id')
   rowIdGetter?: (row: T) => string | number;  // Custom row ID extractor
-  globalSearchVisibleOnly?: boolean; // Search only visible columns
+  globalSearchVisibleOnly?: boolean; // Search only visible columns (default: true)
+  columnVisibility?: boolean;      // Show column visibility toggle in toolbar
+  cache?: TableCacheConfig;        // Persist column visibility to localStorage
+  refresh?: TableRefreshConfig;    // Manual/auto refresh button
 }
 ```
 
@@ -276,6 +287,7 @@ interface TableColumn<T = unknown> {
   sortable?: boolean;
   filterable?: boolean;
   hidden?: boolean;
+  searchMode?: 'local' | 'server'; // How this column's filter resolves (default: 'local')
   wrap?: boolean;       // Allow cell text to wrap
   valueGetter?: (row: T) => unknown;           // Derive value from row
   formatter?: (value: unknown, row: T) => string; // Format display string
@@ -334,24 +346,33 @@ interface TableColumn<T = unknown> {
 #### Row Actions
 
 ```ts
+type ActionVariant = 'default' | 'danger' | 'success' | 'warning';
+type ActionRender  = 'icon' | 'text' | 'toggle';
+
 interface TableAction<T> {
   id: string;
   label: string;
-  icon?: 'edit' | 'delete' | 'view' | 'copy' | string;
-  tooltip?: string;
+  icon?: 'edit' | 'delete' | 'view' | 'copy' | 'activate' | string;
+  tooltip?: string | ((row: T) => string);  // Static or per-row tooltip
   variant?: ActionVariant;
-  render?: ActionRender;
-  visible?: (row: T) => boolean;    // Conditionally show action
-  disabled?: (row: T) => boolean;   // Conditionally disable action
+  render?: ActionRender;           // 'icon' (default) | 'text' | 'toggle'
+  stateGetter?: (row: T) => boolean; // Active state for render: 'toggle'
+  visible?: (row: T) => boolean;   // Conditionally show action
+  disabled?: (row: T) => boolean;  // Conditionally disable action
   confirm?: {
     title?: string;
-    message: string;                // Shows confirmation dialog before firing
+    message: string;               // Shows confirmation dialog before firing
   };
 }
 
 interface TableActionEvent<T> {
   actionId: string;
   row: T;
+}
+
+interface TableColumnSearchEvent {
+  attribute: string;  // Column key
+  value: string;      // Current query value
 }
 ```
 
@@ -461,6 +482,70 @@ export class OrdersPageComponent {
     });
   }
 }
+```
+
+#### Per-column Search Mode
+
+By default every filterable column filters the data locally in the browser. Set `searchMode: 'server'` on any column to route that column's filter through the backend instead — the table skips local filtering for that column and emits a debounced `columnSearchChange` event.
+
+```ts
+columns: TableColumn<Order>[] = [
+  { key: 'id',       label: '#',       type: 'integer', size: 'XS' },
+  // This column filters locally — no API call
+  { key: 'customer', label: 'Customer', type: 'string', size: 'AUTO',
+    filterable: true, searchMode: 'local' },  // 'local' is the default; explicit here for clarity
+  // This column emits columnSearchChange — the parent component calls the API
+  { key: 'status',   label: 'Status',  type: 'status',  size: 'SM',
+    filterable: true, searchMode: 'server' },
+];
+```
+
+```ts
+// Parent component
+onColumnSearch(event: TableColumnSearchEvent) {
+  // { attribute: 'status', value: 'ACTIVE' }
+  this.api.getOrders({ [event.attribute]: event.value }).subscribe(res => {
+    this.rows = res.data;
+  });
+}
+```
+
+```html
+<advanced-table
+  [columns]="columns"
+  [data]="rows"
+  [config]="config"
+  (columnSearchChange)="onColumnSearch($event)"
+  (searchClear)="reload()"
+/>
+```
+
+> **Note:** `config.serverSearch: true` makes the **global search bar** server-side. Per-column `searchMode` is independent and overrides the default per column.
+
+Mixed mode is fully supported: some columns can be `'local'`, others `'server'`, and the global search can be either — all in the same table instance.
+
+---
+
+#### Show All Rows
+
+Add `0` to `pageSizeOptions` to render a "Show All" / "Todos" option in the rows-per-page selector. When selected the table renders every row on a single page with no slicing.
+
+```ts
+config: TableConfig = {
+  pagination: {
+    enabled: true,
+    pageSize: 10,
+    pageSizeOptions: [10, 25, 50, 0],  // 0 → "All" label from i18n.showAll
+  },
+};
+```
+
+The "All" label is driven by `i18n.showAll` (`"All"` in EN, `"Todos"` in ES) and can be overridden:
+
+```ts
+customStrings: Partial<TableI18n> = {
+  showAll: 'Ver todo',
+};
 ```
 
 ---
@@ -747,6 +832,16 @@ interface TableI18n {
   filter: string;
   empty: string;
   seeImage: string;
+  refresh: string;
+  autoRefresh: string;
+  refreshOff: string;
+  columns: string;
+  resetColumns: string;
+  allColumnsVisible: string;
+  refreshCustom?: string;
+  refreshSeconds?: string;
+  refreshMinutes?: string;
+  showAll: string;   // Label for the "show all rows" option in the page-size selector (default: "All")
 }
 ```
 
@@ -777,13 +872,14 @@ import {
   TableConfig,
   TableAction,
   TableActionEvent,
+  TableColumnSearchEvent,
+  TablePaginationChange,
   TableI18n,
   TableLang,
   CellDataType,
   CellSize,
   TextAlign,
   RowId,
-  TablePaginationChange,
 
   // Simple Table
   SimpleHaders,
