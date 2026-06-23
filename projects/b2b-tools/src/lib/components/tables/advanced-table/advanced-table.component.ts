@@ -158,8 +158,6 @@ export class AdvancedTable<T extends Record<string, any>> {
     const colsVisible = this.visibleColumns();
     const config = this.config();
 
-    if (config.serverSearch) return rows;
-
     const globalQuery = this.globalQuery().trim().toLowerCase();
     const columnQueries = this.columnQueries();
 
@@ -167,7 +165,7 @@ export class AdvancedTable<T extends Record<string, any>> {
       (config.globalSearchVisibleOnly ?? true) ? colsVisible : colsAll.filter((c) => !c.hidden);
 
     return rows.filter((row) => {
-      // column filters (AND)
+      // column filters (AND) — skip columns handled server-side
       for (const [key, q] of Object.entries(columnQueries)) {
         const query = (q ?? '').trim().toLowerCase();
         if (!query) continue;
@@ -175,14 +173,17 @@ export class AdvancedTable<T extends Record<string, any>> {
         const col = colsAll.find((c) => c.key === key);
         if (!col) continue;
 
+        const effectiveMode = col.searchMode ?? (config.serverSearch ? 'server' : 'local');
+        if (effectiveMode === 'server') continue;
+
         const value = this.getCellValue(row, col);
         const text = this.valueToSearchableText(value, col.type, row).toLowerCase();
 
         if (!text.includes(query)) return false;
       }
 
-      // global search (OR across columns)
-      if (config.globalSearch && globalQuery) {
+      // global search (OR across columns) — only when client-side
+      if (config.globalSearch && globalQuery && !config.serverSearch) {
         let any = false;
         for (const col of colsForGlobal) {
           const value = this.getCellValue(row, col);
@@ -231,6 +232,7 @@ export class AdvancedTable<T extends Record<string, any>> {
     if (config.pagination?.enabled) {
       if (config.pagination.mode === 'server') return cappedRows;
       const size = this.pageSize();
+      if (size === 0) return cappedRows; // show all
       const page = this.page();
       const start = (page - 1) * size;
       return cappedRows.slice(start, start + size);
@@ -281,7 +283,9 @@ export class AdvancedTable<T extends Record<string, any>> {
   readonly pageCount = computed(() => {
     const config = this.config();
     if (!config.pagination?.enabled) return 1;
-    return Math.max(1, Math.ceil(this.totalCount() / this.pageSize()));
+    const size = this.pageSize();
+    if (size === 0) return 1;
+    return Math.max(1, Math.ceil(this.totalCount() / size));
   });
   readonly isAllSelectedOnPage = computed(() => {
     if (!this.showSelectionColumn()) return false;
@@ -360,7 +364,7 @@ export class AdvancedTable<T extends Record<string, any>> {
   }
 
   onPageSizeChange(size: number) {
-    if (!Number.isFinite(size) || size <= 0) return;
+    if (!Number.isFinite(size) || size < 0) return;
     this.pageSize.set(size);
     this.page.set(1);
   }
@@ -397,7 +401,10 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.columnQueries.set(next);
     this.page.set(1);
     this.resetInfiniteIfNeeded();
-    if (this.config().serverSearch) {
+
+    const col = this.columns().find((c) => c.key === key);
+    const effectiveMode = col?.searchMode ?? (this.config().serverSearch ? 'server' : 'local');
+    if (effectiveMode === 'server') {
       this._columnSearchSubject.next({ attribute: key, value: query ?? '' });
     }
   }
@@ -407,7 +414,8 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.columnQueries.set({});
     this.page.set(1);
     this.resetInfiniteIfNeeded();
-    if (this.config().serverSearch) {
+    const hasServerColumns = this.columns().some((c) => c.searchMode === 'server');
+    if (this.config().serverSearch || hasServerColumns) {
       this.searchClear.emit();
     }
   }

@@ -30,11 +30,13 @@ export class TablePaginationComponent {
 
   readonly startItem = computed(() => {
     if (this.totalCount() <= 0) return 0;
+    if (this.pageSize() === 0) return 1;
     return (this.page() - 1) * this.pageSize() + 1;
   });
 
   readonly endItem = computed(() => {
     if (this.totalCount() <= 0) return 0;
+    if (this.pageSize() === 0) return this.totalCount();
     return Math.min(this.page() * this.pageSize(), this.totalCount());
   });
 
@@ -52,7 +54,7 @@ export class TablePaginationComponent {
   }
 
   onPageSizeSelect(size: number) {
-    if (!Number.isFinite(size) || size <= 0) return;
+    if (!Number.isFinite(size) || size < 0) return;
     this.pageSizeChange.emit(size);
   }
 }

@@ -21,6 +21,7 @@ export const TABLE_I18N_EN: TableI18n = {
   refreshCustom: 'Custom...',
   refreshSeconds: 's',
   refreshMinutes: 'min',
+  showAll: 'All',
 };
 
 export const TABLE_I18N_ES: TableI18n = {
@@ -44,6 +45,7 @@ export const TABLE_I18N_ES: TableI18n = {
   refreshCustom: 'Personalizado...',
   refreshSeconds: 's',
   refreshMinutes: 'min',
+  showAll: 'Todos',
 };
 
 export const TABLE_I18N_BY_LANG: Record<TableLang, TableI18n> = {

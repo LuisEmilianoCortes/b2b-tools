@@ -29,6 +29,9 @@ export interface TableColumn<T = unknown> {
   sortable?: boolean;
   filterable?: boolean;
   hidden?: boolean;
+  /** Controls how the column filter resolves. Defaults to 'local'. When 'server', typed queries
+   *  are debounced and emitted via columnSearchChange without applying a local filter pass. */
+  searchMode?: 'local' | 'server';
 
   wrap?: boolean;
 

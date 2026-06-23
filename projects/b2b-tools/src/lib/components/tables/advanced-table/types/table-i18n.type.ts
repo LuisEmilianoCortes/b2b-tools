@@ -21,4 +21,5 @@ export interface TableI18n {
   refreshCustom?: string;
   refreshSeconds?: string;
   refreshMinutes?: string;
+  showAll: string;
 }

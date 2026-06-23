@@ -12,7 +12,7 @@
     <span>{{ i18n().rowsPerPage }}</span>
     <select [value]="pageSize()" (change)="onPageSizeSelect(+$any($event.target).value)">
       @for (size of pageSizeOptions(); track size) {
-        <option [value]="size">{{ size }}</option>
+        <option [value]="size">{{ size === 0 ? i18n().showAll : size }}</option>
       }
     </select>
   </div>
