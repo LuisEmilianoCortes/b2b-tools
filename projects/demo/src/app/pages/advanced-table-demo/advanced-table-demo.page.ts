@@ -204,15 +204,15 @@ export class AdvancedTableDemoPage {
       size: 'SM',
       align: 'center',
       actions: [
-        { id: 'edit',   label: 'Edit',   icon: 'edit',   tooltip: 'Edit',   variant: 'default' },
+        { id: 'edit', label: 'Edit', icon: 'edit', tooltip: 'Edit', variant: 'default' },
         {
           id: 'toggle-status',
           label: 'Toggle Status',
           render: 'toggle',
-          tooltip: (row: UserRow) => row.status === 'ACTIVE' ? 'Deactivate' : 'Activate',
+          tooltip: (row: UserRow) => (row.status === 'ACTIVE' ? 'Deactivate' : 'Activate'),
           stateGetter: (row: UserRow) => row.status === 'ACTIVE',
         },
-        { id: 'delete', label: 'Delete', icon: 'delete', tooltip: 'Delete', variant: 'danger'  },
+        { id: 'delete', label: 'Delete', icon: 'delete', tooltip: 'Delete', variant: 'danger' },
       ],
     },
   ]);
@@ -675,8 +675,8 @@ export class AdvancedTableDemoPage {
 
   onAction(ev: TableActionEvent<UserRow>) {
     if (ev.actionId === 'toggle-status') {
-      this.rows.update(list =>
-        list.map(r =>
+      this.rows.update((list) =>
+        list.map((r) =>
           r.id === ev.row.id
             ? { ...r, status: r.status === 'ACTIVE' ? ('INACTIVE' as const) : ('ACTIVE' as const) }
             : r,
@@ -705,7 +705,9 @@ export class AdvancedTableDemoPage {
   }
 
   onColumnSearch(ev: TableColumnSearchEvent) {
-    this.evColumnSearch.set(ev.value ? `${ev.attribute}: "${ev.value}"` : `${ev.attribute}: (cleared)`);
+    this.evColumnSearch.set(
+      ev.value ? `${ev.attribute}: "${ev.value}"` : `${ev.attribute}: (cleared)`,
+    );
     this.flash(this.activeColumnSearch);
   }
 
