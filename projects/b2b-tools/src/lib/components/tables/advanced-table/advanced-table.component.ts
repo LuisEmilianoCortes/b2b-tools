@@ -1,7 +1,7 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, computed, effect, Input, input, output, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Subject, timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import {
   CellDataType,
   PagerItem,
@@ -104,11 +104,17 @@ export class AdvancedTable<T extends Record<string, any>> {
     });
 
     this._globalSearchSubject
-      .pipe(debounceTime(300), takeUntilDestroyed())
+      .pipe(
+        switchMap((q) => timer(this.config().searchDebounceMs ?? 300).pipe(map(() => q))),
+        takeUntilDestroyed(),
+      )
       .subscribe((q) => this.globalSearchChange.emit(q));
 
     this._columnSearchSubject
-      .pipe(debounceTime(300), takeUntilDestroyed())
+      .pipe(
+        switchMap((e) => timer(this.config().searchDebounceMs ?? 300).pipe(map(() => e))),
+        takeUntilDestroyed(),
+      )
       .subscribe((e) => this.columnSearchChange.emit(e));
   }
 
