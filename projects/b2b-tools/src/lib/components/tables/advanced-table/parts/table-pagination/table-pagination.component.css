@@ -20,12 +20,12 @@
 }
 
 .dt-rows select {
-  padding: 6px 28px 6px 8px; /* consistente con inputs */
+  padding: 6px 28px 6px 8px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--light-gray);
   background: var(--white);
-  font-size: 13px;
   color: var(--black);
+  font-size: 13px;
 }
 
 /* ===== Pager ===== */
@@ -43,6 +43,7 @@
   border-radius: var(--radius-sm);
   border: 1px solid var(--xs-light-gray);
   background: var(--white);
+  color: var(--black);
   cursor: pointer;
   font-size: 13px;
 
@@ -50,7 +51,6 @@
   align-items: center;
   justify-content: center;
 
-  /* evita desplazamientos raros del texto */
   line-height: 1;
   padding: 0;
 }

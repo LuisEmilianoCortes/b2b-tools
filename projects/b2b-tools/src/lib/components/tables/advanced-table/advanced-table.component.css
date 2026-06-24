@@ -79,3 +79,30 @@
   }
 }
 
+/* ── Dark theme ────────────────────────────────────────────────────────── */
+:host([data-theme="dark"]) {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --white:            #181a1b;
+  --gray-white:       #1e2022;
+  --xxs-light-gray:   #1f2223;
+  --gray:             #1c1e1f;
+  --soft-white:       #222426;
+
+  /* Borders */
+  --xs-light-gray:    #393e40;
+  --light-gray:       #404548;
+  --border:           1px solid #393e40;
+
+  /* Text */
+  --black:            #d9d6d1;
+  --black-light:      #c0bcb6;
+  --xs-dark-gray:     #afa89e;
+  --dark-gray:        #6b6760;
+
+  /* Accent */
+  --blue:             var(--b2b-primary, #3e93fa);
+  --focus-ring:       0 0 0 3px rgba(62, 147, 250, 0.25);
+}
+
