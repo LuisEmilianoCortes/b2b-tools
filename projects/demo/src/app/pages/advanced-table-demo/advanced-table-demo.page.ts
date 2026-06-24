@@ -28,6 +28,8 @@ type UserRow = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedTableDemoPage {
+  readonly darkTheme = signal<'dark' | 'light'>('dark');
+
   // Feature toggles
   readonly ftSearch = signal(true);
   readonly ftFilters = signal(true);
@@ -216,6 +218,47 @@ export class AdvancedTableDemoPage {
       ],
     },
   ]);
+
+  readonly darkColumns: TableColumn<UserRow>[] = [
+    { key: 'name', label: 'Name', type: 'string', size: 'AUTO', sortable: true, filterable: true },
+    { key: 'age', label: 'Age', type: 'integer', size: 'SM', sortable: true, align: 'right', filterable: true },
+    { key: 'salary', label: 'Salary', type: 'currency', size: 'MD', sortable: true, align: 'right' },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'status',
+      size: 'SM',
+      filterable: true,
+      options: { status: { classMap: { ACTIVE: 'success', INACTIVE: 'error' } } },
+    },
+    {
+      key: 'createdAt',
+      label: 'Created',
+      type: 'date',
+      size: 'MD',
+      sortable: true,
+      options: { dateFormat: 'medium' },
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      type: 'actions',
+      size: 'SM',
+      align: 'center',
+      actions: [
+        { id: 'edit', label: 'Edit', icon: 'edit', tooltip: 'Edit', variant: 'default' },
+        { id: 'delete', label: 'Delete', icon: 'delete', tooltip: 'Delete', variant: 'danger' },
+      ],
+    },
+  ];
+
+  readonly darkConfig: TableConfig = {
+    globalSearch: true,
+    columnFilters: true,
+    pagination: { enabled: true, pageSize: 5, pageSizeOptions: [5, 10, 25] },
+    emptyText: 'No results',
+    rowIdKey: 'id',
+  };
 
   readonly rows = signal<UserRow[]>([
     {

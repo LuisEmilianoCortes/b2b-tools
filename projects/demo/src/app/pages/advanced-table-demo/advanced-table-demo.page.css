@@ -203,6 +203,107 @@
   min-width: 0;
 }
 
+/* ── Dark section ── */
+.demo-dark-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: #141617;
+  border-radius: 14px;
+  border: 1px solid #2e3234;
+  transition: background 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.demo-dark-section--light {
+  background: #ffffff;
+  border-color: #e8e8e8;
+}
+
+.demo-dark-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.demo-dark-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #d9d6d1;
+  letter-spacing: -0.2px;
+  transition: color 0.2s ease-out;
+}
+
+.demo-dark-section--light .demo-dark-title {
+  color: #171717;
+}
+
+.demo-dark-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #afa89e;
+  transition: color 0.2s ease-out;
+}
+
+.demo-dark-section--light .demo-dark-desc {
+  color: #6b6b6b;
+}
+
+.demo-dark-desc code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  background: rgba(62, 147, 250, 0.12);
+  color: #3e93fa;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.demo-dark-section--light .demo-dark-desc code {
+  background: rgba(51, 96, 250, 0.08);
+  color: #3360fa;
+}
+
+.demo-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid #3a3e40;
+  background: #1f2223;
+  color: #d9d6d1;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.demo-theme-toggle:hover {
+  background: #2a2e30;
+  border-color: #4a4e50;
+}
+
+.demo-theme-toggle--dark {
+  border-color: #2e3234;
+  background: #1f2223;
+  color: #d9d6d1;
+}
+
+.demo-dark-section--light .demo-theme-toggle {
+  border-color: #e0e0e0;
+  background: #f5f5f5;
+  color: #2a2a2a;
+}
+
+.demo-dark-section--light .demo-theme-toggle:hover {
+  background: #ebebeb;
+  border-color: #ccc;
+}
+
 /* ── Responsive ── */
 @media (max-width: 860px) {
   .behavior-menu {
