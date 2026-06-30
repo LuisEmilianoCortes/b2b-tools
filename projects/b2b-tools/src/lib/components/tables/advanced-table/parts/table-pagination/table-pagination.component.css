@@ -65,15 +65,15 @@
 
 /* Active */
 .dt-pager-chip--active {
-  background: rgb(51, 97, 250);
-  color: var(--white);
+  background: var(--blue);
+  color: #fff;
   border-color: var(--blue);
   font-weight: 600;
 }
 
 .dt-pager-chip--active:hover:not(:disabled) {
-  background: rgb(51, 97, 250);
-  color: var(--white);
+  background: var(--blue);
+  color: #fff;
   border-color: var(--blue);
 }
 
