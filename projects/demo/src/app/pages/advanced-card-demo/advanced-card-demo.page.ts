@@ -12,6 +12,29 @@ export class AdvancedCardDemoPage {
 
   cardConfiguration = signal<AdvancedCardConfig[] | null>(null);
 
+  longValuesCardConfig: AdvancedCardConfig = {
+    id: 'ENT-002',
+    title: 'Long Values — Highlights & Summary',
+    subtitle: 'Values wrap down instead of being cut off',
+    expandMode: 'inline',
+    highlights: [
+      { label: 'Account Balance', value: '$12,450,980.75', hint: 'MXN' },
+      { label: 'Reference', value: 'TRX-2026-00984512-ABCDEF' },
+      { label: 'Beneficiary', value: 'Importadora-y-Exportadora-Internacional-SA-de-CV' },
+    ],
+    summaryBlocks: [
+      {
+        title: 'Detail',
+        rows: [
+          { label: 'Full Legal Name', value: 'Importadora y Exportadora Internacional del Norte SA de CV' },
+          { label: 'Folio / Reference', value: 'TRX-2026-00984512-ABCDEF-GHIJKL' },
+          { label: 'Description', value: 'Pago de servicios correspondientes al ejercicio fiscal 2026 período enero-marzo' },
+          { label: 'Amount', value: '$12,450,980.75', kind: 'number' },
+        ],
+      },
+    ],
+  };
+
   cardConfig: AdvancedCardConfig = {
     id: 'ENT-001',
     title: 'Generic Entity',

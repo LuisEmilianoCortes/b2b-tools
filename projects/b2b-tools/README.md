@@ -47,6 +47,8 @@ npm install b2b-tools
 
 A configurable card with compact and expanded modes. Expansion can render inline, in a drawer, or in a modal. Supports highlight metrics, summary blocks, tabs, header actions, and custom template projection.
 
+> **v1.6.1** — Highlight values/labels and summary block label/value cells now wrap to multiple lines instead of being truncated when content is wider than the available column.
+
 #### Import
 
 ```ts
@@ -117,7 +119,7 @@ interface AdvancedBadge {
 
 interface AdvancedHighlight {
   label: string;
-  value: string;
+  value: string;    // Long values wrap to a new line — the highlight cell grows in height
   hint?: string;
 }
 
@@ -144,8 +146,8 @@ interface AdvancedSummaryBlock {
 }
 
 interface AdvancedSummaryRow {
-  label: string;
-  value: string;
+  label: string;   // Wraps to multiple lines when wider than the 40% label column
+  value: string;   // Wraps to multiple lines when wider than the 60% value column
   kind?: AdvancedRowKind;
   tone?: AdvancedTone;
   icon?: string;

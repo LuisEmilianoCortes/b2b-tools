@@ -1,97 +1,121 @@
-<section class="tables-section" style="padding: 10px 30px">
-  <h2>Cards</h2>
-  <article>
-    <h3>Advanced Card</h3>
-    <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap">
-      <button class="btn btn--secondary" type="button" (click)="setMode('inline')">Inline</button>
-      <button class="btn btn--secondary" type="button" (click)="setMode('drawer')">Drawer</button>
-      <button class="btn btn--secondary" type="button" (click)="setMode('modal')">Modal</button>
+<div class="demo-page">
+  <header class="demo-header">
+    <h2 class="demo-title">Advanced Card</h2>
+    <p class="demo-desc">Expandable entity card with tabs, summaries and templated content.</p>
+  </header>
+
+  <div class="demo-body">
+    <section class="demo-example">
+      <h3 class="demo-example-title">Highlights with long values</h3>
+      <div class="cards-container">
+        <advanced-card [config]="longValuesCardConfig" />
+      </div>
+    </section>
+
+    <div class="mode-toolbar">
+      <button
+        class="mode-btn"
+        type="button"
+        [class.mode-btn--active]="mode === 'inline'"
+        (click)="setMode('inline')"
+      >
+        Inline
+      </button>
+      <button
+        class="mode-btn"
+        type="button"
+        [class.mode-btn--active]="mode === 'drawer'"
+        (click)="setMode('drawer')"
+      >
+        Drawer
+      </button>
+      <button
+        class="mode-btn"
+        type="button"
+        [class.mode-btn--active]="mode === 'modal'"
+        (click)="setMode('modal')"
+      >
+        Modal
+      </button>
     </div>
-    <advanced-card
-      [config]="cardConfig"
-      (action)="onHeaderAction($event)"
-      (tabChanged)="onTabChanged($event)"
-      (tabAction)="onTabAction($event)"
-    >
-      <ng-template advancedCardTemplate="payments" let-cardId="cardId" let-tabId="tabId">
-        <div style="display: grid; gap: 12px">
-          <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
-            <div style="font-weight: 800; margin-bottom: 8px">Payments Table</div>
-            <table style="width: 100%; border-collapse: collapse">
+
+    <div class="cards-container">
+      <advanced-card
+        [config]="cardConfig"
+        (action)="onHeaderAction($event)"
+        (tabChanged)="onTabChanged($event)"
+        (tabAction)="onTabAction($event)"
+      >
+        <ng-template advancedCardTemplate="payments" let-cardId="cardId" let-tabId="tabId">
+          <div class="tab-grid">
+            <div class="tab-card">
+              <div class="tab-card-title">Payments Table</div>
+              <table class="tab-table">
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>P-001</td>
+                    <td>$12,000</td>
+                    <td>2026-02-15</td>
+                  </tr>
+                  <tr>
+                    <td>P-002</td>
+                    <td>$8,500</td>
+                    <td>2026-02-16</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="tab-card-meta">cardId={{ cardId }} · tabId={{ tabId }}</div>
+            </div>
+            <div class="tab-card">
+              <div class="tab-card-title">Secondary Table (Example)</div>
+              <div class="tab-card-placeholder">Placeholder content</div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template advancedCardTemplate="products">
+          <div class="tab-card">
+            <div class="tab-card-title">Products Table</div>
+            <table class="tab-table">
               <thead>
                 <tr>
-                  <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
-                    Reference
-                  </th>
-                  <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
-                    Amount
-                  </th>
-                  <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
-                    Date
-                  </th>
+                  <th>SKU</th>
+                  <th>Name</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">P-001</td>
-                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">$12,000</td>
-                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">2026-02-15</td>
+                  <td>SKU-01</td>
+                  <td>Product A</td>
+                  <td>ACTIVE</td>
                 </tr>
                 <tr>
-                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">P-002</td>
-                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">$8,500</td>
-                  <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">2026-02-16</td>
+                  <td>SKU-02</td>
+                  <td>Product B</td>
+                  <td>INACTIVE</td>
                 </tr>
               </tbody>
             </table>
-            <div style="font-size: 12px; color: #6b7280; margin-top: 8px">
-              cardId={{ cardId }} · tabId={{ tabId }}
-            </div>
           </div>
-          <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
-            <div style="font-weight: 800; margin-bottom: 8px">Secondary Table (Example)</div>
-            <div style="color: #6b7280">Placeholder content</div>
+        </ng-template>
+        <ng-template advancedCardTemplate="activity">
+          <div class="tab-card">
+            <div class="tab-card-title">Activity Log</div>
+            <ul class="tab-activity-list">
+              <li>2026-02-17 · Configuration updated</li>
+              <li>2026-02-16 · Report exported</li>
+              <li>2026-02-15 · Record created</li>
+            </ul>
           </div>
-        </div>
-      </ng-template>
-      <ng-template advancedCardTemplate="products">
-        <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
-          <div style="font-weight: 800; margin-bottom: 8px">Products Table</div>
-          <table style="width: 100%; border-collapse: collapse">
-            <thead>
-              <tr>
-                <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">SKU</th>
-                <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">Name</th>
-                <th style="text-align: left; border-bottom: 1px solid #eee; padding: 8px">
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">SKU-01</td>
-                <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">Product A</td>
-                <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">ACTIVE</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">SKU-02</td>
-                <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">Product B</td>
-                <td style="padding: 8px; border-bottom: 1px solid #f3f4f6">INACTIVE</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-template>
-      <ng-template advancedCardTemplate="activity">
-        <div style="border: 1px solid #eee; border-radius: 12px; padding: 12px">
-          <div style="font-weight: 800; margin-bottom: 8px">Activity Log</div>
-          <ul style="margin: 0; padding-left: 18px; color: #374151">
-            <li>2026-02-17 · Configuration updated</li>
-            <li>2026-02-16 · Report exported</li>
-            <li>2026-02-15 · Record created</li>
-          </ul>
-        </div>
-      </ng-template>
-    </advanced-card>
-  </article>
-</section>
+        </ng-template>
+      </advanced-card>
+    </div>
+  </div>
+</div>
