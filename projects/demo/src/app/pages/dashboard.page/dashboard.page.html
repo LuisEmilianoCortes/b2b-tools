@@ -1,11 +1,30 @@
-<main style="display: flex; gap: 16px; padding: 16px">
-  <aside style="min-width: 200px">
-    <h3>Components</h3>
-    <a routerLink="/tables" routerLinkActive="active">Tables</a>
-    <a routerLink="/advanced-card" routerLinkActive="active">Cards</a>
+<div class="shell">
+  <aside class="shell-sidebar">
+    <div class="shell-brand">
+      <span class="shell-brand-mark">B2B</span>
+      <div class="shell-brand-text">
+        <span class="shell-brand-name">Tools</span>
+        <span class="shell-brand-sub">Component Library</span>
+      </div>
+    </div>
+
+    <nav class="shell-nav">
+      <p class="shell-nav-title">Tablas</p>
+      <a class="shell-nav-link" routerLink="/tables/simple-table" routerLinkActive="shell-nav-link--active">
+        Simple Table
+      </a>
+      <a class="shell-nav-link" routerLink="/tables/advanced-table" routerLinkActive="shell-nav-link--active">
+        Advanced Table
+      </a>
+
+      <p class="shell-nav-title">Tarjetas</p>
+      <a class="shell-nav-link" routerLink="/advanced-card" routerLinkActive="shell-nav-link--active">
+        Advanced Card
+      </a>
+    </nav>
   </aside>
 
-  <section style="flex: 1">
+  <section class="shell-content">
     <router-outlet></router-outlet>
   </section>
-</main>
+</div>
