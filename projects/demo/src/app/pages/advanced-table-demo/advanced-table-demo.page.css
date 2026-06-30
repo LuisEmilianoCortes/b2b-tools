@@ -5,7 +5,6 @@
   flex-direction: column;
   gap: 20px;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
 .demo-header {
@@ -18,64 +17,57 @@
   margin: 0;
   font-size: 22px;
   font-weight: 700;
-  color: #171717;
+  color: var(--b2b-text, #d4d4d4);
   letter-spacing: -0.3px;
 }
 
 .demo-desc {
   margin: 0;
   font-size: 14px;
-  color: #6b6b6b;
+  color: var(--b2b-text-secondary, #a6a6a6);
 }
 
 .demo-body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  align-items: start;
   gap: 20px;
 }
 
-/* ── Behavior menu ── */
+/* ── Options rail ── */
 .behavior-menu {
   display: flex;
-  flex-direction: row;
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-direction: column;
+  background: var(--b2b-surface-2, #252526);
+  border: 1px solid var(--b2b-border, #3c3c3c);
+  border-radius: 6px;
+  overflow-y: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
   position: sticky;
   top: 12px;
-  left: 0;
-  z-index: 20;
+  max-height: calc(100vh - 24px);
 }
 
 .menu-section {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 2px 4px;
-  padding: 12px 16px;
-  flex: 1;
-  overflow-y: auto;
-  max-height: calc(100vh - 48px);
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
 }
 
 .menu-section-title {
-  flex-basis: 100%;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #ababab;
+  color: var(--b2b-muted, #6e6e6e);
 }
 
 .menu-divider {
-  width: 1px;
-  background: #f0f0f0;
-  align-self: stretch;
+  height: 1px;
+  background: var(--b2b-border, #3c3c3c);
+  margin: 0 16px;
 }
 
 /* ── Signal items ── */
@@ -83,8 +75,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
   transition: background 0.15s;
 }
 
@@ -93,7 +85,7 @@
 }
 
 @keyframes signal-flash {
-  0%   { background: rgba(51, 96, 250, 0.1); }
+  0%   { background: rgba(249, 115, 22, 0.14); }
   100% { background: transparent; }
 }
 
@@ -101,14 +93,14 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #e0e0e0;
+  background: var(--b2b-border, #3c3c3c);
   flex-shrink: 0;
   transition: background 0.25s, box-shadow 0.25s;
 }
 
 .dot--on {
-  background: #3360fa;
-  box-shadow: 0 0 0 3px rgba(51, 96, 250, 0.18);
+  background: var(--b2b-primary, #f97316);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.22);
 }
 
 .signal-content {
@@ -121,7 +113,7 @@
   margin: 0;
   font-size: 12px;
   font-weight: 600;
-  color: #2a2a2a;
+  color: var(--b2b-text, #d4d4d4);
   line-height: 1.2;
   white-space: nowrap;
 }
@@ -129,13 +121,13 @@
 .signal-value {
   margin: 0;
   font-size: 11px;
-  color: #9e9e9e;
+  color: var(--b2b-muted, #6e6e6e);
   line-height: 1.3;
   font-family: ui-monospace, 'SF Mono', Menlo, monospace;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px;
+  max-width: 100%;
 }
 
 /* ── Toggle rows ── */
@@ -149,7 +141,7 @@
 }
 
 .toggle-row:hover {
-  background: #f7f7f7;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .toggle-btn {
@@ -164,14 +156,14 @@
   width: 34px;
   height: 20px;
   border-radius: 10px;
-  background: #d5d5d5;
+  background: var(--b2b-border, #3c3c3c);
   padding: 3px;
   box-sizing: border-box;
   transition: background 0.22s;
 }
 
 .toggle-btn--on .toggle-track {
-  background: #3360fa;
+  background: var(--b2b-primary, #f97316);
 }
 
 .toggle-thumb {
@@ -179,7 +171,7 @@
   height: 14px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   transition: transform 0.22s;
 }
 
@@ -189,14 +181,14 @@
 
 .toggle-label {
   font-size: 13px;
-  color: #333;
+  color: var(--b2b-text, #d4d4d4);
   user-select: none;
   white-space: nowrap;
 }
 
 .toggle-label--sub {
   font-size: 12px;
-  color: #666;
+  color: var(--b2b-text-secondary, #a6a6a6);
   padding-left: 4px;
 }
 
@@ -222,7 +214,7 @@
 .demo-table-toolbar-label {
   font-size: 13px;
   font-weight: 600;
-  color: #6b6b6b;
+  color: var(--b2b-text-secondary, #a6a6a6);
 }
 
 /* ── Dark section ── */
@@ -232,7 +224,7 @@
   gap: 16px;
   padding: 24px;
   background: #141617;
-  border-radius: 14px;
+  border-radius: 6px;
   border: 1px solid #2e3234;
   transition: background 0.2s ease-out, border-color 0.2s ease-out;
 }
@@ -275,16 +267,16 @@
 
 .demo-dark-desc code {
   font-family: ui-monospace, 'SF Mono', Menlo, monospace;
-  background: rgba(62, 147, 250, 0.12);
-  color: #3e93fa;
+  background: rgba(249, 115, 22, 0.16);
+  color: #fb923c;
   padding: 1px 5px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 12px;
 }
 
 .demo-dark-section--light .demo-dark-desc code {
-  background: rgba(51, 96, 250, 0.08);
-  color: #3360fa;
+  background: rgba(249, 115, 22, 0.12);
+  color: #c2410c;
 }
 
 .demo-theme-toggle {
@@ -293,10 +285,10 @@
   gap: 6px;
   flex-shrink: 0;
   padding: 7px 14px;
-  border-radius: 8px;
-  border: 1px solid #3a3e40;
-  background: #1f2223;
-  color: #d9d6d1;
+  border-radius: 6px;
+  border: 1px solid var(--b2b-border, #3c3c3c);
+  background: var(--b2b-surface-2, #252526);
+  color: var(--b2b-text, #d4d4d4);
   font-size: 13px;
   font-family: inherit;
   font-weight: 500;
@@ -305,8 +297,8 @@
 }
 
 .demo-theme-toggle:hover {
-  background: #2a2e30;
-  border-color: #4a4e50;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--b2b-primary, #f97316);
 }
 
 .demo-theme-toggle--dark {
@@ -327,21 +319,13 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 860px) {
+@media (max-width: 1080px) {
+  .demo-body {
+    grid-template-columns: 1fr;
+  }
+
   .behavior-menu {
-    flex-direction: column;
     position: static;
     max-height: none;
-  }
-
-  .menu-section {
-    overflow-y: visible;
-    max-height: none;
-  }
-
-  .menu-divider {
-    width: auto;
-    height: 1px;
-    align-self: auto;
   }
 }

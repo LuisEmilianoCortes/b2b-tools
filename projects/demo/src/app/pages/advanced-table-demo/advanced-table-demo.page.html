@@ -5,7 +5,71 @@
   </header>
 
   <div class="demo-body">
-    <!-- Behavior menu -->
+    <!-- Table -->
+    <div class="demo-table-wrap">
+      <div class="demo-table-toolbar">
+        <span class="demo-table-toolbar-label">Main Table</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="mainTheme() === 'dark'"
+          (click)="mainTheme.update(t => t === 'dark' ? 'light' : 'dark')"
+        >
+          @if (mainTheme() === 'dark') {
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+              />
+            </svg>
+            Light
+          } @else {
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+            Dark
+          }
+        </button>
+      </div>
+      <advanced-table
+        [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+        [style.--b2b-surface]="mainTheme() !== 'dark' ? '#ffffff' : null"
+        [columns]="columns()"
+        [data]="rows()"
+        [config]="config()"
+        [lang]="'EN'"
+        (refresh)="onRefresh()"
+        (rowClick)="onRowClick($event)"
+        (actionClick)="onAction($event)"
+        (selectionChange)="onSelection($event)"
+        (pageChange)="onPageChange($event)"
+        (globalSearchChange)="onGlobalSearch($event)"
+        (columnSearchChange)="onColumnSearch($event)"
+        (searchClear)="onSearchClear()"
+      />
+    </div>
+
+    <!-- Options rail -->
     <aside class="behavior-menu">
       <section class="menu-section">
         <h4 class="menu-section-title">Eventos</h4>
@@ -259,68 +323,5 @@
         </div>
       </section>
     </aside>
-
-    <!-- Table -->
-    <div class="demo-table-wrap">
-      <div class="demo-table-toolbar">
-        <span class="demo-table-toolbar-label">Main Table</span>
-        <button
-          type="button"
-          class="demo-theme-toggle"
-          [class.demo-theme-toggle--dark]="mainTheme() === 'dark'"
-          (click)="mainTheme.update(t => t === 'dark' ? 'light' : 'dark')"
-        >
-          @if (mainTheme() === 'dark') {
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="4" />
-              <path
-                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-              />
-            </svg>
-            Light
-          } @else {
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-            </svg>
-            Dark
-          }
-        </button>
-      </div>
-      <advanced-table
-        [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
-        [columns]="columns()"
-        [data]="rows()"
-        [config]="config()"
-        [lang]="'EN'"
-        (refresh)="onRefresh()"
-        (rowClick)="onRowClick($event)"
-        (actionClick)="onAction($event)"
-        (selectionChange)="onSelection($event)"
-        (pageChange)="onPageChange($event)"
-        (globalSearchChange)="onGlobalSearch($event)"
-        (columnSearchChange)="onColumnSearch($event)"
-        (searchClear)="onSearchClear()"
-      />
-    </div>
   </div>
 </div>
