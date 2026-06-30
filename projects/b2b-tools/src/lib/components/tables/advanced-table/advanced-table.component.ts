@@ -179,8 +179,7 @@ export class AdvancedTable<T extends Record<string, any>> {
         const col = colsAll.find((c) => c.key === key);
         if (!col) continue;
 
-        const effectiveMode = col.searchMode ?? (config.serverSearch ? 'server' : 'local');
-        if (effectiveMode === 'server') continue;
+        if (this.getColumnSearchMode(col) === 'server') continue;
 
         const value = this.getCellValue(row, col);
         const text = this.valueToSearchableText(value, col.type, row).toLowerCase();
@@ -409,8 +408,7 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.resetInfiniteIfNeeded();
 
     const col = this.columns().find((c) => c.key === key);
-    const effectiveMode = col?.searchMode ?? (this.config().serverSearch ? 'server' : 'local');
-    if (effectiveMode === 'server') {
+    if (this.getColumnSearchMode(col) === 'server') {
       this._columnSearchSubject.next({ attribute: key, value: query ?? '' });
     }
   }
@@ -420,10 +418,14 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.columnQueries.set({});
     this.page.set(1);
     this.resetInfiniteIfNeeded();
-    const hasServerColumns = this.columns().some((c) => c.searchMode === 'server');
+    const hasServerColumns = this.columns().some((c) => this.getColumnSearchMode(c) === 'server');
     if (this.config().serverSearch || hasServerColumns) {
       this.searchClear.emit();
     }
+  }
+
+  private getColumnSearchMode(col?: TableColumn<T>): 'local' | 'server' {
+    return col?.searchMode ?? this.config().columnSearchMode ?? 'local';
   }
 
   onRowClick(row: T) {

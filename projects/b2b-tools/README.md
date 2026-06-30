@@ -250,6 +250,7 @@ interface TableConfig {
   globalSearch?: boolean;          // Show global search bar (default: false)
   columnFilters?: boolean;         // Show per-column filter inputs (default: false)
   serverSearch?: boolean;          // Route global search to backend via globalSearchChange (default: false)
+  columnSearchMode?: 'local' | 'server'; // Default searchMode for columns without their own (default: 'local')
   searchDebounceMs?: number;       // Debounce delay for server-side search events in ms (default: 300)
   selectable?: boolean;            // Enable row selection (default: false)
   selectionMode?: 'single' | 'multiple';  // Default: 'multiple'
@@ -520,7 +521,7 @@ onColumnSearch(event: TableColumnSearchEvent) {
 />
 ```
 
-> **Note:** `config.serverSearch: true` makes the **global search bar** server-side. Per-column `searchMode` is independent and overrides the default per column.
+> **Note:** `config.serverSearch` and `config.columnSearchMode` are independent variables. `serverSearch: true` only makes the **global search bar** server-side. `columnSearchMode: 'server'` only changes the **default** mode for per-column filters that don't set their own `searchMode` — a column's own `searchMode` always wins over either config default.
 
 Mixed mode is fully supported: some columns can be `'local'`, others `'server'`, and the global search can be either — all in the same table instance.
 

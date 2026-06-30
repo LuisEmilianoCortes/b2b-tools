@@ -79,7 +79,12 @@ export interface TableColumnSearchEvent {
 export interface TableConfig {
   globalSearch?: boolean;
   columnFilters?: boolean;
+  /** Routes the global search bar to the backend via `globalSearchChange`. Independent from
+   *  `columnSearchMode` — does not affect per-column filters. */
   serverSearch?: boolean;
+  /** Default `searchMode` applied to columns that don't set their own. Independent from
+   *  `serverSearch`. Defaults to 'local'. */
+  columnSearchMode?: 'local' | 'server';
   searchDebounceMs?: number;
   selectable?: boolean;
   selectionMode?: 'single' | 'multiple';
