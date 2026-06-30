@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SimpleHaders, SimpleTable } from 'b2b-tools';
 
 type UserRow = {
@@ -19,6 +19,8 @@ type UserRow = {
   styleUrl: './simple-table-demo.page.css',
 })
 export class SimpleTableDemoPage {
+  readonly theme = signal<'dark' | 'light'>('light');
+
   headers: SimpleHaders<UserRow>[] = [
     {
       key: 'avatarUrl',

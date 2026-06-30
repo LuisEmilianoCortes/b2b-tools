@@ -28,12 +28,14 @@ type UserRow = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedTableDemoPage {
+  readonly mainTheme = signal<'dark' | 'light'>('dark');
   readonly darkTheme = signal<'dark' | 'light'>('dark');
 
   // Feature toggles
   readonly ftSearch = signal(true);
   readonly ftFilters = signal(true);
   readonly ftServerSearch = signal(false);
+  readonly ftServerColumnSearch = signal(false);
   readonly ftServerSearchAge = signal(false);
   readonly ftSelectable = signal(false);
   readonly ftRefresh = signal(true);
@@ -65,6 +67,7 @@ export class AdvancedTableDemoPage {
     globalSearch: this.ftSearch(),
     columnFilters: this.ftFilters(),
     serverSearch: this.ftServerSearch(),
+    columnSearchMode: this.ftServerColumnSearch() ? 'server' : 'local',
     selectable: this.ftSelectable(),
     selectionMode: 'multiple',
     pagination: { enabled: this.ftPagination(), pageSize: 10, pageSizeOptions: [5, 10, 25, 0] },
