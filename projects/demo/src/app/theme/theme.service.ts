@@ -26,6 +26,27 @@ export interface ThemePreset {
 
 export const THEME_PRESETS: ThemePreset[] = [
   {
+    id: 'midnight',
+    label: 'Oscuro',
+    tokens: {
+      primary: '#f97316',
+      primarySoft: '#2d2d2d',
+      surface: '#1e1e1e',
+      surface2: '#252526',
+      border: '#3c3c3c',
+      text: '#d4d4d4',
+      textSecondary: '#a6a6a6',
+      muted: '#6e6e6e',
+      danger: '#f87171',
+      success: '#4ade80',
+      warning: '#e2b93b',
+      radius: '6px',
+      radiusSm: '4px',
+      overlay: 'rgba(0,0,0,0.6)',
+      focusRing: '0 0 0 3px rgba(249,115,22,0.35)',
+    },
+  },
+  {
     id: 'indigo',
     label: 'Indigo',
     tokens: {
@@ -115,7 +136,7 @@ export const THEME_PRESETS: ThemePreset[] = [
 export class ThemeService {
   private readonly _tokens = signal<ThemeTokens>(THEME_PRESETS[0].tokens);
   readonly tokens = this._tokens.asReadonly();
-  readonly activePresetId = signal<string | null>('indigo');
+  readonly activePresetId = signal<string | null>('midnight');
 
   constructor() {
     effect(() => this.applyToRoot(this._tokens()));
@@ -134,7 +155,7 @@ export class ThemeService {
   }
 
   reset(): void {
-    this.applyPreset('indigo');
+    this.applyPreset('midnight');
   }
 
   private applyToRoot(t: ThemeTokens): void {
