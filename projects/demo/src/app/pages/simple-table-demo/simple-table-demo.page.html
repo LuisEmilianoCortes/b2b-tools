@@ -1,23 +1,33 @@
-<section class="tables-section" style="padding: 10px 30px">
-  <article>
-    <div class="demo-table-toolbar">
-      <h3>Simple Table</h3>
-      <button
-        type="button"
-        class="theme-toggle"
-        [class.theme-toggle--dark]="theme() === 'dark'"
-        (click)="theme.update(t => t === 'dark' ? 'light' : 'dark')"
-      >
-        @if (theme() === 'dark') {
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-          Light
-        } @else {
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          Dark
-        }
-      </button>
+<div class="demo-page">
+  <header class="demo-header">
+    <h2 class="demo-title">Simple Table</h2>
+    <p class="demo-desc">Lightweight table component for straightforward data display.</p>
+  </header>
+
+  <div class="demo-body">
+    <div class="demo-table-wrap">
+      <simple-table [attr.data-theme]="theme() === 'dark' ? 'dark' : null" [headers]="headers" [data]="rows" />
     </div>
 
-    <simple-table [attr.data-theme]="theme() === 'dark' ? 'dark' : null" [headers]="headers" [data]="rows" />
-  </article>
-</section>
+    <aside class="options-rail">
+      <section class="menu-section">
+        <h4 class="menu-section-title">Visualización</h4>
+
+        <button
+          type="button"
+          class="theme-toggle"
+          [class.theme-toggle--dark]="theme() === 'dark'"
+          (click)="theme.update(t => t === 'dark' ? 'light' : 'dark')"
+        >
+          @if (theme() === 'dark') {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            Light
+          } @else {
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            Dark
+          }
+        </button>
+      </section>
+    </aside>
+  </div>
+</div>

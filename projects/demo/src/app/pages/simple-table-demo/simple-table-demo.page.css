@@ -1,25 +1,80 @@
-.demo-table-toolbar {
+.demo-page {
+  padding: 24px 30px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
 }
 
-.demo-table-toolbar h3 {
+.demo-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.demo-title {
   margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--b2b-text, #d4d4d4);
+  letter-spacing: -0.3px;
+}
+
+.demo-desc {
+  margin: 0;
+  font-size: 14px;
+  color: var(--b2b-text-secondary, #a6a6a6);
+}
+
+.demo-body {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  align-items: start;
+  gap: 20px;
+}
+
+.demo-table-wrap {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.options-rail {
+  display: flex;
+  flex-direction: column;
+  background: var(--b2b-surface-2, #252526);
+  border: 1px solid var(--b2b-border, #3c3c3c);
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  position: sticky;
+  top: 12px;
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.menu-section-title {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--b2b-muted, #6e6e6e);
 }
 
 .theme-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  flex-shrink: 0;
   padding: 7px 14px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  background: #f5f5f5;
-  color: #2a2a2a;
+  border-radius: 6px;
+  border: 1px solid var(--b2b-border, #3c3c3c);
+  background: var(--b2b-surface, #1e1e1e);
+  color: var(--b2b-text, #d4d4d4);
   font-size: 13px;
   font-family: inherit;
   font-weight: 500;
@@ -28,17 +83,22 @@
 }
 
 .theme-toggle:hover {
-  background: #ebebeb;
-  border-color: #ccc;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--b2b-primary, #f97316);
 }
 
 .theme-toggle--dark {
-  border-color: #3a3e40;
-  background: #1f2223;
-  color: #d9d6d1;
+  border-color: var(--b2b-primary, #f97316);
+  background: var(--b2b-primary-soft, #2d2d2d);
+  color: var(--b2b-primary, #f97316);
 }
 
-.theme-toggle--dark:hover {
-  background: #2a2e30;
-  border-color: #4a4e50;
+@media (max-width: 860px) {
+  .demo-body {
+    grid-template-columns: 1fr;
+  }
+
+  .options-rail {
+    position: static;
+  }
 }

@@ -19,7 +19,7 @@ type UserRow = {
   styleUrl: './simple-table-demo.page.css',
 })
 export class SimpleTableDemoPage {
-  readonly theme = signal<'dark' | 'light'>('light');
+  readonly theme = signal<'dark' | 'light'>('dark');
 
   headers: SimpleHaders<UserRow>[] = [
     {
