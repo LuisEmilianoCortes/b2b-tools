@@ -9,22 +9,22 @@
 
 .dt-page-info {
   white-space: nowrap;
-  color: var(--xs-dark-gray);
+  color: var(--b2b-muted);
 }
 
 .dt-rows {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--xs-dark-gray);
+  color: var(--b2b-muted);
 }
 
 .dt-rows select {
   padding: 6px 28px 6px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--light-gray);
-  background: var(--white);
-  color: var(--black);
+  border-radius: var(--b2b-radius-sm);
+  border: 1px solid var(--b2b-border);
+  background: var(--b2b-surface);
+  color: var(--b2b-text);
   font-size: 13px;
 }
 
@@ -35,65 +35,58 @@
   gap: 4px;
 }
 
-/* Base: BLINDA color para evitar reglas globales */
 .dt-pager-btn,
 .dt-pager-chip {
   min-width: 28px;
   height: 28px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--xs-light-gray);
-  background: var(--white);
-  color: var(--black);
+  border-radius: var(--b2b-radius-sm);
+  border: 1px solid var(--b2b-border);
+  background: var(--b2b-surface);
+  color: var(--b2b-text);
   cursor: pointer;
   font-size: 13px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   line-height: 1;
   padding: 0;
 }
 
-/* Hover: NO tocamos color; solo borde y fondo */
 .dt-pager-btn:hover:not(:disabled),
 .dt-pager-chip:hover:not(:disabled) {
-  border-color: var(--dark-gray);
-  background: var(--gray-white);
-  color: var(--xs-dark-gray); /* <- blindaje extra */
+  border-color: var(--b2b-text-secondary);
+  background: var(--b2b-surface-2);
+  color: var(--b2b-muted);
 }
 
-/* Active */
 .dt-pager-chip--active {
-  background: var(--blue);
+  background: var(--b2b-primary);
   color: #fff;
-  border-color: var(--blue);
+  border-color: var(--b2b-primary);
   font-weight: 600;
 }
 
 .dt-pager-chip--active:hover:not(:disabled) {
-  background: var(--blue);
+  background: var(--b2b-primary);
   color: #fff;
-  border-color: var(--blue);
+  border-color: var(--b2b-primary);
 }
 
-/* Disabled */
 .dt-pager-btn:disabled,
 .dt-pager-chip:disabled {
-  opacity: 1; /* evita que se vea “lavado” feo */
-  color: var(--disabled-text);
-  background: var(--soft-white);
-  border-color: var(--disabled);
+  opacity: 1;
+  color: var(--b2b-muted);
+  background: var(--b2b-surface-2);
+  border-color: var(--b2b-border);
   cursor: not-allowed;
 }
 
 .dt-pager-ellipsis {
   padding: 0 6px;
-  color: var(--xs-dark-gray);
+  color: var(--b2b-muted);
 }
 
-
-/* ===== Responsive visibility helpers ===== */
+/* ===== Responsive ===== */
 .dt-hide-xs,
 .dt-hide-sm,
 .dt-hide-md {
@@ -106,42 +99,21 @@
 
 .dt-page-compact {
   white-space: nowrap;
-  color: var(--xs-dark-gray);
+  color: var(--b2b-muted);
 }
 
-/* < 1200px: quitar "Filas" (rows/page) */
 @media (max-width: 1200px) {
-  .dt-hide-md {
-    display: none !important;
-  }
+  .dt-hide-md { display: none !important; }
 }
 
-/* < 900px: quitar info "Mostrando..." y first/last */
 @media (max-width: 900px) {
-  .dt-hide-sm {
-    display: none !important;
-  }
-
-  .dt-pagination {
-    justify-content: center;
-  }
+  .dt-hide-sm { display: none !important; }
+  .dt-pagination { justify-content: center; }
 }
 
-/* < 640px: solo prev / (page/pageCount) / next */
 @media (max-width: 640px) {
-  .dt-hide-xs {
-    display: none !important;
-  }
-
-  .dt-show-xs {
-    display: inline-flex !important;
-  }
-
-  .dt-pagination {
-    gap: 10px;
-  }
-
-  .dt-pager {
-    gap: 8px;
-  }
+  .dt-hide-xs { display: none !important; }
+  .dt-show-xs { display: inline-flex !important; }
+  .dt-pagination { gap: 10px; }
+  .dt-pager { gap: 8px; }
 }
