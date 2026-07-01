@@ -116,7 +116,7 @@
 
                 @case ('status') {
                   <span class="dt-badge" [attr.data-variant]="getStatusClass(row, col)">
-                    {{ getDisplayText(row, col) }}
+                    {{ getCellValue(row, col) | tableCellFormat: col : row : timeZone() }}
                   </span>
                 }
 
@@ -172,7 +172,7 @@
 
                 @default {
                   <span class="dt-text" [class.dt-text--wrap]="col.wrap">{{
-                    getDisplayText(row, col)
+                    getCellValue(row, col) | tableCellFormat: col : row : timeZone()
                   }}</span>
                 }
               }
