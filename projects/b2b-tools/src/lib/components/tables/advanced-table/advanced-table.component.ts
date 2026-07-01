@@ -14,16 +14,19 @@ import {
   TablePaginationChange,
   TableSortState,
 } from './types/table.types';
-
-interface TableCacheSchema {
-  columnVisibility: Record<string, boolean>;
-}
 import { TableModalImageComponent } from './parts/table-modal-image/table-modal-image.component';
 import { TableGridComponent } from './parts/table-grid/table-grid.component';
 import { TablePaginationComponent } from './parts/table-pagination/table-pagination.component';
 import { TableToolbarComponent } from './parts/table-toolbar/table-toolbar.component';
 import { TABLE_I18N_BY_LANG, TABLE_LANG_DEFAULT } from './constants/table-i18n.constants';
 import { TableI18n, TableLang } from './types/table-i18n.type';
+import { compareValues, getCellValue, valueToSearchableText } from '../../../utils/table-value.util';
+import { filterRows } from '../../../utils/table-filter.util';
+import { getStored, setStored } from '../../../utils/storage.util';
+
+interface TableCacheSchema {
+  columnVisibility: Record<string, boolean>;
+}
 
 @Component({
   selector: 'advanced-table',
@@ -98,7 +101,7 @@ export class AdvancedTable<T extends Record<string, any>> {
     afterNextRender(() => {
       const cache = this.config().cache;
       if (cache?.enabled === true) {
-        this.loadCacheState(cache);
+        this._loadCacheState(cache);
       }
       this._cacheReady.set(true);
     });
@@ -118,7 +121,7 @@ export class AdvancedTable<T extends Record<string, any>> {
       .subscribe((e) => this.columnSearchChange.emit(e));
   }
 
-  // Computed Data
+  // Computed
   readonly selectedIds = computed<RowId[]>(() => Array.from(this.selectedIdsSet()));
   readonly visibleColumns = computed(() => {
     const overrides = this.columnVisibilityOverrides();
@@ -142,66 +145,34 @@ export class AdvancedTable<T extends Record<string, any>> {
     const hasFlexCol = this.visibleColumns().some(
       (c) => !c.size || c.size === 'AUTO' || c.size === 'AUTO-XL',
     );
-
-    if (this.showSelectionColumn()) cols.push('48px'); // selección
-
+    if (this.showSelectionColumn()) cols.push('48px');
     for (const c of this.visibleColumns()) {
-      cols.push(this.sizeToCss(c.size, !hasFlexCol));
+      cols.push(this._sizeToCss(c.size, !hasFlexCol));
     }
     return cols.join(' ');
   });
-
   readonly minTableWidth = computed(() => {
     let total = this.showSelectionColumn() ? 48 : 0;
     for (const c of this.visibleColumns()) {
-      total += this.sizeToMinPx(c.size);
+      total += this._sizeToMinPx(c.size);
     }
     return total;
   });
   readonly filteredData = computed(() => {
-    const rows = this.data() ?? [];
+    const config = this.config();
     const colsAll = this.columns() ?? [];
     const colsVisible = this.visibleColumns();
-    const config = this.config();
+    const colsForGlobal = (config.globalSearchVisibleOnly ?? true)
+      ? colsVisible
+      : colsAll.filter((c) => !c.hidden);
 
-    const globalQuery = this.globalQuery().trim().toLowerCase();
-    const columnQueries = this.columnQueries();
-
-    const colsForGlobal =
-      (config.globalSearchVisibleOnly ?? true) ? colsVisible : colsAll.filter((c) => !c.hidden);
-
-    return rows.filter((row) => {
-      // column filters (AND) — skip columns handled server-side
-      for (const [key, q] of Object.entries(columnQueries)) {
-        const query = (q ?? '').trim().toLowerCase();
-        if (!query) continue;
-
-        const col = colsAll.find((c) => c.key === key);
-        if (!col) continue;
-
-        if (this.getColumnSearchMode(col) === 'server') continue;
-
-        const value = this.getCellValue(row, col);
-        const text = this.valueToSearchableText(value, col.type, row).toLowerCase();
-
-        if (!text.includes(query)) return false;
-      }
-
-      // global search (OR across columns) — only when client-side
-      if (config.globalSearch && globalQuery && !config.serverSearch) {
-        let any = false;
-        for (const col of colsForGlobal) {
-          const value = this.getCellValue(row, col);
-          const text = this.valueToSearchableText(value, col.type, row).toLowerCase();
-          if (text.includes(globalQuery)) {
-            any = true;
-            break;
-          }
-        }
-        if (!any) return false;
-      }
-
-      return true;
+    return filterRows(this.data() ?? [], {
+      globalQuery: this.globalQuery(),
+      columnQueries: this.columnQueries(),
+      colsForGlobal,
+      colsAll,
+      serverSearch: config.serverSearch,
+      config,
     });
   });
   readonly sortedData = computed(() => {
@@ -213,70 +184,43 @@ export class AdvancedTable<T extends Record<string, any>> {
     if (!col) return data;
 
     const dir = sort.dir === 'asc' ? 1 : -1;
-
-    data.sort((a, b) => {
-      const va = this.getCellValue(a, col);
-      const vb = this.getCellValue(b, col);
-      return dir * this.compareValues(va, vb, col.type);
-    });
-
+    data.sort((a, b) => dir * compareValues(getCellValue(a, col), getCellValue(b, col), col.type));
     return data;
   });
   readonly pagedData = computed(() => {
     const config = this.config();
     const rows = this.sortedData();
     const fixedN = config.fixedRowCount;
-    const cappedRows = typeof fixedN === 'number' && fixedN > 0 ? rows.slice(0, fixedN) : rows;
+    const capped = typeof fixedN === 'number' && fixedN > 0 ? rows.slice(0, fixedN) : rows;
 
     const mode = config.scroll?.mode ?? 'none';
-    if (mode === 'infinite') {
-      return cappedRows.slice(0, this.visibleCount());
-    }
+    if (mode === 'infinite') return capped.slice(0, this.visibleCount());
 
-    // pagination
     if (config.pagination?.enabled) {
-      if (config.pagination.mode === 'server') return cappedRows;
+      if (config.pagination.mode === 'server') return capped;
       const size = this.pageSize();
-      if (size === 0) return cappedRows; // show all
-      const page = this.page();
-      const start = (page - 1) * size;
-      return cappedRows.slice(start, start + size);
+      if (size === 0) return capped;
+      const start = (this.page() - 1) * size;
+      return capped.slice(start, start + size);
     }
 
-    return cappedRows;
+    return capped;
   });
   readonly pagerItems = computed<PagerItem[]>(() => {
-    const config = this.config();
-    if (!config.pagination?.enabled) return [];
-
-    const totalPages = this.pageCount();
+    if (!this.config().pagination?.enabled) return [];
+    const total = this.pageCount();
     const current = this.page();
+    if (total <= 1) return [];
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
 
-    if (totalPages <= 1) return [];
-
-    if (totalPages <= 7) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    const items: PagerItem[] = [];
-    const first = 1;
-    const last = totalPages;
-    const around = 1;
-
-    const start = Math.max(2, current - around);
-    const end = Math.min(last - 1, current + around);
-
-    items.push(first);
+    const items: PagerItem[] = [1];
+    const start = Math.max(2, current - 1);
+    const end = Math.min(total - 1, current + 1);
 
     if (start > 2) items.push('…');
-
-    for (let p = start; p <= end; p++) {
-      items.push(p);
-    }
-
-    if (end < last - 1) items.push('…');
-
-    items.push(last);
+    for (let p = start; p <= end; p++) items.push(p);
+    if (end < total - 1) items.push('…');
+    items.push(total);
 
     return items;
   });
@@ -286,8 +230,7 @@ export class AdvancedTable<T extends Record<string, any>> {
     return this.sortedData().length;
   });
   readonly pageCount = computed(() => {
-    const config = this.config();
-    if (!config.pagination?.enabled) return 1;
+    if (!this.config().pagination?.enabled) return 1;
     const size = this.pageSize();
     if (size === 0) return 1;
     return Math.max(1, Math.ceil(this.totalCount() / size));
@@ -296,36 +239,27 @@ export class AdvancedTable<T extends Record<string, any>> {
     if (!this.showSelectionColumn()) return false;
     const ids = this.pagedData().map((r) => this.getRowId(r));
     if (ids.length === 0) return false;
-
     const set = this.selectedIdsSet();
     return ids.every((id) => set.has(id));
   });
-  protected i18nCom = computed<TableI18n>(() => {
-    const base = TABLE_I18N_BY_LANG[this._lang()];
-    const override = this._override();
-    return { ...base, ...override };
-  });
+  protected i18nCom = computed<TableI18n>(() => ({
+    ...TABLE_I18N_BY_LANG[this._lang()],
+    ...this._override(),
+  }));
 
   // Effects
   infiniteScrollEffect = effect(() => {
     const config = this.config();
     const mode = config.scroll?.mode ?? 'none';
     const batch = config.scroll?.batchSize ?? 50;
-
-    if (mode === 'infinite') {
-      this.visibleCount.set(batch);
-    } else {
-      this.visibleCount.set(Number.MAX_SAFE_INTEGER);
-    }
+    this.visibleCount.set(mode === 'infinite' ? batch : Number.MAX_SAFE_INTEGER);
   });
   selectionDataEffect = effect(() => {
     this.selectionChange.emit(this.selectedIds());
   });
   pagesCountEffect = effect(() => {
-    const totalPages = this.pageCount();
-    if (this.page() > totalPages) {
-      this.page.set(totalPages);
-    }
+    const total = this.pageCount();
+    if (this.page() > total) this.page.set(total);
   });
   serverPageEffect = effect(() => {
     const config = this.config();
@@ -336,7 +270,7 @@ export class AdvancedTable<T extends Record<string, any>> {
     if (!this._cacheReady()) return;
     const cache = this.config().cache;
     if (cache?.enabled !== true) return;
-    this.saveCacheState(cache);
+    this._saveCacheState(cache);
   });
 
   // UI Actions
@@ -356,16 +290,11 @@ export class AdvancedTable<T extends Record<string, any>> {
   onBodyScroll(event: Event) {
     const config = this.config();
     if ((config.scroll?.mode ?? 'none') !== 'infinite') return;
-
     const el = event.target as HTMLElement;
-    const thresholdPx = 120;
-    const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - thresholdPx;
-
+    const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 120;
     if (!nearBottom) return;
-
     const batch = config.scroll?.batchSize ?? 50;
-    const next = Math.min(this.sortedData().length, this.visibleCount() + batch);
-    this.visibleCount.set(next);
+    this.visibleCount.set(Math.min(this.sortedData().length, this.visibleCount() + batch));
   }
 
   onPageSizeChange(size: number) {
@@ -375,17 +304,12 @@ export class AdvancedTable<T extends Record<string, any>> {
   }
 
   getCellValue(row: T, col: TableColumn<T>): unknown {
-    try {
-      return col.valueGetter ? col.valueGetter(row) : row?.[col.key];
-    } catch {
-      return undefined;
-    }
+    return getCellValue(row, col);
   }
 
   getRowId(row: T): RowId {
     const config = this.config();
     if (config.rowIdGetter) return config.rowIdGetter(row) as RowId;
-
     const key = config.rowIdKey ?? 'id';
     const value = row?.[key];
     return (value ?? JSON.stringify(row)) as RowId;
@@ -394,21 +318,16 @@ export class AdvancedTable<T extends Record<string, any>> {
   setGlobalQuery(query: string) {
     this.globalQuery.set(query ?? '');
     this.page.set(1);
-    this.resetInfiniteIfNeeded();
-    if (this.config().serverSearch) {
-      this._globalSearchSubject.next(query ?? '');
-    }
+    this._resetInfiniteIfNeeded();
+    if (this.config().serverSearch) this._globalSearchSubject.next(query ?? '');
   }
 
   setColumnQuery(key: string, query: string) {
-    const next = { ...this.columnQueries() };
-    next[key] = query ?? '';
-    this.columnQueries.set(next);
+    this.columnQueries.update((prev) => ({ ...prev, [key]: query ?? '' }));
     this.page.set(1);
-    this.resetInfiniteIfNeeded();
-
+    this._resetInfiniteIfNeeded();
     const col = this.columns().find((c) => c.key === key);
-    if (this.getColumnSearchMode(col) === 'server') {
+    if ((col?.searchMode ?? this.config().columnSearchMode ?? 'local') === 'server') {
       this._columnSearchSubject.next({ attribute: key, value: query ?? '' });
     }
   }
@@ -417,35 +336,24 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.globalQuery.set('');
     this.columnQueries.set({});
     this.page.set(1);
-    this.resetInfiniteIfNeeded();
-    const hasServerColumns = this.columns().some((c) => this.getColumnSearchMode(c) === 'server');
-    if (this.config().serverSearch || hasServerColumns) {
-      this.searchClear.emit();
-    }
+    this._resetInfiniteIfNeeded();
+    const hasServerColumns = this.columns().some(
+      (c) => (c.searchMode ?? this.config().columnSearchMode ?? 'local') === 'server',
+    );
+    if (this.config().serverSearch || hasServerColumns) this.searchClear.emit();
   }
 
-  private getColumnSearchMode(col?: TableColumn<T>): 'local' | 'server' {
-    return col?.searchMode ?? this.config().columnSearchMode ?? 'local';
-  }
-
-  onRowClick(row: T) {
-    this.rowClick.emit(row);
-  }
+  onRowClick(row: T) { this.rowClick.emit(row); }
 
   toggleRowSelection(row: T) {
     const config = this.config();
     if (!config.selectable) return;
-
     const id = this.getRowId(row);
     const mode = config.selectionMode ?? 'multiple';
-
     const set = new Set(this.selectedIdsSet());
     if (mode === 'single') {
       if (set.has(id)) set.clear();
-      else {
-        set.clear();
-        set.add(id);
-      }
+      else { set.clear(); set.add(id); }
     } else {
       if (set.has(id)) set.delete(id);
       else set.add(id);
@@ -457,29 +365,17 @@ export class AdvancedTable<T extends Record<string, any>> {
     const config = this.config();
     if (!config.selectable) return;
     if ((config.selectionMode ?? 'multiple') === 'single') return;
-
     const ids = this.pagedData().map((r) => this.getRowId(r));
     const set = new Set(this.selectedIdsSet());
-
     const allSelected = ids.every((id) => set.has(id));
     if (allSelected) ids.forEach((id) => set.delete(id));
     else ids.forEach((id) => set.add(id));
-
     this.selectedIdsSet.set(set);
   }
 
-  prevPage() {
-    this.page.set(Math.max(1, this.page() - 1));
-  }
-
-  nextPage() {
-    this.page.set(Math.min(this.pageCount(), this.page() + 1));
-  }
-
-  goToPage(p: number) {
-    const clamped = Math.max(1, Math.min(this.pageCount(), p));
-    this.page.set(clamped);
-  }
+  prevPage() { this.page.set(Math.max(1, this.page() - 1)); }
+  nextPage() { this.page.set(Math.min(this.pageCount(), this.page() + 1)); }
+  goToPage(p: number) { this.page.set(Math.max(1, Math.min(this.pageCount(), p))); }
 
   openImageModal(src: string, alt: string) {
     this.modalImageSrc.set(src);
@@ -500,163 +396,48 @@ export class AdvancedTable<T extends Record<string, any>> {
     this.columnVisibilityOverrides.update((prev) => ({ ...prev, [key]: col.visible }));
   }
 
-  resetColumnVisibility() {
-    this.columnVisibilityOverrides.set({});
-  }
+  resetColumnVisibility() { this.columnVisibilityOverrides.set({}); }
 
-  // Private functions
-  private loadCacheState(cfg: TableCacheConfig & { enabled: true }): void {
-    try {
-      const raw = localStorage.getItem(cfg.key);
-      if (raw === null) return;
-      const parsed: unknown = JSON.parse(raw);
-      if (
-        typeof parsed === 'object' &&
-        parsed !== null &&
-        'columnVisibility' in parsed &&
-        typeof (parsed as TableCacheSchema).columnVisibility === 'object'
-      ) {
-        this.columnVisibilityOverrides.set(
-          (parsed as TableCacheSchema).columnVisibility,
-        );
-      }
-    } catch {
-      // Malformed JSON or blocked storage — use defaults
+  // Private helpers
+  private _loadCacheState(cfg: TableCacheConfig & { enabled: true }): void {
+    const parsed = getStored<TableCacheSchema | null>(cfg.key, null);
+    if (parsed && typeof parsed === 'object' && 'columnVisibility' in parsed) {
+      this.columnVisibilityOverrides.set(parsed.columnVisibility);
     }
   }
 
-  private saveCacheState(cfg: TableCacheConfig & { enabled: true }): void {
-    try {
-      const payload: TableCacheSchema = {
-        columnVisibility: this.columnVisibilityOverrides(),
-      };
-      localStorage.setItem(cfg.key, JSON.stringify(payload));
-    } catch {
-      // Storage quota exceeded or blocked — silently ignore
-    }
+  private _saveCacheState(cfg: TableCacheConfig & { enabled: true }): void {
+    setStored(cfg.key, { columnVisibility: this.columnVisibilityOverrides() });
   }
 
-  private resetInfiniteIfNeeded() {
+  private _resetInfiniteIfNeeded() {
     const config = this.config();
     if ((config.scroll?.mode ?? 'none') !== 'infinite') return;
-    const batch = config.scroll?.batchSize ?? 50;
-    this.visibleCount.set(batch);
+    this.visibleCount.set(config.scroll?.batchSize ?? 50);
   }
 
-  private sizeToCss(size?: string, expand = false): string {
+  private _sizeToCss(size?: string, expand = false): string {
     const fixed = (px: number) => (expand ? `minmax(${px}px, 1fr)` : `${px}px`);
     switch (size) {
-      case 'XS':
-        return fixed(80);
-      case 'SM':
-        return fixed(120);
-      case 'MD':
-        return fixed(180);
-      case 'LG':
-        return fixed(260);
-      case 'XL':
-        return fixed(360);
-      case 'AUTO-XL':
-        return 'minmax(360px, 1fr)';
-      case 'AUTO':
-      default:
-        return 'minmax(240px, 1fr)';
+      case 'XS': return fixed(80);
+      case 'SM': return fixed(120);
+      case 'MD': return fixed(180);
+      case 'LG': return fixed(260);
+      case 'XL': return fixed(360);
+      case 'AUTO-XL': return 'minmax(360px, 1fr)';
+      default: return 'minmax(240px, 1fr)';
     }
   }
 
-  private sizeToMinPx(size?: string): number {
+  private _sizeToMinPx(size?: string): number {
     switch (size) {
-      case 'XS':
-        return 80;
-      case 'SM':
-        return 120;
-      case 'MD':
-        return 180;
-      case 'LG':
-        return 260;
-      case 'XL':
-        return 360;
-      case 'AUTO-XL':
-        return 360;
-      default:
-        return 240; // AUTO
+      case 'XS': return 80;
+      case 'SM': return 120;
+      case 'MD': return 180;
+      case 'LG': return 260;
+      case 'XL': return 360;
+      case 'AUTO-XL': return 360;
+      default: return 240;
     }
-  }
-
-  private toNumber(value: unknown): number {
-    if (typeof value === 'number') return value;
-    if (typeof value === 'string') {
-      return Number(value.replace(/,/g, '').trim());
-    }
-    return Number.NaN;
-  }
-
-  private toDate(value: unknown): Date | null {
-    if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
-    if (typeof value === 'string' || typeof value === 'number') {
-      const date = new Date(value);
-      return Number.isNaN(date.getTime()) ? null : date;
-    }
-    return null;
-  }
-
-  private compareValues(firstValue: unknown, secondValue: unknown, type: CellDataType): number {
-    const firstNull = firstValue == null || firstValue === '';
-    const secondNull = secondValue == null || secondValue === '';
-    if (firstNull && secondNull) return 0;
-    if (firstNull) return 1;
-    if (secondNull) return -1;
-
-    let response: number | null = null;
-    switch (type) {
-      case 'integer':
-      case 'decimal':
-      case 'currency': {
-        const firstNumber = this.toNumber(firstValue);
-        const secondNumber = this.toNumber(secondValue);
-        if (!Number.isFinite(firstNumber) && !Number.isFinite(secondNumber)) response = 0;
-        else if (!Number.isFinite(firstNumber)) response = 1;
-        else if (!Number.isFinite(secondNumber)) response = -1;
-        else response = firstNumber === secondNumber ? 0 : firstNumber < secondNumber ? -1 : 1;
-        break;
-      }
-
-      case 'date':
-      case 'datetime': {
-        const firstDate = this.toDate(firstValue);
-        const toCompareDate = this.toDate(secondValue);
-        if (!firstDate && !toCompareDate) response = 0;
-        else if (!firstDate) response = 1;
-        else if (!toCompareDate) response = -1;
-        else {
-          const ta = firstDate.getTime();
-          const tb = toCompareDate.getTime();
-          response = ta === tb ? 0 : ta < tb ? -1 : 1;
-        }
-        break;
-      }
-
-      case 'boolean': {
-        const firstBool = firstValue === true ? 1 : 0;
-        const secondBool = secondValue === true ? 1 : 0;
-        response = firstBool - secondBool;
-        break;
-      }
-
-      default: {
-        const firstString = String(firstValue).toLowerCase();
-        const secondString = String(secondValue).toLowerCase();
-        response = firstString.localeCompare(secondString, 'es');
-        break;
-      }
-    }
-    return response;
-  }
-
-  private valueToSearchableText(value: unknown, type: CellDataType, _row: T): string {
-    if (value == null) return '';
-    if (type === 'image') return '';
-    if (type === 'boolean') return value === true ? 'si true yes 1' : 'no false 0';
-    return String(value);
   }
 }

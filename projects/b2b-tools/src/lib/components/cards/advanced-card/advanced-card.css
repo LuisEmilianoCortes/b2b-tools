@@ -1,100 +1,70 @@
 :host.ac-host {
-  /* Surfaces */
-  --ac-surface: var(--b2b-surface, #ffffff);
-  --ac-surface-2: var(--b2b-surface-2, #f8fafc);
-  --ac-border: var(--b2b-border, #e2e8f0);
-  --ac-border-soft: #f1f5f9;
-  --ac-border-block: #f8fafc;
-  --ac-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.06);
-  --ac-shadow-hover: 0 4px 8px rgba(15, 23, 42, 0.06), 0 12px 32px rgba(15, 23, 42, 0.1);
-  --ac-shadow-panel: 0 8px 24px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12);
-
-  /* Text */
-  --ac-text: var(--b2b-text, #0f172a);
-  --ac-text-secondary: var(--b2b-text-secondary, #334155);
-  --ac-muted: var(--b2b-muted, #64748b);
-
-  /* Radius / spacing */
-  --ac-radius: var(--b2b-radius, 16px);
-  --ac-radius-sm: var(--b2b-radius-sm, 12px);
-  --ac-gap: 16px;
-
-  /* Typography base */
-  --ac-title-size: 18px;
+  /* ── Layout / sizing (card-specific, not from theme) ─────────────────── */
+  --ac-gap:           16px;
+  --ac-pad-card:      18px;
+  --ac-pad-header:    16px 20px;
+  --ac-pad-body:      20px;
+  --ac-title-size:    18px;
   --ac-subtitle-size: 13px;
-
-  /* Padding (will be overridden by density/size) */
-  --ac-pad-card: 18px;
-  --ac-pad-header: 16px 20px;
-  --ac-pad-body: 20px;
-
-  /* Buttons */
-  --ac-btn-radius: var(--b2b-radius-sm, 8px);
-  --ac-btn-pad: 8px 14px;
-  --ac-btn-font: 600;
-
-  /* Primary colors */
-  --ac-primary: var(--b2b-primary, #2563eb);
-  --ac-primary-soft: var(--b2b-primary-soft, #eff6ff);
-  --ac-primary-glow: rgba(37, 99, 235, 0.12);
-  --ac-accent-bar: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-  --ac-danger: var(--b2b-danger, #dc2626);
-
-  /* Badge tones */
-  --ac-badge-success-bg: #ecfdf5;
-  --ac-badge-success-fg: var(--b2b-success, #059669);
-
-  --ac-badge-warning-bg: #fffbeb;
-  --ac-badge-warning-fg: var(--b2b-warning, #d97706);
-
-  --ac-badge-danger-bg: #fef2f2;
-  --ac-badge-danger-fg: var(--b2b-danger, #dc2626);
-
-  --ac-badge-primary-bg: var(--b2b-primary-soft, #eff6ff);
-  --ac-badge-primary-fg: var(--b2b-primary, #2563eb);
-
-  --ac-badge-neutral-bg: #f1f5f9;
-  --ac-badge-neutral-fg: #475569;
-
-  /* Tabs */
-  --ac-tab: #a0a0a8;
-  --ac-tab-active: var(--b2b-text, #0a0a0a);
-
-  /* Overlay */
-  --ac-overlay: var(--b2b-overlay, rgba(15, 23, 42, 0.5));
-  --ac-overlay-blur: 4px;
-
-  /* Panel sizes */
-  --ac-modal-max: 1200px;
+  --ac-btn-radius:    var(--b2b-radius-sm, 12px);
+  --ac-btn-pad:       8px 14px;
+  --ac-btn-font:      600;
+  --ac-modal-max:     1200px;
   --ac-drawer-height: min(85vh, 900px);
-  --ac-modal-height: min(80vh, 880px);
+  --ac-modal-height:  min(80vh, 880px);
+  --ac-overlay-blur:  4px;
+
+  /* ── Shadows (structural, not themed) ──────────────────────────────── */
+  --ac-shadow:        0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.06);
+  --ac-shadow-hover:  0 4px 8px rgba(15, 23, 42, 0.06), 0 12px 32px rgba(15, 23, 42, 0.1);
+  --ac-shadow-panel:  0 8px 24px rgba(15, 23, 42, 0.08), 0 32px 64px rgba(15, 23, 42, 0.12);
 }
 
+/* ── Dark theme — redefine --b2b-* (intencional: override del ThemeService) */
+:host.ac-host[data-theme="dark"] {
+  color-scheme: dark;
+
+  --b2b-surface:        #1e1e1e;
+  --b2b-surface-2:      #252526;
+  --b2b-border:         #3c3c3c;
+  --b2b-text:           #d4d4d4;
+  --b2b-text-secondary: #a6a6a6;
+  --b2b-muted:          #6e6e6e;
+  --b2b-primary:        #f97316;
+  --b2b-primary-soft:   #2d2d2d;
+  --b2b-danger:         #f87171;
+  --b2b-success:        #4ade80;
+  --b2b-warning:        #e2b93b;
+  --b2b-overlay:        rgba(0, 0, 0, 0.6);
+  --b2b-focus-ring:     0 0 0 3px rgba(249, 115, 22, 0.35);
+  --b2b-radius:         6px;
+  --b2b-radius-sm:      4px;
+
+  --ac-shadow:        0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --ac-shadow-hover:  0 4px 8px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.25);
+  --ac-shadow-panel:  0 8px 24px rgba(0, 0, 0, 0.35), 0 32px 64px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Density / size overrides ─────────────────────────────────────────── */
 :host.ac-density--compact {
-  --ac-gap: 12px;
-  --ac-pad-card: 14px;
-  --ac-pad-header: 12px 16px;
-  --ac-pad-body: 14px;
+  --ac-gap:           12px;
+  --ac-pad-card:      14px;
+  --ac-pad-header:    12px 16px;
+  --ac-pad-body:      14px;
   --ac-subtitle-size: 12px;
-  --ac-btn-pad: 6px 10px;
-}
-
-:host.ac-density--comfortable {
+  --ac-btn-pad:       6px 10px;
 }
 
 :host.ac-size--sm {
   --ac-title-size: 16px;
-  --ac-radius: 12px;
-  --ac-modal-max: 1000px;
-}
-
-:host.ac-size--md {
+  --b2b-radius:    12px;
+  --ac-modal-max:  1000px;
 }
 
 :host.ac-size--lg {
   --ac-title-size: 20px;
-  --ac-radius: 18px;
-  --ac-modal-max: 1400px;
+  --b2b-radius:    18px;
+  --ac-modal-max:  1400px;
 }
 
 .ac__card {
