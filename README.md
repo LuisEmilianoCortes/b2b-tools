@@ -1,6 +1,6 @@
 # b2b-tools — Angular Component Library
 
-**Version 2.0.0** · Angular 21 · Standalone · Signals
+**Version 2.1.0** · Angular 21 · Standalone · Signals
 
 A set of production-grade UI components designed for B2B applications. Built with Angular standalone components, CSS custom properties, and a signals-based architecture.
 
@@ -91,6 +91,35 @@ Expandable card with tabs, summary blocks, and overlay modes.
 
 ---
 
+### AdvancedSelect `<advanced-select>`
+
+Searchable single/multi select with pills, autocomplete, and an optional advanced-search modal for large option sets. Implements `ControlValueAccessor`, so it plugs directly into Reactive Forms.
+
+| Feature | Details |
+|---|---|
+| Selection | Single or `multiple` (pills with remove buttons) |
+| Autocomplete | Inline dropdown filter |
+| Advanced modal | Full-list searchable table for large datasets (`enableModal`) |
+| Forms | `ControlValueAccessor` — works with `formControl` / `[control]` / `[value]` + `valueChange` |
+| Clearable | Optional clear button |
+| Dark mode | `[data-theme="dark"]` on the host element |
+| Color customization | Overrides `--b2b-primary` / `--b2b-primary-soft` per instance or globally |
+
+```html
+<advanced-select
+  [options]="options"
+  [config]="{ multiple: true, autocomplete: true, enableModal: true }"
+  [value]="selected"
+  (valueChange)="selected = $event"
+/>
+```
+
+```ts
+type Option = AdvancedSelectOption<Country>; // { id, label, disabled?, data? }
+```
+
+---
+
 ### SimpleTable `<simple-table>`
 
 Lightweight generic table with client-side sorting.
@@ -144,9 +173,10 @@ document.documentElement.style.setProperty('--b2b-primary', '#7c3aed');
 Add `[data-theme="dark"]` to any component host to activate its built-in dark palette. This overrides the global `--b2b-*` tokens for that component subtree:
 
 ```html
-<advanced-table [columns]="cols" [data]="rows" data-theme="dark" />
-<advanced-card  [config]="cfg"               data-theme="dark" />
-<simple-table   [headers]="h" [data]="rows"  data-theme="dark" />
+<advanced-table  [columns]="cols" [data]="rows" data-theme="dark" />
+<advanced-card   [config]="cfg"               data-theme="dark" />
+<advanced-select [options]="opts" [config]="cfg" data-theme="dark" />
+<simple-table    [headers]="h" [data]="rows"  data-theme="dark" />
 ```
 
 ---
