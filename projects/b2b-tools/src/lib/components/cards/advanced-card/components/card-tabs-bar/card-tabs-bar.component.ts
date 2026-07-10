@@ -1,10 +1,11 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedCardTab, AdvancedTabAction } from '../../types';
 
 @Component({
   selector: 'ac-card-tabs-bar',
   imports: [],
   templateUrl: './card-tabs-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./card-tabs-bar.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardTabsBarComponent {

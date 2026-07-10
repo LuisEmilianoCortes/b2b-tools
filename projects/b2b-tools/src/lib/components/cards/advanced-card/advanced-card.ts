@@ -7,6 +7,7 @@ import {
   input,
   output,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AdvancedAction,
@@ -26,6 +27,7 @@ import { AdvancedCardInlineComponent } from './components/advanced-card-inline/a
   imports: [CardCompactComponent, AdvancedCardOverlayComponent, AdvancedCardInlineComponent],
   templateUrl: './advanced-card.html',
   styleUrls: ['./advanced-card.css', './styles/advanced-card.shared.style.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class]': 'hostClass()',
   },

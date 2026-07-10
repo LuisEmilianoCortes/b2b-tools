@@ -1,10 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedCard, AdvancedCardConfig, AdvancedCardTemplateDirective } from 'b2b-tools';
 
 @Component({
   selector: 'advanced-card-demo',
   imports: [AdvancedCard, AdvancedCardTemplateDirective],
   templateUrl: './advanced-card-demo.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './advanced-card-demo.page.css',
 })
 export class AdvancedCardDemoPage {

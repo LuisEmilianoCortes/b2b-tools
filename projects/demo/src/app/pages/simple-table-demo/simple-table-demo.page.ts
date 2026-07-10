@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { SimpleHaders, SimpleTable } from 'b2b-tools';
 import { LangService } from '../../lang/lang.service';
 
@@ -17,6 +17,7 @@ type UserRow = {
   selector: 'simple-table-demo',
   imports: [SimpleTable],
   templateUrl: './simple-table-demo.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './simple-table-demo.page.css',
 })
 export class SimpleTableDemoPage {

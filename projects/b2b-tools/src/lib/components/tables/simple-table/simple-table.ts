@@ -1,4 +1,4 @@
-import { Component, computed, Input, input, signal } from '@angular/core';
+import { Component, computed, Input, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { SimpleHaders, SortDirection } from './types';
 import {
   SIMPLE_TABLE_I18N_BY_LANG,
@@ -10,6 +10,7 @@ import { SimpleTableI18n, SimpleTableLang } from './types/simple-table-i18n.type
   selector: 'simple-table',
   imports: [],
   templateUrl: './simple-table.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './simple-table.css',
 })
 export class SimpleTable<T> {

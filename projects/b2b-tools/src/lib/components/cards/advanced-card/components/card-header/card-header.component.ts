@@ -1,10 +1,11 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedAction, AdvancedBadge } from '../../types';
 
 @Component({
   selector: 'ac-card-header',
   imports: [],
   templateUrl: './card-header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./card-header.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardHeaderComponent {

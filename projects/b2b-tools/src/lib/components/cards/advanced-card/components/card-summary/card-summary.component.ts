@@ -1,10 +1,11 @@
-import { Component, computed, effect, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedSummaryBlock, AdvancedTone } from '../../types';
 
 @Component({
   selector: 'ac-card-summary',
   imports: [],
   templateUrl: './card-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./card-summary.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardSummaryComponent {

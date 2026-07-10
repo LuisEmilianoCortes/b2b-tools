@@ -12,7 +12,7 @@
     </h3>
 
     @if (badge()) {
-      <span [class]="badgeClass()(badge()?.tone)">
+      <span [class]="badgeClass()($safeNavigationMigration(badge()?.tone))">
         {{ badge()?.label }}
       </span>
     }

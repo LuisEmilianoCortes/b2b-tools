@@ -1,10 +1,11 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedCardConfig } from '../../types';
 
 @Component({
   selector: 'lib-card-compact',
   imports: [],
   templateUrl: './card-compact.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./card-compact.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardCompactComponent {

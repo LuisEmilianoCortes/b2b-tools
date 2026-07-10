@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import {
   AdvancedCardConfig,
   AdvancedCardContentVm,
@@ -12,6 +12,7 @@ import { AdvancedCardContentComponent } from '../advanced-card-content/advanced-
   selector: 'ac-advanced-card-overlay',
   imports: [CardHeaderComponent, AdvancedCardContentComponent],
   templateUrl: './advanced-card-overlay.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: [
     './advanced-card-overlay.component.css',
     '../../styles/advanced-card.shared.style.css',

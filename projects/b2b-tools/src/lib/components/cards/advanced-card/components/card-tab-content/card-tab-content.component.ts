@@ -1,4 +1,4 @@
-import { Component, input, TemplateRef } from '@angular/core';
+import { Component, input, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedCardTab, AdvancedCardTemplateCtx } from '../../types';
 import { NgTemplateOutlet } from '@angular/common';
 
@@ -6,6 +6,7 @@ import { NgTemplateOutlet } from '@angular/common';
   selector: 'ac-card-tab-content',
   imports: [NgTemplateOutlet],
   templateUrl: './card-tab-content.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./card-tab-content.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardTabContentComponent {

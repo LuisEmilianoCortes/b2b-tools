@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-tables.page',
   imports: [RouterOutlet],
   templateUrl: './tables.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tables.page.css',
 })
 export class TablesPage {}

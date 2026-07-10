@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { AdvancedCardContentVm, AdvancedTabAction } from '../../types';
 import { CardSummaryComponent } from '../card-summary/card-summary.component';
 import { CardTabContentComponent } from '../card-tab-content/card-tab-content.component';
@@ -8,6 +8,7 @@ import { CardTabsBarComponent } from '../card-tabs-bar/card-tabs-bar.component';
   selector: 'ac-advanced-card-content',
   imports: [CardSummaryComponent, CardTabsBarComponent, CardTabContentComponent],
   templateUrl: './advanced-card-content.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: [
     './advanced-card-content.component.css',
     '../../styles/advanced-card.shared.style.css',
