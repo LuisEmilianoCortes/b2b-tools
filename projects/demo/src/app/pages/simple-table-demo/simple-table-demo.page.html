@@ -6,7 +6,7 @@
 
   <div class="demo-body">
     <div class="demo-table-wrap">
-      <simple-table [attr.data-theme]="theme() === 'dark' ? 'dark' : null" [headers]="headers" [data]="rows" />
+      <simple-table [attr.data-theme]="theme() === 'dark' ? 'dark' : null" [headers]="headers" [data]="rows" [lang]="langService.lang()" />
     </div>
 
     <aside class="options-rail">

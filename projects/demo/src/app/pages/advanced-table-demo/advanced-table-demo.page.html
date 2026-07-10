@@ -57,7 +57,7 @@
         [columns]="columns()"
         [data]="rows()"
         [config]="config()"
-        [lang]="'EN'"
+        [lang]="langService.lang()"
         (refresh)="onRefresh()"
         (rowClick)="onRowClick($event)"
         (actionClick)="onAction($event)"

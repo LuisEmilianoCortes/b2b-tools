@@ -74,6 +74,7 @@
       [type]="activeType()!"
       [title]="activeType() + ' modal'"
       content="This is a sample modal rendered by the AdvancedModal component."
+      [lang]="langService.lang()"
       (confirm)="onConfirm()"
       (cancel)="onCancel()"
     />
@@ -84,6 +85,7 @@
       [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
       [httpData]="sampleError"
       [rawError]="sampleError"
+      [lang]="langService.lang()"
       (close)="showErrorDetail.set(false)"
     />
   }

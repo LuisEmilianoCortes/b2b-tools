@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
   AdvancedButtonComponent,
   AdvancedModalComponent,
@@ -6,6 +6,7 @@ import {
   HttpErrorData,
   ModalType,
 } from 'b2b-tools';
+import { LangService } from '../../lang/lang.service';
 
 @Component({
   selector: 'app-advanced-modal-demo',
@@ -15,6 +16,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedModalDemoPage {
+  readonly langService = inject(LangService);
   readonly mainTheme = signal<'dark' | 'light'>('light');
   readonly brandTheme = signal<'dark' | 'light'>('dark');
 

@@ -27,6 +27,7 @@
           [options]="options()"
           [config]="singleConfig"
           [value]="singleValue()"
+          [lang]="langService.lang()"
           (valueChange)="singleValue.set($event)"
           (selectionChange)="onSelectionChange($event)"
         />
@@ -36,6 +37,7 @@
           [options]="options()"
           [config]="multipleConfig"
           [value]="multipleValue()"
+          [lang]="langService.lang()"
           (valueChange)="multipleValue.set($event)"
           (selectionChange)="onSelectionChange($event)"
         />
@@ -55,6 +57,7 @@
           [options]="options()"
           [config]="modalConfig"
           [value]="modalValue()"
+          [lang]="langService.lang()"
           (valueChange)="modalValue.set($event)"
         />
       </div>
@@ -81,6 +84,7 @@
           [options]="options()"
           [config]="singleConfig"
           [value]="singleValue()"
+          [lang]="langService.lang()"
           (valueChange)="singleValue.set($event)"
         />
       </div>

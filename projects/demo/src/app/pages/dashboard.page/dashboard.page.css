@@ -27,6 +27,18 @@
   border-bottom: 1px solid var(--b2b-border, #3c3c3c);
 }
 
+.shell-lang-toggle {
+  align-self: flex-start;
+  margin: 0 8px 16px;
+  padding: 6px 12px;
+  border-radius: var(--b2b-radius-sm, 4px);
+  border: 1px solid var(--b2b-border, #3c3c3c);
+  background: var(--b2b-surface, #1e1e1e);
+  color: var(--b2b-text, #d4d4d4);
+  font-size: 13px;
+  cursor: pointer;
+}
+
 .shell-brand-mark {
   display: inline-flex;
   align-items: center;

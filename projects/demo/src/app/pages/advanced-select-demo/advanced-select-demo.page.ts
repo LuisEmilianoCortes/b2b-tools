@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { AdvancedSelectComponent, AdvancedSelectConfig, AdvancedSelectOption } from 'b2b-tools';
+import { LangService } from '../../lang/lang.service';
 
 interface Country {
   code: string;
@@ -32,6 +33,7 @@ const COUNTRIES: Country[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedSelectDemoPage {
+  readonly langService = inject(LangService);
   readonly mainTheme = signal<'dark' | 'light'>('light');
   readonly brandTheme = signal<'dark' | 'light'>('dark');
 

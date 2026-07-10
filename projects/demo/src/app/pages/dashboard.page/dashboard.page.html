@@ -8,6 +8,10 @@
       </div>
     </div>
 
+    <button type="button" class="shell-lang-toggle" (click)="langService.toggle()">
+      {{ langService.lang() === 'EN' ? '🇬🇧 EN' : '🇪🇸 ES' }}
+    </button>
+
     <nav class="shell-nav">
       <p class="shell-nav-title">Tablas</p>
       <a

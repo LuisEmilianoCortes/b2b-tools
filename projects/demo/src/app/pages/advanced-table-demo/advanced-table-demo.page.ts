@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   AdvancedTable,
   TableActionEvent,
@@ -7,6 +7,7 @@ import {
   TableConfig,
   TablePaginationChange,
 } from 'b2b-tools';
+import { LangService } from '../../lang/lang.service';
 
 type UserRow = {
   id: number;
@@ -28,6 +29,7 @@ type UserRow = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedTableDemoPage {
+  readonly langService = inject(LangService);
   readonly mainTheme = signal<'dark' | 'light'>('dark');
   readonly darkTheme = signal<'dark' | 'light'>('dark');
 
