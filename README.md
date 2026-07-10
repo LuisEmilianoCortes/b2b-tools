@@ -1,6 +1,6 @@
 # b2b-tools — Angular Component Library
 
-**Version 2.2.0** · Angular 21 · Standalone · Signals
+**Version 2.3.0** · Angular 21 · Standalone · Signals
 
 A set of production-grade UI components designed for B2B applications. Built with Angular standalone components, CSS custom properties, and a signals-based architecture.
 
@@ -51,7 +51,7 @@ Full-featured data table with client and server-side support.
 | Pagination        | Client and server mode; infinite scroll                                                                        |
 | Selection         | Single and multiple row selection                                                                              |
 | Column visibility | Toggle with localStorage persistence                                                                           |
-| i18n              | Built-in EN / ES; fully overridable                                                                            |
+| i18n              | Built-in EN / ES via `lang`/`i18n`; fully overridable                                                          |
 | Time zones        | 30+ presets with currency and locale mapping                                                                   |
 | Auto-refresh      | Configurable intervals; custom interval input                                                                  |
 | Dark mode         | `[data-theme="dark"]` on the host element                                                                      |
@@ -97,6 +97,7 @@ Searchable single/multi select with pills, autocomplete, and an optional advance
 | Advanced modal      | Full-list searchable table for large datasets (`enableModal`)                               |
 | Forms               | `ControlValueAccessor` — works with `formControl` / `[control]` / `[value]` + `valueChange` |
 | Clearable           | Optional clear button                                                                       |
+| i18n                | Built-in EN / ES via `lang`/`i18n`; fully overridable                                       |
 | Dark mode           | `[data-theme="dark"]` on the host element                                                   |
 | Color customization | Overrides `--b2b-primary` / `--b2b-primary-soft` per instance or globally                   |
 
@@ -123,6 +124,7 @@ Floating-label text input with validation states, password visibility toggle, an
 | Validation     | Reads errors off the bound `NgControl`; built-in messages for `required`, `email`, `minlength`, `maxlength`, `pattern` |
 | Clearable      | Optional clear button                                                                                                  |
 | Counter        | Optional character counter with `maxLength`                                                                            |
+| i18n           | Built-in EN / ES via `lang`/`i18n` — validation messages and aria-labels                                               |
 | Color variants | `primary` · `secondary` · `accent`                                                                                     |
 | Dark mode      | `[data-theme="dark"]` on the host element                                                                              |
 
@@ -161,6 +163,7 @@ Overlay dialog for confirmations and alerts, driven by a `type`. Plus a dedicate
 | Actions       | Single confirm button, or confirm + cancel for `QUESTION`                 |
 | Details link  | Optional `detailsAction` callback link inside the dialog                  |
 | Error detail  | `<advanced-error-detail-modal>` renders status/url/message/payload plus a collapsible full JSON dump |
+| i18n          | Built-in EN / ES via `lang`/`i18n` on both `<advanced-modal>` and `<advanced-error-detail-modal>` |
 | Dark mode     | `[data-theme="dark"]` on the host element                                 |
 
 ```html
@@ -176,10 +179,10 @@ Overlay dialog for confirmations and alerts, driven by a `type`. Plus a dedicate
 
 ### SimpleTable `<simple-table>`
 
-Lightweight generic table with client-side sorting.
+Lightweight generic table with client-side sorting and built-in EN / ES i18n for its empty state.
 
 ```html
-<simple-table [headers]="headers" [data]="rows" />
+<simple-table [headers]="headers" [data]="rows" lang="ES" />
 ```
 
 ---
