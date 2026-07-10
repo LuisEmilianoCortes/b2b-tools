@@ -6,7 +6,7 @@ import { NgTemplateOutlet } from '@angular/common';
   selector: 'ac-card-tab-content',
   imports: [NgTemplateOutlet],
   templateUrl: './card-tab-content.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./card-tab-content.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardTabContentComponent {

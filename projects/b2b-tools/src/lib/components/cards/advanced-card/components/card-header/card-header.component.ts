@@ -5,7 +5,7 @@ import { AdvancedAction, AdvancedBadge } from '../../types';
   selector: 'ac-card-header',
   imports: [],
   templateUrl: './card-header.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./card-header.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardHeaderComponent {

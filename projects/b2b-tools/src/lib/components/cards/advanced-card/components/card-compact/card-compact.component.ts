@@ -5,7 +5,7 @@ import { AdvancedCardConfig } from '../../types';
   selector: 'lib-card-compact',
   imports: [],
   templateUrl: './card-compact.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./card-compact.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardCompactComponent {

@@ -5,7 +5,7 @@ import { AdvancedCardTab, AdvancedTabAction } from '../../types';
   selector: 'ac-card-tabs-bar',
   imports: [],
   templateUrl: './card-tabs-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./card-tabs-bar.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardTabsBarComponent {

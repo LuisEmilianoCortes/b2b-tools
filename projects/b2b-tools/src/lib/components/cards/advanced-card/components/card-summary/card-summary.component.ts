@@ -5,7 +5,7 @@ import { AdvancedSummaryBlock, AdvancedTone } from '../../types';
   selector: 'ac-card-summary',
   imports: [],
   templateUrl: './card-summary.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./card-summary.component.css', '../../styles/advanced-card.shared.style.css'],
 })
 export class CardSummaryComponent {

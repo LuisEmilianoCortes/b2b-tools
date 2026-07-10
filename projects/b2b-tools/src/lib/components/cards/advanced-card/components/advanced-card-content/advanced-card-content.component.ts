@@ -8,7 +8,7 @@ import { CardTabsBarComponent } from '../card-tabs-bar/card-tabs-bar.component';
   selector: 'ac-advanced-card-content',
   imports: [CardSummaryComponent, CardTabsBarComponent, CardTabContentComponent],
   templateUrl: './advanced-card-content.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [
     './advanced-card-content.component.css',
     '../../styles/advanced-card.shared.style.css',

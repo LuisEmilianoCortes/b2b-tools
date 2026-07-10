@@ -5,7 +5,7 @@ import { AdvancedCard, AdvancedCardConfig, AdvancedCardTemplateDirective } from 
   selector: 'advanced-card-demo',
   imports: [AdvancedCard, AdvancedCardTemplateDirective],
   templateUrl: './advanced-card-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './advanced-card-demo.page.css',
 })
 export class AdvancedCardDemoPage {

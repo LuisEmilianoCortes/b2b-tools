@@ -28,7 +28,7 @@ let nextId = 0;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './input.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './input.component.css',
 })
 export class AdvancedInputComponent implements ControlValueAccessor, OnInit {

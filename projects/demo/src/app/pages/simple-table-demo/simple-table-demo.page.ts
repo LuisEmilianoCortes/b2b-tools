@@ -17,7 +17,7 @@ type UserRow = {
   selector: 'simple-table-demo',
   imports: [SimpleTable],
   templateUrl: './simple-table-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './simple-table-demo.page.css',
 })
 export class SimpleTableDemoPage {

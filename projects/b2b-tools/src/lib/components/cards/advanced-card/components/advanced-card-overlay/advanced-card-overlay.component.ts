@@ -12,7 +12,7 @@ import { AdvancedCardContentComponent } from '../advanced-card-content/advanced-
   selector: 'ac-advanced-card-overlay',
   imports: [CardHeaderComponent, AdvancedCardContentComponent],
   templateUrl: './advanced-card-overlay.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [
     './advanced-card-overlay.component.css',
     '../../styles/advanced-card.shared.style.css',

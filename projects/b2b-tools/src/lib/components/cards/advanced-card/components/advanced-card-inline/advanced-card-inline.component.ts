@@ -12,7 +12,7 @@ import { CardHeaderComponent } from '../card-header/card-header.component';
   selector: 'ac-advanced-card-inline',
   imports: [AdvancedCardContentComponent, CardHeaderComponent],
   templateUrl: './advanced-card-inline.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [
     './advanced-card-inline.component.css',
     '../../styles/advanced-card.shared.style.css',

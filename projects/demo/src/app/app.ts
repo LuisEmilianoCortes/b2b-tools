@@ -6,7 +6,7 @@ import { ThemeCustomizerComponent } from './theme';
   selector: 'app-root',
   imports: [RouterOutlet, ThemeCustomizerComponent],
   templateUrl: './app.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './app.css',
 })
 export class App {

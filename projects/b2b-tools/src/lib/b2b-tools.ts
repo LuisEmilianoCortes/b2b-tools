@@ -8,7 +8,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
       b2b-tools works!
     </p>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: ``,
 })
 export class B2bTools {

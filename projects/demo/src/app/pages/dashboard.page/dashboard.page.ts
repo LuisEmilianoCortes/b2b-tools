@@ -6,7 +6,7 @@ import { LangService } from '../../lang/lang.service';
   selector: 'dashboard',
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './dashboard.page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './dashboard.page.css',
 })
 export class DashboardPage {

@@ -10,7 +10,7 @@ import { SimpleTableI18n, SimpleTableLang } from './types/simple-table-i18n.type
   selector: 'simple-table',
   imports: [],
   templateUrl: './simple-table.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './simple-table.css',
 })
 export class SimpleTable<T> {

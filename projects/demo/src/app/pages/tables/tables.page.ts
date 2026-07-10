@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-tables.page',
   imports: [RouterOutlet],
   templateUrl: './tables.page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './tables.page.css',
 })
 export class TablesPage {}
