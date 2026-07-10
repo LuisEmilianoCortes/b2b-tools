@@ -17,6 +17,7 @@
     - [Per-column Search Mode](#per-column-search-mode)
     - [Show All Rows](#show-all-rows)
   - [SimpleTable](#simpletable)
+  - [AdvancedInput](#advancedinput)
 - [Theming](#theming)
   - [CSS Variables Reference](#css-variables-reference)
   - [Color Customization](#color-customization)
@@ -615,6 +616,88 @@ export class ProductsComponent {
 
 ---
 
+### AdvancedInput
+
+> **New in v2.1.0**
+
+Floating-label text input with validation states, a password visibility toggle, a clear button, and an optional character counter. Implements Angular's `ControlValueAccessor`, so it binds directly to a `FormControl`/`formControlName`, or plain `[(value)]` two-way binding.
+
+#### Import
+
+```ts
+import { AdvancedInputComponent } from 'b2b-tools';
+```
+
+#### Selector
+
+```html
+<advanced-input />
+```
+
+#### Inputs
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `id` | `string` | auto-generated | `id`/`for` association with the floating label |
+| `name` | `string` | `''` | Native `name` attribute |
+| `type` | `string` | `'text'` | Native input type; `'password'` enables the visibility toggle |
+| `placeholder` | `string` | `' '` | Placeholder shown once the field is focused |
+| `label` | `string` | `''` | Floating label text |
+| `helperText` | `string` | `''` | Helper text shown below the field when there's no error |
+| `theme` | `'primary' \| 'secondary' \| 'accent'` | `'primary'` | Color variant |
+| `clearable` | `boolean` | `false` | Shows a clear button when there's a value |
+| `readonly` | `boolean` | `false` | Native readonly |
+| `icon` | `string` | `''` | CSS class for a prefix icon (bring your own icon font) |
+| `suffixIcon` | `string` | `''` | CSS class for a suffix icon |
+| `loading` | `boolean` | `false` | Shows a spinner in place of suffix actions |
+| `showCounter` | `boolean` | `false` | Shows a character counter |
+| `maxLength` | `number` | — | Native `maxlength`; paired with `showCounter` |
+| `value` | `string` (model) | `''` | Two-way bindable value: `[(value)]` |
+
+#### Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `focusEvent` | `FocusEvent` | Field gained focus |
+| `blurEvent` | `FocusEvent` | Field lost focus |
+| `clearEvent` | `void` | Clear button clicked |
+
+#### Reactive Forms
+
+When bound via `[formControl]` or `formControlName`, the component reads validation state off the injected `NgControl` and shows a built-in message for `required`, `email`, `minlength`, `maxlength`, and `pattern` errors once the control is `dirty` or `touched`.
+
+```ts
+import { AdvancedInputComponent } from 'b2b-tools';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+
+@Component({
+  imports: [AdvancedInputComponent, ReactiveFormsModule],
+  template: `
+    <advanced-input label="Email" placeholder="you@example.com" [formControl]="emailControl" />
+  `,
+})
+export class SignupFormComponent {
+  emailControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.email],
+  });
+}
+```
+
+#### Color Variants
+
+```html
+<advanced-input theme="primary" label="Primary" />
+<advanced-input theme="secondary" label="Secondary" />
+<advanced-input theme="accent" label="Accent" />
+```
+
+Each variant maps to a `--b2b-*` token (`--b2b-primary`, `--b2b-secondary`, `--b2b-accent`) with a sensible fallback, so they can be overridden the same way as any other theme token — see [Color Customization](#color-customization).
+
+Dark mode follows the same `--b2b-*` token contract as the rest of the library — add `data-theme="dark"` to the host element.
+
+---
+
 ## Theming
 
 All visual tokens are CSS custom properties. Override them on the component element, a parent container, or `:root` — no build step required.
@@ -886,6 +969,9 @@ import {
 
   // Simple Table
   SimpleHaders,
+
+  // Advanced Input
+  AdvancedInputComponent,
 } from 'b2b-tools';
 ```
 

@@ -1,6 +1,6 @@
 # b2b-tools — Angular Component Library
 
-**Version 2.0.0** · Angular 21 · Standalone · Signals
+**Version 2.1.0** · Angular 21 · Standalone · Signals
 
 A set of production-grade UI components designed for B2B applications. Built with Angular standalone components, CSS custom properties, and a signals-based architecture.
 
@@ -91,6 +91,29 @@ Expandable card with tabs, summary blocks, and overlay modes.
 
 ---
 
+### AdvancedInput `<advanced-input>`
+
+Floating-label text input with validation states, password visibility toggle, and clear button. Implements `ControlValueAccessor`, so it plugs directly into Reactive Forms.
+
+| Feature | Details |
+|---|---|
+| Types | Any native `input` type, incl. `password` with a visibility toggle |
+| Validation | Reads errors off the bound `NgControl`; built-in messages for `required`, `email`, `minlength`, `maxlength`, `pattern` |
+| Clearable | Optional clear button |
+| Counter | Optional character counter with `maxLength` |
+| Color variants | `primary` · `secondary` · `accent` |
+| Dark mode | `[data-theme="dark"]` on the host element |
+
+```html
+<advanced-input
+  label="Email"
+  placeholder="you@example.com"
+  [formControl]="emailControl"
+/>
+```
+
+---
+
 ### SimpleTable `<simple-table>`
 
 Lightweight generic table with client-side sorting.
@@ -146,6 +169,7 @@ Add `[data-theme="dark"]` to any component host to activate its built-in dark pa
 ```html
 <advanced-table [columns]="cols" [data]="rows" data-theme="dark" />
 <advanced-card  [config]="cfg"               data-theme="dark" />
+<advanced-input [formControl]="ctrl"         data-theme="dark" />
 <simple-table   [headers]="h" [data]="rows"  data-theme="dark" />
 ```
 
