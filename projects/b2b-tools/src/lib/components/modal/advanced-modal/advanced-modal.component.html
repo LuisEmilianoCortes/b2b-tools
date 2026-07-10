@@ -1,0 +1,68 @@
+<div class="modal-wrapper">
+  <div class="container" [class]="'type-' + type" (click)="$event.stopPropagation()">
+    <div class="content">
+      <div class="icon-ring">
+        @switch (type) {
+          @case ('SUCCESS') {
+            <svg class="modal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="24" class="icon-bg" />
+              <polyline points="12,25 20,33 36,15" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          }
+          @case ('ERROR') {
+            <svg class="modal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="24" class="icon-bg" />
+              <line x1="16" y1="16" x2="32" y2="32" stroke="white" stroke-width="3.2" stroke-linecap="round" />
+              <line x1="32" y1="16" x2="16" y2="32" stroke="white" stroke-width="3.2" stroke-linecap="round" />
+            </svg>
+          }
+          @case ('WARNING') {
+            <svg class="modal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M24 5 L44 42 H4 Z" class="icon-bg" stroke-linejoin="round" />
+              <rect x="21.5" y="18" width="5" height="13" rx="2.5" fill="white" />
+              <circle cx="24" cy="36" r="2.8" fill="white" />
+            </svg>
+          }
+          @default {
+            <svg class="modal-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="24" class="icon-bg" />
+              <text x="24" y="33" text-anchor="middle" fill="white" font-size="24" font-weight="700" font-family="sans-serif">?</text>
+            </svg>
+          }
+        }
+      </div>
+
+      <span class="title align-center">{{ title }}</span>
+
+      <div class="text align-center" [innerHTML]="content"></div>
+
+      @if (detailsAction) {
+        <button class="btn-details" type="button" (click)="onDetails()">{{ detailsLabel }}</button>
+      }
+
+      @if (type !== 'QUESTION') {
+        <advanced-button
+          type="button"
+          [text]="confirmText"
+          [variant]="getVariant(type)"
+          [fullWidth]="true"
+          (clicked)="onConfirm()"
+        />
+      } @else {
+        <advanced-button
+          type="button"
+          [text]="confirmText"
+          [fullWidth]="true"
+          (clicked)="onConfirm()"
+        />
+        <advanced-button
+          type="button"
+          variant="secondary"
+          [text]="cancelText"
+          [fullWidth]="true"
+          (clicked)="onCancel()"
+        />
+      }
+    </div>
+  </div>
+</div>
