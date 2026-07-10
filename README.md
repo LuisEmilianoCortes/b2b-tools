@@ -1,5 +1,7 @@
 # b2b-tools — Angular Component Library
 
+> **Versioning:** releases `2.*` target Angular 21 or lower. Releases `3.*` target Angular 22 or higher.
+
 **Version 2.3.0** · Angular 21 · Standalone · Signals
 
 A set of production-grade UI components designed for B2B applications. Built with Angular standalone components, CSS custom properties, and a signals-based architecture.
