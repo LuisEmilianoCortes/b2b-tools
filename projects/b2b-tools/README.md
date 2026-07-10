@@ -20,6 +20,7 @@
   - [AdvancedSelect](#advancedselect)
   - [AdvancedInput](#advancedinput)
   - [AdvancedButton](#advancedbutton)
+  - [AdvancedModal](#advancedmodal)
 - [Theming](#theming)
   - [CSS Variables Reference](#css-variables-reference)
   - [Color Customization](#color-customization)
@@ -884,6 +885,89 @@ Dark mode and color customization follow the same `--b2b-*` token contract as th
 
 ---
 
+### AdvancedModal
+
+> **New in v2.2.0**
+
+Overlay confirmation/alert dialog keyed by `type`, with its own icon and accent color per type. A dedicated `<advanced-error-detail-modal>` renders structured HTTP error details for debugging.
+
+#### Import
+
+```ts
+import { AdvancedModalComponent, ErrorDetailModalComponent, ModalType, HttpErrorData } from 'b2b-tools';
+```
+
+#### Selectors
+
+```html
+<advanced-modal />
+<advanced-error-detail-modal />
+```
+
+#### AdvancedModal Inputs
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `title` | `string` | `''` | Dialog title |
+| `content` | `string` | `''` | Dialog body; rendered via `innerHTML` |
+| `type` | `ModalType` | `'INFO'` | `'INFO' \| 'SUCCESS' \| 'ERROR' \| 'WARNING' \| 'QUESTION'` — drives icon, accent color, and button layout |
+| `confirmText` | `string` | `'Accept'` | Confirm button label |
+| `cancelText` | `string` | `'Cancel'` | Cancel button label (`QUESTION` only) |
+| `showCancel` | `boolean` | `false` | Reserved for custom layouts |
+| `detailsAction` | `() => void` | — | Optional callback link shown above the actions |
+| `detailsLabel` | `string` | `'See more'` | Label for the details link |
+
+`QUESTION` renders both a confirm and a cancel button; every other type renders a single confirm button.
+
+#### AdvancedModal Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `confirm` | `void` | Confirm button clicked |
+| `cancel` | `void` | Cancel button clicked (`QUESTION` only) |
+
+#### ErrorDetailModal Inputs
+
+| Input | Type | Description |
+|---|---|---|
+| `httpData` | `HttpErrorData` | `{ status?, statusText?, url?, message?, payload?, error? }` — rendered as a summary table plus a collapsible server-response JSON block |
+| `rawError` | `unknown` | Full raw error, shown behind a "View full data" toggle |
+
+#### ErrorDetailModal Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `close` | `void` | Fires on backdrop click or the close button |
+
+#### Example
+
+```ts
+import { AdvancedModalComponent, ModalType } from 'b2b-tools';
+
+@Component({
+  imports: [AdvancedModalComponent],
+  template: `
+    @if (activeType(); as type) {
+      <advanced-modal
+        [type]="type"
+        title="Delete item?"
+        content="This action cannot be undone."
+        (confirm)="onConfirm()"
+        (cancel)="activeType.set(null)"
+      />
+    }
+  `,
+})
+export class ItemListComponent {
+  activeType = signal<ModalType | null>(null);
+  onConfirm(): void { /* ... */ }
+}
+```
+
+Dark mode and color customization follow the same `--b2b-*` token contract as the rest of the library — see [Theming](#theming).
+
+---
+
 ## Theming
 
 All visual tokens are CSS custom properties. Override them on the component element, a parent container, or `:root` — no build step required.
@@ -1167,6 +1251,12 @@ import {
   AdvancedInputComponent,
   // Advanced Button
   AdvancedButtonComponent,
+
+  // Advanced Modal
+  AdvancedModalComponent,
+  ErrorDetailModalComponent,
+  ModalType,
+  HttpErrorData,
 } from 'b2b-tools';
 ```
 

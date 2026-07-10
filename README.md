@@ -1,6 +1,6 @@
 # b2b-tools — Angular Component Library
 
-**Version 2.1.0** · Angular 21 · Standalone · Signals
+**Version 2.2.0** · Angular 21 · Standalone · Signals
 
 A set of production-grade UI components designed for B2B applications. Built with Angular standalone components, CSS custom properties, and a signals-based architecture.
 
@@ -151,6 +151,29 @@ Styled button with variants, sizes, loading and disabled states.
 
 ---
 
+### AdvancedModal `<advanced-modal>`
+
+Overlay dialog for confirmations and alerts, driven by a `type`. Plus a dedicated `<advanced-error-detail-modal>` for inspecting HTTP error payloads.
+
+| Feature       | Details                                                                    |
+| ------------- | --------------------------------------------------------------------------- |
+| Types         | `INFO` · `SUCCESS` · `ERROR` · `WARNING` · `QUESTION`, each with its own icon/accent color |
+| Actions       | Single confirm button, or confirm + cancel for `QUESTION`                 |
+| Details link  | Optional `detailsAction` callback link inside the dialog                  |
+| Error detail  | `<advanced-error-detail-modal>` renders status/url/message/payload plus a collapsible full JSON dump |
+| Dark mode     | `[data-theme="dark"]` on the host element                                 |
+
+```html
+<advanced-modal
+  type="ERROR"
+  title="Something went wrong"
+  content="The request could not be completed."
+  (confirm)="onClose()"
+/>
+```
+
+---
+
 ### SimpleTable `<simple-table>`
 
 Lightweight generic table with client-side sorting.
@@ -209,6 +232,7 @@ Add `[data-theme="dark"]` to any component host to activate its built-in dark pa
 <advanced-select [options]="opts" [config]="cfg" data-theme="dark" />
 <advanced-input  label="Email"                data-theme="dark" />
 <advanced-button text="Save"                  data-theme="dark" />
+<advanced-modal  type="INFO"                  data-theme="dark" />
 <simple-table    [headers]="h" [data]="rows"  data-theme="dark" />
 ```
 
