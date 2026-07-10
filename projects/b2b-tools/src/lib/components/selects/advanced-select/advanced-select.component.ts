@@ -3,6 +3,7 @@ import {
   computed,
   EventEmitter,
   input,
+  Input,
   Output,
   Signal,
   signal,
@@ -26,6 +27,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AdvancedSelectOption, AdvancedSelectConfig } from './types/advanced-select.types';
+import {
+  ADVANCED_SELECT_I18N_BY_LANG,
+  ADVANCED_SELECT_LANG_DEFAULT,
+} from './constants/advanced-select-i18n.constants';
+import { AdvancedSelectI18n, AdvancedSelectLang } from './types/advanced-select-i18n.type';
 
 @Component({
   selector: 'advanced-select',
@@ -54,6 +60,24 @@ export class AdvancedSelectComponent<T = unknown>
   control = input<FormControl<any> | undefined>(undefined);
   value = input<any | any[] | undefined>(undefined);
 
+  @Input()
+  set lang(value: AdvancedSelectLang | undefined) {
+    this._lang.set(value ?? ADVANCED_SELECT_LANG_DEFAULT);
+  }
+
+  @Input()
+  set i18n(value: Partial<AdvancedSelectI18n> | undefined) {
+    this._override.set(value ?? {});
+  }
+
+  private _lang = signal<AdvancedSelectLang>(ADVANCED_SELECT_LANG_DEFAULT);
+  private _override = signal<Partial<AdvancedSelectI18n>>({});
+
+  readonly i18nCom = computed<AdvancedSelectI18n>(() => ({
+    ...ADVANCED_SELECT_I18N_BY_LANG[this._lang()],
+    ...this._override(),
+  }));
+
   @Output() selectionChange = new EventEmitter<
     AdvancedSelectOption<T> | AdvancedSelectOption<T>[]
   >();
@@ -77,8 +101,8 @@ export class AdvancedSelectComponent<T = unknown>
       multiple: userConfig.multiple ?? false,
       autocomplete: userConfig.autocomplete ?? false,
       enableModal: userConfig.enableModal ?? false,
-      modalTitle: userConfig.modalTitle ?? 'Advanced Selection',
-      placeholder: userConfig.placeholder ?? 'Select an option',
+      modalTitle: userConfig.modalTitle ?? this.i18nCom().modalTitle,
+      placeholder: userConfig.placeholder ?? this.i18nCom().placeholder,
       showLabel: userConfig.showLabel ?? false,
       disabled: userConfig.disabled || this.isFormDisabled(),
       clearable: userConfig.clearable ?? true,
@@ -125,7 +149,7 @@ export class AdvancedSelectComponent<T = unknown>
       .map((opt) => opt.label)
       .join(', ');
     const extra = selected.length - maxShow;
-    return extra > 0 ? `${showing} (+${extra} more)` : showing;
+    return extra > 0 ? `${showing} (+${extra} ${this.i18nCom().more})` : showing;
   });
 
   syncExternalInputsEffect = effect(() => {

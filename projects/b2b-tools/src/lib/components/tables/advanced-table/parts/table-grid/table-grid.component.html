@@ -14,7 +14,7 @@
                 type="checkbox"
                 [checked]="isAllSelectedOnPage()"
                 (change)="onToggleAllOnPage()"
-                aria-label="Select all"
+                [attr.aria-label]="i18n().selectAll"
               />
             }
           </div>
@@ -78,7 +78,7 @@
                 type="checkbox"
                 [checked]="isSelected(row)"
                 (change)="onToggleRow(row)"
-                aria-label="Seleccionar fila"
+                [attr.aria-label]="i18n().selectRow"
               />
             </div>
           }

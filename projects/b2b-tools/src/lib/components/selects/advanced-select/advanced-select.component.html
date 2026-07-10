@@ -27,14 +27,14 @@
                   type="button"
                   class="pill-remove"
                   (click)="deselectOption(opt, $event)"
-                  aria-label="Remove option"
+                  [attr.aria-label]="i18nCom().removeOption"
                 >
                   &times;
                 </button>
               </span>
             }
             @if (selectedOptions().length > activeConfig().maxSelectedItemsToShow) {
-              <span class="pill-more" title="Ver más opciones"
+              <span class="pill-more" [title]="i18nCom().moreOptions"
                 >+{{ selectedOptions().length - activeConfig().maxSelectedItemsToShow }}</span
               >
             }
@@ -53,7 +53,7 @@
           type="button"
           class="action-btn clear-btn"
           (click)="clearSelection($event)"
-          title="Clear selection"
+          [title]="i18nCom().clearSelection"
         >
           &times;
         </button>
@@ -65,7 +65,7 @@
           type="button"
           class="action-btn modal-trigger-btn"
           (click)="openModal($event)"
-          title="Advanced search"
+          [title]="i18nCom().advancedSearch"
         >
           <svg
             viewBox="0 0 24 24"
@@ -101,7 +101,7 @@
           <input
             type="text"
             class="dropdown-search-input"
-            placeholder="Type to search..."
+            [placeholder]="i18nCom().searchPlaceholder"
             [value]="searchTerm()"
             (input)="onSearch($event)"
             autofocus
@@ -131,7 +131,7 @@
             }
           </li>
         } @empty {
-          <li class="no-options">No results found</li>
+          <li class="no-options">{{ i18nCom().noResults }}</li>
         }
       </ul>
 
@@ -152,7 +152,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <span>Advanced search...</span>
+            <span>{{ i18nCom().advancedSearchAction }}</span>
           </button>
         </div>
       }
@@ -174,7 +174,7 @@
           <input
             type="text"
             class="modal-search-input"
-            placeholder="Type to search across the full list..."
+            [placeholder]="i18nCom().advancedSearchPlaceholder"
             [value]="modalSearchTerm()"
             (input)="onModalSearch($event)"
             autofocus
@@ -187,9 +187,9 @@
             <table class="options-table">
               <thead>
                 <tr>
-                  <th class="col-select">Select</th>
-                  <th class="col-id">ID / Code</th>
-                  <th class="col-label">Description / Option</th>
+                  <th class="col-select">{{ i18nCom().select }}</th>
+                  <th class="col-id">{{ i18nCom().idCode }}</th>
+                  <th class="col-label">{{ i18nCom().descriptionOption }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -217,7 +217,7 @@
                 } @empty {
                   <tr>
                     <td colspan="3" class="no-modal-results">
-                      No options found for your search.
+                      {{ i18nCom().noModalResults }}
                     </td>
                   </tr>
                 }
@@ -229,14 +229,14 @@
         <!-- Footer actions & selection feedback -->
         <div class="modal-footer">
           <div class="selection-status">
-            <span>{{ modalTempSelected().length }} selected</span>
+            <span>{{ modalTempSelected().length }} {{ i18nCom().selected }}</span>
           </div>
           <div class="footer-buttons">
             <button type="button" class="modal-btn modal-btn-secondary" (click)="closeModal()">
-              Cancel
+              {{ i18nCom().cancel }}
             </button>
             <button type="button" class="modal-btn modal-btn-primary" (click)="confirmModalSelection()">
-              Confirm Selection
+              {{ i18nCom().confirmSelection }}
             </button>
           </div>
         </div>

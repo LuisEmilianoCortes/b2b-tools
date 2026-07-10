@@ -4,9 +4,9 @@
     <div class="panel-header">
       <div class="header-left">
         <span class="header-icon">!</span>
-        <span class="header-title">Error Detail</span>
+        <span class="header-title">{{ i18nCom().title }}</span>
       </div>
-      <button class="btn-close" type="button" (click)="onClose()" aria-label="Close">✕</button>
+      <button class="btn-close" type="button" (click)="onClose()" [attr.aria-label]="i18nCom().close">✕</button>
     </div>
 
     <div class="panel-body">
@@ -17,7 +17,7 @@
             <tbody>
               @if (data.status) {
                 <tr>
-                  <td class="col-key">Code</td>
+                  <td class="col-key">{{ i18nCom().code }}</td>
                   <td class="col-val">
                     <span class="status-badge" [class]="statusClass">{{ data.status }}</span>
                     @if (data.statusText) {
@@ -28,19 +28,19 @@
               }
               @if (data.url) {
                 <tr>
-                  <td class="col-key">Endpoint</td>
+                  <td class="col-key">{{ i18nCom().endpoint }}</td>
                   <td class="col-val"><code class="url-value">{{ data.url }}</code></td>
                 </tr>
               }
               @if (data.message) {
                 <tr>
-                  <td class="col-key">Message</td>
+                  <td class="col-key">{{ i18nCom().message }}</td>
                   <td class="col-val msg-val">{{ data.message }}</td>
                 </tr>
               }
               @if (data.payload !== undefined) {
                 <tr>
-                  <td class="col-key">Payload</td>
+                  <td class="col-key">{{ i18nCom().payload }}</td>
                   <td class="col-val"><pre class="json-inline">{{ formatJson(data.payload) }}</pre></td>
                 </tr>
               }
@@ -50,7 +50,7 @@
 
         @if (data.error) {
           <div class="section">
-            <span class="section-label">Server response</span>
+            <span class="section-label">{{ i18nCom().serverResponse }}</span>
             <pre class="json-viewer">{{ formatJson(data.error) }}</pre>
           </div>
         }
@@ -58,13 +58,13 @@
 
       <button class="btn-advanced" type="button" (click)="toggleAdvanced()">
         <span class="toggle-arrow">{{ showAdvanced() ? '▾' : '▸' }}</span>
-        {{ showAdvanced() ? 'Hide full data' : 'View full data' }}
+        {{ showAdvanced() ? i18nCom().hideFullData : i18nCom().viewFullData }}
       </button>
 
       @if (showAdvanced()) {
         <div class="advanced-section">
           <div class="section">
-            <span class="section-label">Full error</span>
+            <span class="section-label">{{ i18nCom().fullError }}</span>
             <pre class="json-viewer">{{ formatJson(rawError) }}</pre>
           </div>
         </div>
@@ -75,7 +75,7 @@
     <div class="panel-footer">
       <advanced-button
         type="button"
-        text="Close"
+        [text]="i18nCom().close"
         variant="secondary"
         [fullWidth]="true"
         (clicked)="onClose()"

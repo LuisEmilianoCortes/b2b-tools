@@ -37,13 +37,13 @@
       <div class="text align-center" [innerHTML]="content"></div>
 
       @if (detailsAction) {
-        <button class="btn-details" type="button" (click)="onDetails()">{{ detailsLabel }}</button>
+        <button class="btn-details" type="button" (click)="onDetails()">{{ resolvedDetailsLabel }}</button>
       }
 
       @if (type !== 'QUESTION') {
         <advanced-button
           type="button"
-          [text]="confirmText"
+          [text]="resolvedConfirmText"
           [variant]="getVariant(type)"
           [fullWidth]="true"
           (clicked)="onConfirm()"
@@ -51,14 +51,14 @@
       } @else {
         <advanced-button
           type="button"
-          [text]="confirmText"
+          [text]="resolvedConfirmText"
           [fullWidth]="true"
           (clicked)="onConfirm()"
         />
         <advanced-button
           type="button"
           variant="secondary"
-          [text]="cancelText"
+          [text]="resolvedCancelText"
           [fullWidth]="true"
           (clicked)="onCancel()"
         />

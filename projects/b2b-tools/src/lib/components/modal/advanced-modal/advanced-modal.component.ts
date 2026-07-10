@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, EventEmitter, Input, Output, signal } from '@angular/core';
 import { ModalType } from '../types/modal.types';
 import { AdvancedButtonComponent } from '../../buttons/advanced-button/advanced-button.component';
+import {
+  ADVANCED_MODAL_I18N_BY_LANG,
+  ADVANCED_MODAL_LANG_DEFAULT,
+} from './constants/advanced-modal-i18n.constants';
+import { AdvancedModalI18n, AdvancedModalLang } from './types/advanced-modal-i18n.type';
 
 @Component({
   selector: 'advanced-modal',
@@ -13,11 +18,41 @@ export class AdvancedModalComponent {
   @Input() title = '';
   @Input() content = '';
   @Input() type: ModalType = 'INFO';
-  @Input() confirmText = 'Accept';
-  @Input() cancelText = 'Cancel';
+  @Input() confirmText?: string;
+  @Input() cancelText?: string;
   @Input() showCancel = false;
   @Input() detailsAction?: () => void;
-  @Input() detailsLabel = 'See more';
+  @Input() detailsLabel?: string;
+
+  @Input()
+  set lang(value: AdvancedModalLang | undefined) {
+    this._lang.set(value ?? ADVANCED_MODAL_LANG_DEFAULT);
+  }
+
+  @Input()
+  set i18n(value: Partial<AdvancedModalI18n> | undefined) {
+    this._override.set(value ?? {});
+  }
+
+  private _lang = signal<AdvancedModalLang>(ADVANCED_MODAL_LANG_DEFAULT);
+  private _override = signal<Partial<AdvancedModalI18n>>({});
+
+  readonly i18nCom = computed<AdvancedModalI18n>(() => ({
+    ...ADVANCED_MODAL_I18N_BY_LANG[this._lang()],
+    ...this._override(),
+  }));
+
+  get resolvedConfirmText(): string {
+    return this.confirmText ?? this.i18nCom().confirm;
+  }
+
+  get resolvedCancelText(): string {
+    return this.cancelText ?? this.i18nCom().cancel;
+  }
+
+  get resolvedDetailsLabel(): string {
+    return this.detailsLabel ?? this.i18nCom().seeMore;
+  }
 
   @Output() confirm = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();

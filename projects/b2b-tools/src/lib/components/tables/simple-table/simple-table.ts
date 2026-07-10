@@ -1,5 +1,10 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, Input, input, signal } from '@angular/core';
 import { SimpleHaders, SortDirection } from './types';
+import {
+  SIMPLE_TABLE_I18N_BY_LANG,
+  SIMPLE_TABLE_LANG_DEFAULT,
+} from './constants/simple-table-i18n.constants';
+import { SimpleTableI18n, SimpleTableLang } from './types/simple-table-i18n.type';
 
 @Component({
   selector: 'simple-table',
@@ -10,6 +15,24 @@ import { SimpleHaders, SortDirection } from './types';
 export class SimpleTable<T> {
   headers = input.required<SimpleHaders<T>[]>();
   data = input<T[]>([]);
+
+  @Input()
+  set lang(value: SimpleTableLang | undefined) {
+    this._lang.set(value ?? SIMPLE_TABLE_LANG_DEFAULT);
+  }
+
+  @Input()
+  set i18n(value: Partial<SimpleTableI18n> | undefined) {
+    this._override.set(value ?? {});
+  }
+
+  private _lang = signal<SimpleTableLang>(SIMPLE_TABLE_LANG_DEFAULT);
+  private _override = signal<Partial<SimpleTableI18n>>({});
+
+  readonly i18nCom = computed<SimpleTableI18n>(() => ({
+    ...SIMPLE_TABLE_I18N_BY_LANG[this._lang()],
+    ...this._override(),
+  }));
 
   sortState = signal<{ key: keyof T | null; direction: SortDirection }>({
     key: null,

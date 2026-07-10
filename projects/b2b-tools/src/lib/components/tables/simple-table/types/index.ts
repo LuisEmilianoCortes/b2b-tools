@@ -4,3 +4,5 @@ export interface SimpleHaders<T> {
 }
 
 export type SortDirection = 'none' | 'asc' | 'desc';
+
+export * from './simple-table-i18n.type';
