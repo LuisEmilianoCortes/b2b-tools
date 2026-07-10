@@ -19,6 +19,7 @@
   - [SimpleTable](#simpletable)
   - [AdvancedSelect](#advancedselect)
   - [AdvancedInput](#advancedinput)
+  - [AdvancedButton](#advancedbutton)
 - [Theming](#theming)
   - [CSS Variables Reference](#css-variables-reference)
   - [Color Customization](#color-customization)
@@ -819,6 +820,70 @@ Dark mode follows the same `--b2b-*` token contract as the rest of the library �
 
 ---
 
+### AdvancedButton
+
+> **New in v2.1.0**
+
+Styled button with color variants, sizes, an optional prefix/suffix icon, and a loading state.
+
+#### Import
+
+```ts
+import { AdvancedButtonComponent } from 'b2b-tools';
+```
+
+#### Selector
+
+```html
+<advanced-button />
+```
+
+#### Inputs
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `text` | `string` | `''` | Button label; alternatively project content via `<ng-content>` |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native button type |
+| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'danger'` | `'primary'` | Color variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button height/padding/font size |
+| `icon` | `string` | `''` | CSS class for a prefix/suffix icon (bring your own icon font) |
+| `iconPosition` | `'left' \| 'right'` | `'left'` | Icon placement relative to the label |
+| `disabled` | `boolean` | `false` | Disables the button |
+| `loading` | `boolean` | `false` | Shows a spinner and blocks clicks |
+| `fullWidth` | `boolean` | `false` | Button fills the parent container width |
+
+#### Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `clicked` | `void` | Fires on click, unless `disabled` or `loading` |
+
+#### Example
+
+```ts
+import { AdvancedButtonComponent } from 'b2b-tools';
+
+@Component({
+  imports: [AdvancedButtonComponent],
+  template: `
+    <advanced-button
+      text="Save changes"
+      variant="primary"
+      [loading]="isSaving()"
+      (clicked)="save()"
+    />
+  `,
+})
+export class ToolbarComponent {
+  isSaving = signal(false);
+  save(): void { /* ... */ }
+}
+```
+
+Dark mode and color customization follow the same `--b2b-*` token contract as the rest of the library — see [Theming](#theming).
+
+---
+
 ## Theming
 
 All visual tokens are CSS custom properties. Override them on the component element, a parent container, or `:root` — no build step required.
@@ -1100,6 +1165,8 @@ import {
   AdvancedSelectConfig,
   // Advanced Input
   AdvancedInputComponent,
+  // Advanced Button
+  AdvancedButtonComponent,
 } from 'b2b-tools';
 ```
 

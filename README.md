@@ -132,6 +132,25 @@ Floating-label text input with validation states, password visibility toggle, an
 
 ---
 
+### AdvancedButton `<advanced-button>`
+
+Styled button with variants, sizes, loading and disabled states.
+
+| Feature | Details |
+|---|---|
+| Variants | `primary` · `secondary` · `ghost` · `danger` |
+| Sizes | `sm` · `md` · `lg` |
+| Icons | Prefix/suffix via a pass-through icon class (bring your own icon font) |
+| Loading state | Replaces content with a spinner and blocks clicks |
+| Full width | `fullWidth` fills the parent container |
+| Dark mode | `[data-theme="dark"]` on the host element |
+
+```html
+<advanced-button text="Save" variant="primary" (clicked)="onSave()" />
+```
+
+---
+
 ### SimpleTable `<simple-table>`
 
 Lightweight generic table with client-side sorting.
@@ -185,10 +204,12 @@ document.documentElement.style.setProperty('--b2b-primary', '#7c3aed');
 Add `[data-theme="dark"]` to any component host to activate its built-in dark palette. This overrides the global `--b2b-*` tokens for that component subtree:
 
 ```html
-<advanced-table [columns]="cols" [data]="rows" data-theme="dark" />
-<advanced-card [config]="cfg" data-theme="dark" />
+<advanced-table  [columns]="cols" [data]="rows" data-theme="dark" />
+<advanced-card   [config]="cfg"               data-theme="dark" />
 <advanced-select [options]="opts" [config]="cfg" data-theme="dark" />
-<simple-table [headers]="h" [data]="rows" data-theme="dark" />
+<advanced-input  label="Email"                data-theme="dark" />
+<advanced-button text="Save"                  data-theme="dark" />
+<simple-table    [headers]="h" [data]="rows"  data-theme="dark" />
 ```
 
 ---
