@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SimpleHaders, SimpleTable } from 'b2b-tools';
+import { LangService } from '../../lang/lang.service';
 
 type UserRow = {
   id: number;
@@ -19,6 +20,7 @@ type UserRow = {
   styleUrl: './simple-table-demo.page.css',
 })
 export class SimpleTableDemoPage {
+  readonly langService = inject(LangService);
   readonly theme = signal<'dark' | 'light'>('dark');
 
   headers: SimpleHaders<UserRow>[] = [

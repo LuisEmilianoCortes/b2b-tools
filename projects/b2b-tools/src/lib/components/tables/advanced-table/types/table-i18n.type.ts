@@ -22,4 +22,9 @@ export interface TableI18n {
   refreshSeconds?: string;
   refreshMinutes?: string;
   showAll: string;
+  selectAll: string;
+  selectRow: string;
+  closeModal: string;
+  firstPage: string;
+  lastPage: string;
 }

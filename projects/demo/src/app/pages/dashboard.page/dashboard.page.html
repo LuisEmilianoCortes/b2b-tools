@@ -8,6 +8,10 @@
       </div>
     </div>
 
+    <button type="button" class="shell-lang-toggle" (click)="langService.toggle()">
+      {{ langService.lang() === 'EN' ? '🇬🇧 EN' : '🇪🇸 ES' }}
+    </button>
+
     <nav class="shell-nav">
       <p class="shell-nav-title">Tablas</p>
       <a
@@ -57,6 +61,14 @@
         routerLinkActive="shell-nav-link--active"
       >
         Advanced Button
+      </a>
+      <p class="shell-nav-title">Modals</p>
+      <a
+        class="shell-nav-link"
+        routerLink="/advanced-modal"
+        routerLinkActive="shell-nav-link--active"
+      >
+        Advanced Modal
       </a>
     </nav>
   </aside>

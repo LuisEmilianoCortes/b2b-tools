@@ -3,7 +3,7 @@
     <div class="dt-modal" (click)="$event.stopPropagation()">
       <div class="dt-modal-header">
         <span class="dt-modal-title">{{ alt() }}</span>
-        <button type="button" class="dt-btn" (click)="onClose()">Cerrar</button>
+        <button type="button" class="dt-btn" (click)="onClose()">{{ i18n().closeModal }}</button>
       </div>
 
       <div class="dt-modal-body">

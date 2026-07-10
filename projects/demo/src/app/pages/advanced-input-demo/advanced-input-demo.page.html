@@ -67,7 +67,12 @@
       </div>
 
       <div class="demo-input-row">
-        <advanced-input label="Email" placeholder="you@example.com" [formControl]="emailControl" />
+        <advanced-input
+          label="Email"
+          placeholder="you@example.com"
+          [formControl]="emailControl"
+          [lang]="langService.lang()"
+        />
 
         <advanced-input
           label="Bio"
@@ -76,6 +81,7 @@
           [showCounter]="true"
           [maxLength]="120"
           helperText="Max 120 characters"
+          [lang]="langService.lang()"
         />
       </div>
     </section>

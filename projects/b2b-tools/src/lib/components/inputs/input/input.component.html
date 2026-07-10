@@ -42,7 +42,7 @@
           type="button"
           class="suffix-action"
           (click)="clearValue(inputField)"
-          aria-label="Clear field"
+          [attr.aria-label]="i18nCom().clearField"
         >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="9"></circle>
@@ -57,7 +57,7 @@
           type="button"
           class="suffix-action"
           (click)="togglePasswordVisibility()"
-          [attr.aria-label]="isPasswordVisible() ? 'Hide password' : 'Show password'"
+          [attr.aria-label]="isPasswordVisible() ? i18nCom().hidePassword : i18nCom().showPassword"
         >
           @if (isPasswordVisible()) {
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

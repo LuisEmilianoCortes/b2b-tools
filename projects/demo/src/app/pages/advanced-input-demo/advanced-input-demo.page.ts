@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdvancedInputComponent } from 'b2b-tools';
+import { LangService } from '../../lang/lang.service';
 
 @Component({
   selector: 'app-advanced-input-demo',
@@ -10,6 +11,7 @@ import { AdvancedInputComponent } from 'b2b-tools';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedInputDemoPage {
+  readonly langService = inject(LangService);
   readonly mainTheme = signal<'dark' | 'light'>('light');
   readonly brandTheme = signal<'dark' | 'light'>('dark');
 

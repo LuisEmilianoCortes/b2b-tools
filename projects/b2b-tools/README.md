@@ -20,6 +20,7 @@
   - [AdvancedSelect](#advancedselect)
   - [AdvancedInput](#advancedinput)
   - [AdvancedButton](#advancedbutton)
+  - [AdvancedModal](#advancedmodal)
 - [Theming](#theming)
   - [CSS Variables Reference](#css-variables-reference)
   - [Color Customization](#color-customization)
@@ -609,10 +610,12 @@ import { SimpleTable } from 'b2b-tools';
 
 #### Inputs
 
-| Input     | Type                | Default      | Description        |
-| --------- | ------------------- | ------------ | ------------------ |
-| `headers` | `SimpleHaders<T>[]` | **required** | Column definitions |
-| `data`    | `T[]`               | `[]`         | Row data           |
+| Input     | Type                        | Default      | Description                       |
+| --------- | --------------------------- | ------------ | ---------------------------------- |
+| `headers` | `SimpleHaders<T>[]`         | **required** | Column definitions                 |
+| `data`    | `T[]`                       | `[]`         | Row data                           |
+| `lang`    | `'EN' \| 'ES'`               | `'EN'`       | Built-in language preset           |
+| `i18n`    | `Partial<SimpleTableI18n>`  | EN strings   | Override any translation string    |
 
 #### SimpleHaders
 
@@ -680,6 +683,8 @@ import { AdvancedSelectComponent, AdvancedSelectOption, AdvancedSelectConfig } f
 | `control`     | `FormControl`               | —       | Reactive Forms binding                    |
 | `value`       | `any \| any[]`              | —       | Plain value binding (id or array of ids)  |
 | `id` / `name` | `string`                    | —       | Passed through for form/label association |
+| `lang`        | `'EN' \| 'ES'`               | `'EN'`  | Built-in language preset (drives default placeholder, modal title, and all internal UI strings) |
+| `i18n`        | `Partial<AdvancedSelectI18n>`| EN strings | Override any translation string       |
 
 #### Outputs
 
@@ -775,6 +780,8 @@ import { AdvancedInputComponent } from 'b2b-tools';
 | `showCounter` | `boolean`                              | `false`        | Shows a character counter                                     |
 | `maxLength`   | `number`                               | —              | Native `maxlength`; paired with `showCounter`                 |
 | `value`       | `string` (model)                       | `''`           | Two-way bindable value: `[(value)]`                           |
+| `lang`        | `'EN' \| 'ES'`                          | `'EN'`         | Built-in language preset for validation messages and aria-labels |
+| `i18n`        | `Partial<InputI18n>`                   | EN strings     | Override any translation string                                |
 
 #### Outputs
 
@@ -786,7 +793,7 @@ import { AdvancedInputComponent } from 'b2b-tools';
 
 #### Reactive Forms
 
-When bound via `[formControl]` or `formControlName`, the component reads validation state off the injected `NgControl` and shows a built-in message for `required`, `email`, `minlength`, `maxlength`, and `pattern` errors once the control is `dirty` or `touched`.
+When bound via `[formControl]` or `formControlName`, the component reads validation state off the injected `NgControl` and shows a built-in message for `required`, `email`, `minlength`, `maxlength`, and `pattern` errors once the control is `dirty` or `touched`. These messages are translated via the `lang`/`i18n` inputs above.
 
 ```ts
 import { AdvancedInputComponent } from 'b2b-tools';
@@ -877,6 +884,95 @@ import { AdvancedButtonComponent } from 'b2b-tools';
 export class ToolbarComponent {
   isSaving = signal(false);
   save(): void { /* ... */ }
+}
+```
+
+Dark mode and color customization follow the same `--b2b-*` token contract as the rest of the library — see [Theming](#theming).
+
+---
+
+### AdvancedModal
+
+> **New in v2.2.0**
+
+Overlay confirmation/alert dialog keyed by `type`, with its own icon and accent color per type. A dedicated `<advanced-error-detail-modal>` renders structured HTTP error details for debugging.
+
+#### Import
+
+```ts
+import { AdvancedModalComponent, ErrorDetailModalComponent, ModalType, HttpErrorData } from 'b2b-tools';
+```
+
+#### Selectors
+
+```html
+<advanced-modal />
+<advanced-error-detail-modal />
+```
+
+#### AdvancedModal Inputs
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `title` | `string` | `''` | Dialog title |
+| `content` | `string` | `''` | Dialog body; rendered via `innerHTML` |
+| `type` | `ModalType` | `'INFO'` | `'INFO' \| 'SUCCESS' \| 'ERROR' \| 'WARNING' \| 'QUESTION'` — drives icon, accent color, and button layout |
+| `confirmText` | `string` | i18n `confirm` (`'Accept'`) | Confirm button label |
+| `cancelText` | `string` | i18n `cancel` (`'Cancel'`) | Cancel button label (`QUESTION` only) |
+| `showCancel` | `boolean` | `false` | Reserved for custom layouts |
+| `detailsAction` | `() => void` | — | Optional callback link shown above the actions |
+| `detailsLabel` | `string` | i18n `seeMore` (`'See more'`) | Label for the details link |
+| `lang` | `'EN' \| 'ES'` | `'EN'` | Built-in language preset for the defaults above |
+| `i18n` | `Partial<AdvancedModalI18n>` | EN strings | Override any translation string |
+
+`confirmText`, `cancelText`, and `detailsLabel` fall back to the active `lang`/`i18n` translation only when left unset — an explicit value always wins.
+
+`QUESTION` renders both a confirm and a cancel button; every other type renders a single confirm button.
+
+#### AdvancedModal Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `confirm` | `void` | Confirm button clicked |
+| `cancel` | `void` | Cancel button clicked (`QUESTION` only) |
+
+#### ErrorDetailModal Inputs
+
+| Input | Type | Description |
+|---|---|---|
+| `httpData` | `HttpErrorData` | `{ status?, statusText?, url?, message?, payload?, error? }` — rendered as a summary table plus a collapsible server-response JSON block |
+| `rawError` | `unknown` | Full raw error, shown behind a "View full data" toggle |
+| `lang` | `'EN' \| 'ES'` | Built-in language preset for all labels (default `'EN'`) |
+| `i18n` | `Partial<ErrorDetailModalI18n>` | Override any translation string (default: EN strings) |
+
+#### ErrorDetailModal Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `close` | `void` | Fires on backdrop click or the close button |
+
+#### Example
+
+```ts
+import { AdvancedModalComponent, ModalType } from 'b2b-tools';
+
+@Component({
+  imports: [AdvancedModalComponent],
+  template: `
+    @if (activeType(); as type) {
+      <advanced-modal
+        [type]="type"
+        title="Delete item?"
+        content="This action cannot be undone."
+        (confirm)="onConfirm()"
+        (cancel)="activeType.set(null)"
+      />
+    }
+  `,
+})
+export class ItemListComponent {
+  activeType = signal<ModalType | null>(null);
+  onConfirm(): void { /* ... */ }
 }
 ```
 
@@ -1074,13 +1170,15 @@ config: AdvancedCardConfig = {
 
 ## i18n
 
-`AdvancedTable` ships with English and Spanish. Use `lang` for a preset or `i18n` for full control.
+> **v2.3.0** — i18n support (`lang` + `i18n` inputs) extended to every component that ships hardcoded UI text: `SimpleTable`, `AdvancedInput`, `AdvancedSelect`, `AdvancedModal`, and `ErrorDetailModal`. All default to English (`'EN'`); pass `lang="ES"` for the built-in Spanish preset, or `[i18n]` for a partial override that wins over both.
+
+Every i18n-capable component follows the same contract:
 
 ```html
 <!-- Spanish preset -->
 <advanced-table [columns]="cols" [data]="rows" lang="ES" />
 
-<!-- Partial override -->
+<!-- Partial override (merges over the active lang preset) -->
 <advanced-table [columns]="cols" [data]="rows" [i18n]="customStrings" />
 ```
 
@@ -1092,7 +1190,7 @@ customStrings: Partial<TableI18n> = {
 };
 ```
 
-#### TableI18n Interface
+#### TableI18n Interface (`AdvancedTable`)
 
 ```ts
 interface TableI18n {
@@ -1117,6 +1215,87 @@ interface TableI18n {
   refreshSeconds?: string;
   refreshMinutes?: string;
   showAll: string; // Label for the "show all rows" option in the page-size selector (default: "All")
+  selectAll: string; // aria-label for the header "select all rows" checkbox
+  selectRow: string; // aria-label for a row's selection checkbox
+  closeModal: string; // Close button label in the image lightbox
+  firstPage: string; // aria-label for the "first page" pager button
+  lastPage: string; // aria-label for the "last page" pager button
+}
+```
+
+#### SimpleTableI18n Interface (`SimpleTable`)
+
+```ts
+interface SimpleTableI18n {
+  noData: string; // Empty-state row text
+}
+```
+
+#### InputI18n Interface (`AdvancedInput`)
+
+```ts
+interface InputI18n {
+  required: string;
+  email: string;
+  minlength: (length: number) => string;
+  maxlength: (length: number) => string;
+  pattern: string;
+  invalid: string;
+  clearField: string; // aria-label for the clear button
+  showPassword: string; // aria-label for the visibility toggle
+  hidePassword: string;
+}
+```
+
+#### AdvancedSelectI18n Interface (`AdvancedSelect`)
+
+```ts
+interface AdvancedSelectI18n {
+  modalTitle: string;
+  placeholder: string;
+  removeOption: string;
+  moreOptions: string;
+  more: string; // "(+N more)" suffix word
+  clearSelection: string;
+  advancedSearch: string;
+  searchPlaceholder: string;
+  noResults: string;
+  advancedSearchPlaceholder: string;
+  advancedSearchAction: string;
+  select: string;
+  idCode: string;
+  descriptionOption: string;
+  noModalResults: string;
+  selected: string;
+  cancel: string;
+  confirmSelection: string;
+}
+```
+
+#### AdvancedModalI18n Interface (`AdvancedModal`)
+
+```ts
+interface AdvancedModalI18n {
+  confirm: string;
+  cancel: string;
+  seeMore: string;
+}
+```
+
+#### ErrorDetailModalI18n Interface (`ErrorDetailModal`)
+
+```ts
+interface ErrorDetailModalI18n {
+  title: string;
+  close: string;
+  code: string;
+  endpoint: string;
+  message: string;
+  payload: string;
+  serverResponse: string;
+  fullError: string;
+  viewFullData: string;
+  hideFullData: string;
 }
 ```
 
@@ -1158,15 +1337,29 @@ import {
 
   // Simple Table
   SimpleHaders,
+  SimpleTableI18n,
+  SimpleTableLang,
 
   // Advanced Select
   AdvancedSelectComponent,
   AdvancedSelectOption,
   AdvancedSelectConfig,
+  AdvancedSelectI18n,
+  AdvancedSelectLang,
   // Advanced Input
   AdvancedInputComponent,
+  InputI18n,
+  InputLang,
   // Advanced Button
   AdvancedButtonComponent,
+
+  // Advanced Modal
+  AdvancedModalComponent,
+  AdvancedModalI18n,
+  ErrorDetailModalComponent,
+  ErrorDetailModalI18n,
+  ModalType,
+  HttpErrorData,
 } from 'b2b-tools';
 ```
 

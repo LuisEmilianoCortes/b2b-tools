@@ -7,14 +7,18 @@ import {
   model,
   signal,
   inject,
+  computed,
   ChangeDetectorRef,
   DestroyRef,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { INPUT_I18N_BY_LANG, INPUT_LANG_DEFAULT } from './constants/input-i18n.constants';
+import { InputI18n, InputLang } from './types/input-i18n.type';
 
 let nextId = 0;
 
@@ -40,6 +44,24 @@ export class AdvancedInputComponent implements ControlValueAccessor, OnInit {
   loading = input<boolean>(false);
   showCounter = input<boolean>(false);
   maxLength = input<number | undefined>(undefined);
+
+  @Input()
+  set lang(value: InputLang | undefined) {
+    this._lang.set(value ?? INPUT_LANG_DEFAULT);
+  }
+
+  @Input()
+  set i18n(value: Partial<InputI18n> | undefined) {
+    this._override.set(value ?? {});
+  }
+
+  private _lang = signal<InputLang>(INPUT_LANG_DEFAULT);
+  private _override = signal<Partial<InputI18n>>({});
+
+  readonly i18nCom = computed<InputI18n>(() => ({
+    ...INPUT_I18N_BY_LANG[this._lang()],
+    ...this._override(),
+  }));
 
   value = model<string>('');
 
@@ -80,18 +102,19 @@ export class AdvancedInputComponent implements ControlValueAccessor, OnInit {
     if (!control || !control.errors || !(control.dirty || control.touched)) return null;
 
     const errors = control.errors;
-    if (errors['required']) return 'This field is required';
-    if (errors['email']) return 'Invalid email format';
+    const i18n = this.i18nCom();
+    if (errors['required']) return i18n.required;
+    if (errors['email']) return i18n.email;
     if (errors['minlength']) {
-      return `Must be at least ${errors['minlength'].requiredLength} characters`;
+      return i18n.minlength(errors['minlength'].requiredLength);
     }
     if (errors['maxlength']) {
-      return `Must not exceed ${errors['maxlength'].requiredLength} characters`;
+      return i18n.maxlength(errors['maxlength'].requiredLength);
     }
-    if (errors['pattern']) return 'Invalid format';
+    if (errors['pattern']) return i18n.pattern;
 
     const firstKey = Object.keys(errors)[0];
-    return typeof errors[firstKey] === 'string' ? errors[firstKey] : `Invalid input`;
+    return typeof errors[firstKey] === 'string' ? errors[firstKey] : i18n.invalid;
   }
 
   get currentInputType(): string {

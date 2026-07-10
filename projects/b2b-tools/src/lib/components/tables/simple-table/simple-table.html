@@ -65,7 +65,7 @@
         </tr>
       } @empty {
         <tr>
-          <td class="empty" [attr.colspan]="headers().length">Datos no localizados.</td>
+          <td class="empty" [attr.colspan]="headers().length">{{ i18nCom().noData }}</td>
         </tr>
       }
     </tbody>

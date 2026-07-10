@@ -4,6 +4,7 @@ import { AdvancedCardDemoPage } from './pages/advanced-card-demo/advanced-card-d
 import { AdvancedSelectDemoPage } from './pages/advanced-select-demo/advanced-select-demo.page';
 import { AdvancedInputDemoPage } from './pages/advanced-input-demo/advanced-input-demo.page';
 import { AdvancedButtonDemoPage } from './pages/advanced-button-demo/advanced-button-demo.page';
+import { AdvancedModalDemoPage } from './pages/advanced-modal-demo/advanced-modal-demo.page';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,10 @@ export const routes: Routes = [
       {
         path: 'advanced-button',
         component: AdvancedButtonDemoPage,
+      },
+      {
+        path: 'advanced-modal',
+        component: AdvancedModalDemoPage,
       },
       { path: '', pathMatch: 'full', redirectTo: 'tables' },
     ],

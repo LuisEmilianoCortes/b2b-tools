@@ -22,6 +22,11 @@ export const TABLE_I18N_EN: TableI18n = {
   refreshSeconds: 's',
   refreshMinutes: 'min',
   showAll: 'All',
+  selectAll: 'Select all',
+  selectRow: 'Select row',
+  closeModal: 'Close',
+  firstPage: 'First page',
+  lastPage: 'Last page',
 };
 
 export const TABLE_I18N_ES: TableI18n = {
@@ -46,6 +51,11 @@ export const TABLE_I18N_ES: TableI18n = {
   refreshSeconds: 's',
   refreshMinutes: 'min',
   showAll: 'Todos',
+  selectAll: 'Seleccionar todo',
+  selectRow: 'Seleccionar fila',
+  closeModal: 'Cerrar',
+  firstPage: 'Primera página',
+  lastPage: 'Última página',
 };
 
 export const TABLE_I18N_BY_LANG: Record<TableLang, TableI18n> = {

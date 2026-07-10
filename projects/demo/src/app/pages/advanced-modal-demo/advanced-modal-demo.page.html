@@ -1,0 +1,92 @@
+<div class="demo-page">
+  <header class="demo-header">
+    <h2 class="demo-title">Advanced Modal</h2>
+    <p class="demo-desc">
+      Confirmation/alert dialogs by type, plus a dedicated error-detail modal for inspecting HTTP failures.
+    </p>
+  </header>
+
+  <div class="demo-body">
+    <!-- Light / dark theme -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Modal types</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="mainTheme() === 'dark'"
+          (click)="mainTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ mainTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-button-row">
+        <advanced-button text="Info" variant="secondary" (clicked)="open('INFO')" />
+        <advanced-button text="Success" variant="primary" (clicked)="open('SUCCESS')" />
+        <advanced-button text="Warning" variant="secondary" (clicked)="open('WARNING')" />
+        <advanced-button text="Error" variant="danger" (clicked)="open('ERROR')" />
+        <advanced-button text="Question" variant="primary" (clicked)="open('QUESTION')" />
+      </div>
+
+      <p class="demo-event-value">Last result: <code>{{ evResult() }}</code></p>
+    </section>
+
+    <!-- Error detail modal -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Error detail modal</span>
+      </div>
+
+      <div class="demo-button-row">
+        <advanced-button text="Show error detail" variant="danger" (clicked)="showErrorDetail.set(true)" />
+      </div>
+    </section>
+
+    <!-- Custom brand color -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Custom brand color</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="brandTheme() === 'dark'"
+          (click)="brandTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ brandTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-button-row">
+        <advanced-button
+          class="brand-button"
+          [attr.data-theme]="brandTheme() === 'dark' ? 'dark' : null"
+          text="Brand question"
+          (clicked)="open('QUESTION')"
+        />
+      </div>
+    </section>
+  </div>
+
+  @if (activeType()) {
+    <advanced-modal
+      [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+      [type]="activeType()!"
+      [title]="activeType() + ' modal'"
+      content="This is a sample modal rendered by the AdvancedModal component."
+      [lang]="langService.lang()"
+      (confirm)="onConfirm()"
+      (cancel)="onCancel()"
+    />
+  }
+
+  @if (showErrorDetail()) {
+    <advanced-error-detail-modal
+      [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+      [httpData]="sampleError"
+      [rawError]="sampleError"
+      [lang]="langService.lang()"
+      (close)="showErrorDetail.set(false)"
+    />
+  }
+</div>
