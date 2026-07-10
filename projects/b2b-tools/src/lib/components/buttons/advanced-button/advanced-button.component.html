@@ -1,0 +1,16 @@
+<button [type]="type()" [disabled]="disabled() || loading()" [class]="classes()" (click)="handleClick()">
+  @if (loading()) {
+    <span class="btn-spinner" aria-hidden="true"></span>
+  } @else {
+    @if (icon() && iconPosition() === 'left') {
+      <i [class]="icon() + ' btn-icon'" aria-hidden="true"></i>
+    }
+    @if (text()) {
+      <span class="btn-text">{{ text() }}</span>
+    }
+    <ng-content />
+    @if (icon() && iconPosition() === 'right') {
+      <i [class]="icon() + ' btn-icon'" aria-hidden="true"></i>
+    }
+  }
+</button>

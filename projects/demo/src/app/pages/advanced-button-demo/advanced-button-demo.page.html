@@ -1,0 +1,114 @@
+<div class="demo-page">
+  <header class="demo-header">
+    <h2 class="demo-title">Advanced Button</h2>
+    <p class="demo-desc">
+      Variants, sizes, loading and disabled states, with the same color/dark-mode token contract as the rest of the library.
+    </p>
+  </header>
+
+  <div class="demo-body">
+    <!-- Light / dark theme -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Variants</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="mainTheme() === 'dark'"
+          (click)="mainTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ mainTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-button-row">
+        <advanced-button
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          text="Primary"
+          variant="primary"
+          (clicked)="onClick('Primary')"
+        />
+        <advanced-button
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          text="Secondary"
+          variant="secondary"
+          (clicked)="onClick('Secondary')"
+        />
+        <advanced-button
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          text="Ghost"
+          variant="ghost"
+          (clicked)="onClick('Ghost')"
+        />
+        <advanced-button
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          text="Danger"
+          variant="danger"
+          (clicked)="onClick('Danger')"
+        />
+      </div>
+
+      <p class="demo-event-value">Last click: <code>{{ evClicked() }}</code></p>
+    </section>
+
+    <!-- Sizes -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Sizes</span>
+      </div>
+
+      <div class="demo-button-row demo-button-row--align">
+        <advanced-button text="Small" size="sm" />
+        <advanced-button text="Medium" size="md" />
+        <advanced-button text="Large" size="lg" />
+      </div>
+    </section>
+
+    <!-- States -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">States</span>
+      </div>
+
+      <div class="demo-button-row">
+        <advanced-button
+          [text]="loading() ? 'Loading...' : 'Simulate Loading'"
+          [loading]="loading()"
+          (clicked)="simulateLoading()"
+        />
+        <advanced-button text="Disabled" [disabled]="true" />
+        <advanced-button text="Full width" [fullWidth]="true" />
+      </div>
+    </section>
+
+    <!-- Custom brand color + dark mode -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Custom brand color</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="brandTheme() === 'dark'"
+          (click)="brandTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ brandTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-button-row">
+        <advanced-button
+          class="brand-button"
+          [attr.data-theme]="brandTheme() === 'dark' ? 'dark' : null"
+          text="Brand primary"
+          variant="primary"
+        />
+        <advanced-button
+          class="brand-button"
+          [attr.data-theme]="brandTheme() === 'dark' ? 'dark' : null"
+          text="Brand secondary"
+          variant="secondary"
+        />
+      </div>
+    </section>
+  </div>
+</div>
