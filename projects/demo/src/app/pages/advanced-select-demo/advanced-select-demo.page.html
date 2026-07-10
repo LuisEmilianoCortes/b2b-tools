@@ -1,0 +1,89 @@
+<div class="demo-page">
+  <header class="demo-header">
+    <h2 class="demo-title">Advanced Select</h2>
+    <p class="demo-desc">
+      Single and multiple selection with autocomplete, pills and an optional advanced search modal.
+    </p>
+  </header>
+
+  <div class="demo-body">
+    <!-- Light / themable examples -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Light theme</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="mainTheme() === 'dark'"
+          (click)="mainTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ mainTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-select-row">
+        <advanced-select
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          [options]="options()"
+          [config]="singleConfig"
+          [value]="singleValue()"
+          (valueChange)="singleValue.set($event)"
+          (selectionChange)="onSelectionChange($event)"
+        />
+
+        <advanced-select
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          [options]="options()"
+          [config]="multipleConfig"
+          [value]="multipleValue()"
+          (valueChange)="multipleValue.set($event)"
+          (selectionChange)="onSelectionChange($event)"
+        />
+      </div>
+
+      <p class="demo-event-value">Last selection: <code>{{ evSelectionChange() }}</code></p>
+    </section>
+
+    <!-- Advanced search modal -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Advanced search modal</span>
+      </div>
+
+      <div class="demo-select-row">
+        <advanced-select
+          [options]="options()"
+          [config]="modalConfig"
+          [value]="modalValue()"
+          (valueChange)="modalValue.set($event)"
+        />
+      </div>
+    </section>
+
+    <!-- Custom brand color + dark mode -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Custom brand color</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="brandTheme() === 'dark'"
+          (click)="brandTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ brandTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-select-row">
+        <advanced-select
+          class="brand-select"
+          [attr.data-theme]="brandTheme() === 'dark' ? 'dark' : null"
+          [options]="options()"
+          [config]="singleConfig"
+          [value]="singleValue()"
+          (valueChange)="singleValue.set($event)"
+        />
+      </div>
+    </section>
+  </div>
+</div>

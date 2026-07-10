@@ -17,6 +17,7 @@
     - [Per-column Search Mode](#per-column-search-mode)
     - [Show All Rows](#show-all-rows)
   - [SimpleTable](#simpletable)
+  - [AdvancedSelect](#advancedselect)
 - [Theming](#theming)
   - [CSS Variables Reference](#css-variables-reference)
   - [Color Customization](#color-customization)
@@ -615,6 +616,88 @@ export class ProductsComponent {
 
 ---
 
+### AdvancedSelect
+
+> **New in v2.1.0**
+
+Searchable single/multi select with pill tags, autocomplete filtering, and an optional advanced-search modal for large catalogs. Implements Angular's `ControlValueAccessor`, so it binds directly to a `FormControl` or plain `[value]`/`(valueChange)`.
+
+#### Import
+
+```ts
+import { AdvancedSelectComponent, AdvancedSelectOption, AdvancedSelectConfig } from 'b2b-tools';
+```
+
+#### Selector
+
+```html
+<advanced-select />
+```
+
+#### Inputs
+
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `options` | `AdvancedSelectOption<T>[]` | `[]` | Option list |
+| `config` | `AdvancedSelectConfig` | `{}` | Behavior configuration |
+| `control` | `FormControl` | — | Reactive Forms binding |
+| `value` | `any \| any[]` | — | Plain value binding (id or array of ids) |
+| `id` / `name` | `string` | — | Passed through for form/label association |
+
+#### Outputs
+
+| Output | Payload | Description |
+|---|---|---|
+| `selectionChange` | `AdvancedSelectOption<T> \| AdvancedSelectOption<T>[]` | Fires with the full selected option(s) |
+| `valueChange` | `any \| any[]` | Fires with the raw id(s), for `[value]` two-way binding |
+
+#### AdvancedSelectConfig
+
+```ts
+interface AdvancedSelectConfig {
+  multiple?: boolean;              // default: false
+  autocomplete?: boolean;          // default: false — inline dropdown search
+  enableModal?: boolean;           // default: false — advanced search modal for large lists
+  modalTitle?: string;             // default: 'Advanced Selection'
+  placeholder?: string;            // default: 'Select an option'
+  showLabel?: boolean;             // default: false — shows placeholder as a floating label
+  disabled?: boolean;              // default: false
+  clearable?: boolean;             // default: true
+  maxSelectedItemsToShow?: number; // default: 2 — pills shown before "+N more"
+}
+```
+
+#### Example
+
+```ts
+import { AdvancedSelectComponent, AdvancedSelectOption } from 'b2b-tools';
+
+interface Country { code: string; name: string; }
+
+@Component({
+  imports: [AdvancedSelectComponent],
+  template: `
+    <advanced-select
+      [options]="options"
+      [config]="{ multiple: true, autocomplete: true, enableModal: true }"
+      [value]="selected"
+      (valueChange)="selected = $event"
+    />
+  `,
+})
+export class CountryPickerComponent {
+  options: AdvancedSelectOption<Country>[] = [
+    { id: 'MX', label: 'Mexico' },
+    { id: 'US', label: 'United States' },
+  ];
+  selected: string[] = ['MX'];
+}
+```
+
+Dark mode and color customization follow the same `--b2b-*` token contract as the rest of the library — see [Theming](#theming).
+
+---
+
 ## Theming
 
 All visual tokens are CSS custom properties. Override them on the component element, a parent container, or `:root` — no build step required.
@@ -886,6 +969,11 @@ import {
 
   // Simple Table
   SimpleHaders,
+
+  // Advanced Select
+  AdvancedSelectComponent,
+  AdvancedSelectOption,
+  AdvancedSelectConfig,
 } from 'b2b-tools';
 ```
 
