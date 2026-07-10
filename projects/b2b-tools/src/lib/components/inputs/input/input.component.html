@@ -1,0 +1,106 @@
+<div
+  class="advanced-input-container"
+  [class]="'theme-' + theme()"
+  [class.has-error]="hasError"
+  [class.is-focused]="isFocused()"
+  [class.is-disabled]="isDisabled()"
+  [class.has-icon]="!!icon()"
+  [class.has-label]="!!label()"
+>
+  <div class="input-wrapper">
+    @if (icon()) {
+      <i [class]="icon() + ' prefix-icon'"></i>
+    }
+    <input
+      #inputField
+      [id]="id()"
+      [name]="name()"
+      [type]="currentInputType"
+      [placeholder]="placeholder() || ' '"
+      [disabled]="isDisabled()"
+      [readOnly]="readonly()"
+      [attr.maxlength]="maxLength() ?? null"
+      [value]="value()"
+      (input)="onInput($event)"
+      (focus)="onInputFocus($event)"
+      (blur)="onInputBlur($event)"
+      class="input-field"
+      autocomplete="off"
+    />
+
+    @if (label()) {
+      <label [for]="id()" class="input-label">{{ label() }}</label>
+    }
+
+    <div class="suffix-wrapper">
+      @if (loading()) {
+        <span class="loading-spinner"></span>
+      }
+
+      @if (clearable() && value() && !isDisabled() && !readonly()) {
+        <button
+          type="button"
+          class="suffix-action"
+          (click)="clearValue(inputField)"
+          aria-label="Clear field"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+          </svg>
+        </button>
+      }
+
+      @if (type() === 'password' && !isDisabled() && !readonly()) {
+        <button
+          type="button"
+          class="suffix-action"
+          (click)="togglePasswordVisibility()"
+          [attr.aria-label]="isPasswordVisible() ? 'Hide password' : 'Show password'"
+        >
+          @if (isPasswordVisible()) {
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.4 18.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          }
+        </button>
+      }
+
+      @if (suffixIcon() && !loading() && !(type() === 'password') && !(clearable() && value())) {
+        <i [class]="suffixIcon() + ' suffix-icon'"></i>
+      }
+    </div>
+  </div>
+
+  @if (helperText() || hasError || showCounter()) {
+    <div class="support-footer">
+      <div class="message-container">
+        @if (hasError && errorMessage) {
+          <span class="error-message">
+            <svg class="mini-error-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"></circle>
+              <line x1="12" y1="8" x2="12" y2="13"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            {{ errorMessage }}
+          </span>
+        } @else if (helperText()) {
+          <span class="helper-text">{{ helperText() }}</span>
+        }
+      </div>
+
+      @if (showCounter()) {
+        <span class="char-counter">
+          {{ value().length }}{{ maxLength() ? ' / ' + maxLength() : '' }}
+        </span>
+      }
+    </div>
+  }
+</div>

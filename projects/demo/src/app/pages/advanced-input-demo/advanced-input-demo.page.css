@@ -1,0 +1,95 @@
+.demo-page {
+  padding: 24px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.demo-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.demo-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--b2b-text, #111827);
+  letter-spacing: -0.3px;
+}
+
+.demo-desc {
+  margin: 0;
+  font-size: 14px;
+  color: var(--b2b-text-secondary, #6b7280);
+}
+
+.demo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--b2b-surface-2, #f9fafb);
+  border: 1px solid var(--b2b-border, #e5e7eb);
+  border-radius: 8px;
+}
+
+.demo-card-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.demo-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--b2b-text-secondary, #6b7280);
+}
+
+.demo-input-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px 20px;
+  max-width: 920px;
+  align-items: start;
+}
+
+.demo-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--b2b-border, #e5e7eb);
+  background: var(--b2b-surface, #ffffff);
+  color: var(--b2b-text, #111827);
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.demo-theme-toggle:hover {
+  background: var(--b2b-primary-soft, #eff6ff);
+  border-color: var(--b2b-primary, #2563eb);
+}
+
+/* Custom brand color example: override the token contract on this input only */
+.brand-input {
+  --b2b-primary: #d946ef;
+}
+
+.brand-input[data-theme='dark'] {
+  --b2b-primary: #e879f9;
+}

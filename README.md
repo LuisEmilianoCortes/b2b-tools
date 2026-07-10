@@ -43,26 +43,21 @@ ng build b2b-tools --configuration production
 
 Full-featured data table with client and server-side support.
 
-| Feature | Details |
-|---|---|
-| Cell types | `string` `integer` `decimal` `currency` `date` `datetime` `boolean` `image` `status` `link` `custom` `actions` |
-| Filtering | Global + per-column; client or server mode with debounce |
-| Sorting | Multi-type: string, number, date, boolean, currency |
-| Pagination | Client and server mode; infinite scroll |
-| Selection | Single and multiple row selection |
-| Column visibility | Toggle with localStorage persistence |
-| i18n | Built-in EN / ES; fully overridable |
-| Time zones | 30+ presets with currency and locale mapping |
-| Auto-refresh | Configurable intervals; custom interval input |
-| Dark mode | `[data-theme="dark"]` on the host element |
+| Feature           | Details                                                                                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------------------- |
+| Cell types        | `string` `integer` `decimal` `currency` `date` `datetime` `boolean` `image` `status` `link` `custom` `actions` |
+| Filtering         | Global + per-column; client or server mode with debounce                                                       |
+| Sorting           | Multi-type: string, number, date, boolean, currency                                                            |
+| Pagination        | Client and server mode; infinite scroll                                                                        |
+| Selection         | Single and multiple row selection                                                                              |
+| Column visibility | Toggle with localStorage persistence                                                                           |
+| i18n              | Built-in EN / ES; fully overridable                                                                            |
+| Time zones        | 30+ presets with currency and locale mapping                                                                   |
+| Auto-refresh      | Configurable intervals; custom interval input                                                                  |
+| Dark mode         | `[data-theme="dark"]` on the host element                                                                      |
 
 ```html
-<advanced-table
-  [columns]="cols"
-  [data]="rows"
-  [config]="tableConfig"
-  (rowClick)="onRow($event)"
-/>
+<advanced-table [columns]="cols" [data]="rows" [config]="tableConfig" (rowClick)="onRow($event)" />
 ```
 
 ---
@@ -71,15 +66,15 @@ Full-featured data table with client and server-side support.
 
 Expandable card with tabs, summary blocks, and overlay modes.
 
-| Feature | Details |
-|---|---|
-| Expand modes | `inline` · `drawer` · `modal` |
-| Tabs | Template projection via `advancedCardTemplate` directive |
-| Summary | Stacked, inline, and horizontal accordion layouts |
-| Density | `compact` · `comfortable` |
-| Size | `sm` · `md` · `lg` |
-| Badge tones | `success` · `warning` · `danger` · `primary` · `neutral` |
-| Dark mode | `[data-theme="dark"]` on the host element |
+| Feature      | Details                                                  |
+| ------------ | -------------------------------------------------------- |
+| Expand modes | `inline` · `drawer` · `modal`                            |
+| Tabs         | Template projection via `advancedCardTemplate` directive |
+| Summary      | Stacked, inline, and horizontal accordion layouts        |
+| Density      | `compact` · `comfortable`                                |
+| Size         | `sm` · `md` · `lg`                                       |
+| Badge tones  | `success` · `warning` · `danger` · `primary` · `neutral` |
+| Dark mode    | `[data-theme="dark"]` on the host element                |
 
 ```html
 <advanced-card [config]="cardConfig" (action)="onAction($event)">
@@ -95,15 +90,15 @@ Expandable card with tabs, summary blocks, and overlay modes.
 
 Searchable single/multi select with pills, autocomplete, and an optional advanced-search modal for large option sets. Implements `ControlValueAccessor`, so it plugs directly into Reactive Forms.
 
-| Feature | Details |
-|---|---|
-| Selection | Single or `multiple` (pills with remove buttons) |
-| Autocomplete | Inline dropdown filter |
-| Advanced modal | Full-list searchable table for large datasets (`enableModal`) |
-| Forms | `ControlValueAccessor` — works with `formControl` / `[control]` / `[value]` + `valueChange` |
-| Clearable | Optional clear button |
-| Dark mode | `[data-theme="dark"]` on the host element |
-| Color customization | Overrides `--b2b-primary` / `--b2b-primary-soft` per instance or globally |
+| Feature             | Details                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| Selection           | Single or `multiple` (pills with remove buttons)                                            |
+| Autocomplete        | Inline dropdown filter                                                                      |
+| Advanced modal      | Full-list searchable table for large datasets (`enableModal`)                               |
+| Forms               | `ControlValueAccessor` — works with `formControl` / `[control]` / `[value]` + `valueChange` |
+| Clearable           | Optional clear button                                                                       |
+| Dark mode           | `[data-theme="dark"]` on the host element                                                   |
+| Color customization | Overrides `--b2b-primary` / `--b2b-primary-soft` per instance or globally                   |
 
 ```html
 <advanced-select
@@ -116,6 +111,23 @@ Searchable single/multi select with pills, autocomplete, and an optional advance
 
 ```ts
 type Option = AdvancedSelectOption<Country>; // { id, label, disabled?, data? }
+```
+
+### AdvancedInput `<advanced-input>`
+
+Floating-label text input with validation states, password visibility toggle, and clear button. Implements `ControlValueAccessor`, so it plugs directly into Reactive Forms.
+
+| Feature        | Details                                                                                                                |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Types          | Any native `input` type, incl. `password` with a visibility toggle                                                     |
+| Validation     | Reads errors off the bound `NgControl`; built-in messages for `required`, `email`, `minlength`, `maxlength`, `pattern` |
+| Clearable      | Optional clear button                                                                                                  |
+| Counter        | Optional character counter with `maxLength`                                                                            |
+| Color variants | `primary` · `secondary` · `accent`                                                                                     |
+| Dark mode      | `[data-theme="dark"]` on the host element                                                                              |
+
+```html
+<advanced-input label="Email" placeholder="you@example.com" [formControl]="emailControl" />
 ```
 
 ---
@@ -134,32 +146,32 @@ Lightweight generic table with client-side sorting.
 
 All components consume `--b2b-*` CSS custom properties. Set them on `:root` (or any ancestor) to theme the entire library. Each component ships inline fallback values so it works without a ThemeService.
 
-| Token | Role | Light default |
-|---|---|---|
-| `--b2b-primary` | Brand / accent color | `#2563eb` |
-| `--b2b-primary-soft` | Light tint of primary | `#eff6ff` |
-| `--b2b-surface` | Base background | `#ffffff` |
-| `--b2b-surface-2` | Secondary background / headers | `#f8fafc` |
-| `--b2b-border` | Border color | `#e2e8f0` |
-| `--b2b-text` | Primary text | `#0f172a` |
-| `--b2b-text-secondary` | Secondary text | `#334155` |
-| `--b2b-muted` | Muted / placeholder / disabled text | `#64748b` |
-| `--b2b-danger` | Error / destructive state | `#dc2626` |
-| `--b2b-success` | Success state | `#059669` |
-| `--b2b-warning` | Warning state | `#d97706` |
-| `--b2b-radius` | Large border radius | `16px` |
-| `--b2b-radius-sm` | Small border radius | `12px` |
-| `--b2b-overlay` | Modal / drawer backdrop | `rgba(15,23,42,0.5)` |
-| `--b2b-focus-ring` | Focus ring `box-shadow` | `0 0 0 3px rgba(37,99,235,0.15)` |
+| Token                  | Role                                | Light default                    |
+| ---------------------- | ----------------------------------- | -------------------------------- |
+| `--b2b-primary`        | Brand / accent color                | `#2563eb`                        |
+| `--b2b-primary-soft`   | Light tint of primary               | `#eff6ff`                        |
+| `--b2b-surface`        | Base background                     | `#ffffff`                        |
+| `--b2b-surface-2`      | Secondary background / headers      | `#f8fafc`                        |
+| `--b2b-border`         | Border color                        | `#e2e8f0`                        |
+| `--b2b-text`           | Primary text                        | `#0f172a`                        |
+| `--b2b-text-secondary` | Secondary text                      | `#334155`                        |
+| `--b2b-muted`          | Muted / placeholder / disabled text | `#64748b`                        |
+| `--b2b-danger`         | Error / destructive state           | `#dc2626`                        |
+| `--b2b-success`        | Success state                       | `#059669`                        |
+| `--b2b-warning`        | Warning state                       | `#d97706`                        |
+| `--b2b-radius`         | Large border radius                 | `16px`                           |
+| `--b2b-radius-sm`      | Small border radius                 | `12px`                           |
+| `--b2b-overlay`        | Modal / drawer backdrop             | `rgba(15,23,42,0.5)`             |
+| `--b2b-focus-ring`     | Focus ring `box-shadow`             | `0 0 0 3px rgba(37,99,235,0.15)` |
 
 ### Applying tokens
 
 ```css
 /* CSS */
 :root {
-  --b2b-primary:    #7c3aed;
-  --b2b-surface:    #fafafa;
-  --b2b-radius:     8px;
+  --b2b-primary: #7c3aed;
+  --b2b-surface: #fafafa;
+  --b2b-radius: 8px;
 }
 ```
 
@@ -173,10 +185,10 @@ document.documentElement.style.setProperty('--b2b-primary', '#7c3aed');
 Add `[data-theme="dark"]` to any component host to activate its built-in dark palette. This overrides the global `--b2b-*` tokens for that component subtree:
 
 ```html
-<advanced-table  [columns]="cols" [data]="rows" data-theme="dark" />
-<advanced-card   [config]="cfg"               data-theme="dark" />
+<advanced-table [columns]="cols" [data]="rows" data-theme="dark" />
+<advanced-card [config]="cfg" data-theme="dark" />
 <advanced-select [options]="opts" [config]="cfg" data-theme="dark" />
-<simple-table    [headers]="h" [data]="rows"  data-theme="dark" />
+<simple-table [headers]="h" [data]="rows" data-theme="dark" />
 ```
 
 ---
@@ -185,13 +197,13 @@ Add `[data-theme="dark"]` to any component host to activate its built-in dark pa
 
 Utility functions extracted in v2 for reuse across components and external consumption:
 
-| File | Exports |
-|---|---|
-| `table-value.util` | `toNumber` · `toDate` · `compareValues` · `getCellValue` · `valueToSearchableText` |
-| `table-format.util` | `formatCurrency` · `formatDate` · `formatDateTime` · `parseLocalDate` · `getDisplayText` |
-| `table-filter.util` | `filterRows` |
-| `storage.util` | `getStored` · `setStored` |
-| `table-cell-format.pipe` | `TableCellFormatPipe` (standalone, pure) |
+| File                     | Exports                                                                                  |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| `table-value.util`       | `toNumber` · `toDate` · `compareValues` · `getCellValue` · `valueToSearchableText`       |
+| `table-format.util`      | `formatCurrency` · `formatDate` · `formatDateTime` · `parseLocalDate` · `getDisplayText` |
+| `table-filter.util`      | `filterRows`                                                                             |
+| `storage.util`           | `getStored` · `setStored`                                                                |
+| `table-cell-format.pipe` | `TableCellFormatPipe` (standalone, pure)                                                 |
 
 All exported from `lib/utils/index.ts`.
 
@@ -214,20 +226,20 @@ The demo includes a live **Theme Customizer** panel (floating button, bottom-rig
 
 Components no longer define `--ac-*`, `--st-*`, or `--dt-*` color variables. If your app overrode any of these, migrate to the equivalent `--b2b-*` token:
 
-| v1 variable | v2 equivalent |
-|---|---|
-| `--ac-primary` | `--b2b-primary` |
-| `--ac-surface` | `--b2b-surface` |
-| `--ac-surface-2` | `--b2b-surface-2` |
-| `--ac-border` | `--b2b-border` |
-| `--ac-text` | `--b2b-text` |
-| `--ac-text-secondary` | `--b2b-text-secondary` |
-| `--ac-muted` | `--b2b-muted` |
-| `--ac-danger` | `--b2b-danger` |
-| `--ac-primary-soft` | `--b2b-primary-soft` |
-| `--st-bg` | `--b2b-surface` |
-| `--st-border` | `--b2b-border` |
-| `--st-text` | `--b2b-text` |
+| v1 variable                          | v2 equivalent                                 |
+| ------------------------------------ | --------------------------------------------- |
+| `--ac-primary`                       | `--b2b-primary`                               |
+| `--ac-surface`                       | `--b2b-surface`                               |
+| `--ac-surface-2`                     | `--b2b-surface-2`                             |
+| `--ac-border`                        | `--b2b-border`                                |
+| `--ac-text`                          | `--b2b-text`                                  |
+| `--ac-text-secondary`                | `--b2b-text-secondary`                        |
+| `--ac-muted`                         | `--b2b-muted`                                 |
+| `--ac-danger`                        | `--b2b-danger`                                |
+| `--ac-primary-soft`                  | `--b2b-primary-soft`                          |
+| `--st-bg`                            | `--b2b-surface`                               |
+| `--st-border`                        | `--b2b-border`                                |
+| `--st-text`                          | `--b2b-text`                                  |
 | `--dt-*` / `--black` / `--dark-gray` | `--b2b-text` / `--b2b-muted` / `--b2b-border` |
 
 ### Dark mode (new in v2)

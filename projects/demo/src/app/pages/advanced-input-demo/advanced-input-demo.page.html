@@ -1,0 +1,120 @@
+<div class="demo-page">
+  <header class="demo-header">
+    <h2 class="demo-title">Advanced Input</h2>
+    <p class="demo-desc">
+      Floating-label text input with validation states, password toggle, clear button and color themes.
+    </p>
+  </header>
+
+  <div class="demo-body">
+    <!-- Light / dark theme -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Light theme</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="mainTheme() === 'dark'"
+          (click)="mainTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ mainTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-input-row">
+        <advanced-input
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          label="Full name"
+          placeholder="Jane Doe"
+          [(value)]="name"
+        />
+
+        <advanced-input
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          [(value)]="password"
+        />
+
+        <advanced-input
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          label="Search"
+          placeholder="Type to search..."
+          [clearable]="true"
+        />
+
+        <advanced-input
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          label="Loading"
+          placeholder="Fetching..."
+          [loading]="true"
+        />
+
+        <advanced-input
+          [attr.data-theme]="mainTheme() === 'dark' ? 'dark' : null"
+          label="Disabled"
+          placeholder="Not editable"
+          [readonly]="true"
+        />
+      </div>
+    </section>
+
+    <!-- Reactive Forms validation -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Reactive Forms validation</span>
+      </div>
+
+      <div class="demo-input-row">
+        <advanced-input label="Email" placeholder="you@example.com" [formControl]="emailControl" />
+
+        <advanced-input
+          label="Bio"
+          placeholder="Tell us about yourself"
+          [formControl]="bioControl"
+          [showCounter]="true"
+          [maxLength]="120"
+          helperText="Max 120 characters"
+        />
+      </div>
+    </section>
+
+    <!-- Color themes -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Color variants</span>
+      </div>
+
+      <div class="demo-input-row">
+        <advanced-input label="Primary" placeholder="theme = primary" theme="primary" />
+        <advanced-input label="Secondary" placeholder="theme = secondary" theme="secondary" />
+        <advanced-input label="Accent" placeholder="theme = accent" theme="accent" />
+      </div>
+    </section>
+
+    <!-- Custom brand color + dark mode -->
+    <section class="demo-card">
+      <div class="demo-card-toolbar">
+        <span class="demo-card-label">Custom brand color</span>
+        <button
+          type="button"
+          class="demo-theme-toggle"
+          [class.demo-theme-toggle--dark]="brandTheme() === 'dark'"
+          (click)="brandTheme.update((t) => (t === 'dark' ? 'light' : 'dark'))"
+        >
+          {{ brandTheme() === 'dark' ? 'Switch to Light' : 'Switch to Dark' }}
+        </button>
+      </div>
+
+      <div class="demo-input-row">
+        <advanced-input
+          class="brand-input"
+          [attr.data-theme]="brandTheme() === 'dark' ? 'dark' : null"
+          label="Brand color"
+          placeholder="Custom --b2b-primary override"
+        />
+      </div>
+    </section>
+  </div>
+</div>
